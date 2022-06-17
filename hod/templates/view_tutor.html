@@ -1,0 +1,234 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .datatable tbody tr:nth-child(even){
+    background-color: #f5f5f5;
+}
+@media(max-width: 746px){
+    .datatable thead{
+        display: none;
+    }
+
+    .datatable, .datatable tbody, .datatable tr, .datatable td{
+        display: block;
+        width: 100%;
+    }
+
+    .datatable tr{
+        margin-bottom:15px;
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    .datatable td{
+        text-align: relative;
+        padding-left: 50%;
+        text-align: relative;
+    }
+
+    .datatable td::before{
+        content: attr(data-label);
+        position: absolute;
+        left:0;
+        width: 50%;
+        padding-left: 30px;
+        font-size:15px;
+        font-weight: bold;
+        text-align: left;
+    }
+    
+
+  /*
+  Label the data
+  You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+  */
+  td:nth-of-type(1):before { content: "SI NO"; }
+  td:nth-of-type(2):before { content: "ADMISSION NO"; }
+  td:nth-of-type(3):before { content: "NAME"; }
+  td:nth-of-type(4):before { content: "PHONE NUMBER"; }
+  td:nth-of-type(5):before { content: "E-MAIL"; }
+  td:nth-of-type(6):before { content: "VIEW"; }
+  td:nth-of-type(7):before { content: "DELETE"; }
+ 
+  
+}
+
+</style>
+<main id="main" class="main">
+
+    <div class="col-lg-12">
+      <div class="pagetitle">
+        <a href="{% url 'add_student' %}"><button class="btn btn-success btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Add Student</button></a>
+
+        <h1>Students</h1>
+        <br/>
+      </div><!-- End Page Title -->
+
+    </div>
+            <br/>
+
+
+	<div class="row">
+  
+      
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+        <br/>
+        
+        
+
+      </div>
+        <form method="post" class="row g-3 needs-validation" >
+            {% csrf_token %}
+
+
+           {% for message in messages %}
+                   <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                       {{ message }}
+                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                   </div>
+           {% endfor %}
+
+           <div class="col-12">
+                     <!--<label for="yourName" class="form-label">Select Batch</label>-->
+                     <select name="batch_select" class="form-control" readonly="true" required >
+                       <option value="0">Select Batch</option>
+                       
+                       {% for i in batch %}
+                           {% for j in scheme_data %}
+                             {% if i.scheme == j.id %}
+                              {% if i.id == batch_data1.id %}
+                                  <option value="{{ i.id }}" selected>Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
+                              {% else %}
+                                  <option value="{{ i.id }}">Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
+
+                              {% endif %}
+                             {% endif %}
+                           {% endfor %}
+                       {% endfor %}
+
+                     </select>
+
+                   </div>
+
+                 
+<!--                    <div class="col-12">
+                     <label for="yourName" class="form-label">Batch</label>
+                     <select name="batch_year" class="form-control" readonly="true" required >
+                     <option value="0">Select Batch</option>
+                       {% for i in batch_year %}
+                         <option value="{{ i.date_of_join }}">{{i.date_of_join}}</option>
+
+                       {% endfor %}
+
+                   </div>
+-->
+
+                  <div class="col-12">
+                    <div class="col-15" style="display: inline-block">
+                      <button class="btn btn-primary w-20" type="submit">Submit</button>&nbsp;<button class="btn btn-primary w-30" type="reset">Cancel</button>
+                    </div>
+                  </div>
+                      
+                    
+           <!--     </div>
+                   <div class="col-12">
+                     <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                   </div>
+
+                   -->
+        </form>
+         
+       <br/>
+      <table class='datatable'>
+         <br>
+        <thead >
+          <tr>
+            <th >SI NO</th>
+            <th>ADMISSION NO</th>
+            <th>NAME</th>
+            <th>PHONE NUMBER</th>
+            <th>E-MAIL</th>
+            <th></th>
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in student_data %}
+          
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.register_no }}</td>
+            <td>{{ i.first_name }} {{i.last_name}}</td>
+            <td>{{ i.phone_no }}</td>
+            <td>{{ i.email }}</td>
+            <td><a href=""><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-eye btn-sm"></i>View </button></a> </td>
+            <td><button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
+            
+              <div class="modal fade" id="exampleModalCenter{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLongTitle"><strong>Do you want to delete ?</strong> </h4>
+                      <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>-->
+                    </div>
+                    <div class="modal-body">
+                      
+                      
+                      <h5 ><b>Name </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.first_name }} {{i.last_name}}</h5>
+                      <h5 ><b>Class </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.class_name }}</h5>
+                      <h5 ><b>Date of join </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.date_of_join }}</h5>
+                      <h5 ><b>Semester</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.semester }}</h5>
+                      <h5 ><b>Scheme </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ scheme_data1.scheme }}</h5>
+                    
+                      <h4></h4>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 20%;">No</button>
+                      <button type="button" class="btn btn-primary" style="width: 20%;">Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </td>
+
+          </tr>
+          
+          {% endfor %}
+        </tbody>
+      </table>
+      
+              <br>
+              
+
+            </div>     
+      </div>
+
+    </div>
+  </div>
+    
+   
+</main>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/><br/>
+
+
+
+
+  {% endblock %}
+

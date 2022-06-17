@@ -1,0 +1,155 @@
+{% extends 'staff_base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<main id="main" class="main">
+<div class="col-lg-6">
+    <div class="container">
+      <h2 class="card-title-size">Attendance</h2>
+      
+      {% for j in subject_data %}
+      <h6>Subject : {{j.code}} {{j.subject_name}}</h6>
+      {% endfor %}
+
+      {% for j in batch_data %}
+      <h6>Class : {{j.class_name}}</h6>      
+      <h6 id="display_date"> Date</h6>
+      {% endfor %}
+      {% for i in check_subject_exist %}
+        <h6>Semester : {{i.semester}}</h6>
+      {% endfor %}
+
+      
+        <br/>
+    </div>
+</div>    
+<div class="row">
+  
+
+  <!-- edit form column -->
+ <div class="card">
+
+<div class="card-body">
+    <br>
+    <form method="post" class="row g-3 needs-validation" >
+      {% csrf_token %}
+
+
+     {% for message in messages %}
+             <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                 {{ message }}
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
+     {% endfor %}
+
+     <br>
+     {% for i in attendance_record_data %}
+     <div class="col-6">
+      <label for="yourName" class="col-sm-2 col-form-label">From</label>
+                <input type="text" name="from_time" id="from_time" min="07:00" value="{{i.from_time}}" max="18:00" class="form-control"  required>
+    </div>
+
+    <div class="col-6">
+     <label for="yourName" class="col-sm-2 col-form-label">To</label>
+               <input type="text" name="end_time" id="end_time" min="07:00" max="18:00" value="{{i.end_time}}" class="form-control"  required>
+   </div>
+
+    
+
+    <div class="col-6">
+      <label class="col-sm-2 col-form-label">Hours</label>
+      <div class="col-sm-12">
+         
+            <input type="number" name="no_of_hours" onclick="time_diff()" id="no_of_hours" value="{{i.no_of_hours}}" class="form-control" min="1" max="6" oninput="validity.valid||(value='');"  required>
+
+      </div>
+     </div>
+     
+     
+     {% endfor %}
+     
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            
+            <th scope="col">Roll No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Present</th>
+            <th scope="col">Absent</th>
+          </tr>
+        </thead>
+        <tbody>
+
+            {% for i in student_data %}
+            <tr>
+                
+                <td>{{i.roll_no}}</td>
+                <td>{{i.first_name}} {{i.last_name}}</td>
+                <td>
+                  
+                    <div class="form-check form-switch"> 
+                        
+                         {% for j in attendance_data %}
+                          {% if j.student_id == i.id %}
+                            {% if j.present %}
+                            <input class="form-check-input"  checked type="radio" value=1 id="attendance" readonly > 
+                            
+                            {% else %}
+                            <input class="form-check-input"   type="radio" value=1 id="attendance" readonly disabled> 
+                            {% endif%}
+                          {% endif %}
+                        {% endfor %} 
+                    </div>
+                </td>
+                <td>
+                    <div class="form-check form-switch"> 
+                        
+                        {% for j in attendance_data %}
+                          {% if j.student_id == i.id %}
+                            {% if not j.present %}
+                            <input class="form-check-input" type="radio"  checked value=0  id="attendance" name="{{i.roll_no}}" readonly>
+                            {% else %}
+                            <input class="form-check-input" type="radio"   value=0  id="attendance" name="{{i.roll_no}}" readonly disabled>
+                            {% endif%}
+                          {% endif %}
+                        {% endfor %} 
+                    </div>
+                </td>
+              </tr>
+            
+            {% endfor %}
+          
+          
+        
+        </tbody>
+        
+      </table>
+      
+</form>
+</div>
+</div>
+</div>
+{% endblock%}
+
+{% block custom_js %}
+    <script>
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        //var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //var dateTime = date+' '+time;
+        document.getElementById("display_date").innerHTML = date;
+
+        function changeCheckbox(){
+               var x = document.getElementById('attendance')
+               console.log(x)
+        }
+
+        function time_diff(){
+         
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+
+    <!--<div class="pagetitle">
+      <h1>Alerts</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="hod_index.html">Home</a></li>
+          <li class="breadcrumb-item">Components</li>
+          <li class="breadcrumb-item active">Alerts</li>
+        </ol>
+      </nav>
+    </div> End Page Title -->
+
+    <div class="col-lg-6">
+        <div class="container">
+
+            <br/>
+
+	<div class="row">
+      <!-- left column
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <h6>Upload a different photo...</h6>
+
+          <input type="file" class="form-control">
+        </div>
+        -->
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+          <br/>
+       <h2 class="card-title-size">Create Batch</h2>
+          <br>
+
+
+
+
+
+
+
+
+        <form method="post" class="row g-3 needs-validation" >
+             {% csrf_token %}
+
+
+            {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+
+            <div class="col-12">
+                      <label for="yourName" class="form-label">Class</label>
+                      <select name="class_name" class="form-select" readonly="true" required >
+                          <option value="0">Select class</option>
+                          <option value="CSE-B">CSE-B</option>
+                          <option value="CSE-A">CSE-A</option>
+                          <option value="IT">IT</option>
+
+                      </select>
+
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">Date of Join</label>
+                      <input type="date" name="date_of_join"  class="form-control" id="last_name" required>
+
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">Semester</label>
+                      <select name="semester" class="form-select" readonly="true" required >
+                          <option value="0">Select semester</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+
+                      </select>
+                    </div>
+                      
+                    <div class="col-12">
+                        <label for="yourName" class="form-label">Scheme</label>
+                        <select name="scheme" class="form-select" readonly="true" required >
+                            <option value="0">Select Scheme</option>
+                            {% for i in scheme_data  %}
+                            <option value='{{ i.id }}'>{{i.scheme}}</option>
+                            {% endfor %}
+                            
+  
+                        </select>
+
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">Tutor</label>
+                      <select name="tutor" class="form-select" readonly="true" required >
+                          <option value="0">Select Tutor</option>
+                          {% for i in tutor_data  %}
+                          <option value='{{ i.id }}'>{{i.First_name}} {{i.Last_name}}</option>
+                          {% endfor %}
+                      </select> 
+                  </div>
+
+
+                    <div class="col-12">
+                      
+                      
+                    </div>
+                    <div class="col-15" style="display: inline-block">
+                      <button class="btn btn-primary w-20" type="submit">Create</button>&nbsp;<button class="btn btn-primary w-30" type="reset">Cancel</button>
+
+                    </div>
+            <!--
+                    <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                    </div>
+
+                    -->
+        </form>
+
+      </div>
+  </div>
+</div>
+
+ </div>
+</div>
+<div>
+    <br>
+    <br>
+    <br>
+    <br/>
+
+
+</div>
+
+  </main>
+
+{% endblock %}
+

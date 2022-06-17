@@ -1,0 +1,142 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+
+    <!--<div class="pagetitle">
+      <h1>Alerts</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="hod_index.html">Home</a></li>
+          <li class="breadcrumb-item">Components</li>
+          <li class="breadcrumb-item active">Alerts</li>
+        </ol>
+      </nav>
+    </div> End Page Title -->
+
+    <div class="col-lg-6">
+        <div class="container">
+
+            <br/>
+
+	<div class="row">
+      <!-- left column
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <h6>Upload a different photo...</h6>
+
+          <input type="file" class="form-control">
+        </div>
+        -->
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+          <br/>
+       <h2 class="card-title-size">Student List</h2>
+          <br>
+
+
+
+
+
+
+
+
+        <form method="post" class="row g-3 needs-validation" >
+             {% csrf_token %}
+
+
+            {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+
+            <div class="col-12">
+                      <label for="yourName" class="form-label">Select Batch</label>
+                      <select name="batch_select" class="form-control" readonly="true" required >
+                        <option value="0">Select Batch</option>
+                        {% for i in batch %}
+                            {% for j in scheme_data %}
+                              {% if i.scheme == j.id %}
+                                <option value="{{ i.id }}">Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
+                              {% endif %}
+                            {% endfor %}
+                            
+                        {% endfor %}
+
+                      </select>
+
+                    </div>
+
+                  
+<!--                    <div class="col-12">
+                      <label for="yourName" class="form-label">Batch</label>
+                      <select name="batch_year" class="form-control" readonly="true" required >
+                      <option value="0">Select Batch</option>
+                        {% for i in batch_year %}
+                          <option value="{{ i.date_of_join }}">{{i.date_of_join}}</option>
+
+                        {% endfor %}
+
+                    </div>
+-->
+
+                    <div class="col-12">
+
+
+
+
+                    <div class="col-12">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" hidden name="remember" value="true" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe"></label>
+                      </div>
+
+                    <div class="col-15" style="display: inline-block">
+                      <button class="btn btn-primary w-20" type="submit">Submit</button>&nbsp;<button class="btn btn-primary w-30" type="reset">Cancel</button>
+
+                    </div>
+                        </div>
+                    </div>
+            <!--
+                    <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                    </div>
+
+                    -->
+        </form>
+
+
+
+
+      </div>
+  </div>
+</div>
+
+ </div>
+</div>
+<div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br><br/>
+
+
+</div>
+
+  </main>
+
+{% endblock %}
+

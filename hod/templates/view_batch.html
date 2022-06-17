@@ -1,0 +1,193 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .datatable tbody tr:nth-child(even){
+      background-color: #f5f5f5;
+  }
+  @media(max-width: 746px){
+      .datatable thead{
+          display: none;
+      }
+  
+      .datatable, .datatable tbody, .datatable tr, .datatable td{
+          display: block;
+          width: 100%;
+      }
+      .datatable tr{
+          margin-bottom:15px;
+          padding-left: 50%;
+          text-align: left;
+
+      }
+      .datatable td{
+          text-align: relative;
+          padding-left: 50%;
+          text-align: relative;
+      }
+      .datatable td::before{
+          content: attr(data-label);
+          position: absolute;
+          left:0;
+          width: 50%;
+          padding-left: 30px;
+          font-size:15px;
+          font-weight: bold;
+          text-align: left;
+      }
+      td:nth-of-type(1):before { content: "SI NO"; }
+      td:nth-of-type(2):before { content: "CLASS"; }
+      td:nth-of-type(3):before { content: "DATE OF JOIN"; }
+      td:nth-of-type(4):before { content: "SEMESTER"; }
+      td:nth-of-type(5):before { content: "SCHEME"; }
+      td:nth-of-type(6):before { content: "EDIT"; }
+      td:nth-of-type(7):before { content: "DELETE"; }
+  }
+
+
+</style>
+<main id="main" class="main">
+
+    <div class="col-lg-12">
+      <div class="pagetitle">
+        <a href="{% url 'create_batch' %}"><button class="btn btn-primary btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Create Batch</button></a>
+
+        <h1>Batch</h1>
+        <br/>
+      </div><!-- End Page Title -->
+
+	<div class="row">
+
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+
+<br/>
+      {% for message in messages %}
+                   <div class="alert alert-success alert-dismissible fade show" role="alert">
+                
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+
+
+
+      <br>
+      <div style="overflow-x:auto;">
+          <table class="datatable">
+            <br>
+              <thead>
+                <tr>
+                  <th >SI NO</th>
+                  <th>CLASS</th>
+                  <th>DATE OF JOIN</th>
+                  <th >SEMESTER</th>
+                  <th>SCHEME</th>
+                  <th>Tutor</th>
+                  <th></th>
+                  
+
+
+
+              </tr>
+              </thead>
+              <tbody>
+                
+            {% for i in batch_data %}
+              {%for j in scheme_data%}
+                {% if i.scheme == j.id %}
+                <tr>
+
+                  <td>{{ forloop.counter }}</td>
+                  
+                  <td>{{ i.class_name }}</td>
+                  <td>{{ i.date_of_join }}</td>
+                  <td >{{ i.semester }}</td>
+                  <td>{{ j.scheme }} </td>
+
+                  {% for staff in tutor_data %}
+                  {% if i.tutor_id == staff.id %}
+                    <td>{{staff.First_name}} {{staff.Last_name}}</td>
+                  {% else %}
+                  {% endif %}
+                  {% endfor %}
+                  <td><a href="{% url 'edit_batch' b_id=i.id %}" ><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-eye btn-sm"></i> View</button></a> </td>
+
+                  <!--
+                                      <td><a href="{% url 'edit_batch' b_id=i.id %}" ><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-pencil-square"></i> Edit</button></a> </td>
+
+                  
+
+                  <td><button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
+                  
+                      <div class="modal fade" id="exampleModalCenter{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title" id="exampleModalLongTitle"><strong>Do you want to delete ?</strong> </h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                             
+                              <h5 ><b>Class </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.class_name}}</h5>
+                              <h5 ><b>Date of Join </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.date_of_join}}</h5>
+                              <h5 ><b>Semester </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.semester }}</h5>
+                              <h5 ><b>Scheme </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ j.scheme }}</h5>
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal" >No</button>
+                              <a href="{% url 'delete_batch' b_id=i.id %}"><button type="submit" class="btn btn-primary" style="height: 40%;">Yes</button></a> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                  
+                  
+                  
+                  
+                    </td>-->
+
+                </tr>
+                
+                
+                {% endif %}
+                
+
+              {% endfor %}
+            {% endfor %}
+              </tbody>
+
+          </table>
+      </div>
+      </div>
+
+    </div>
+
+    </div>
+    </div>
+
+</main>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/>
+
+
+
+
+  {% endblock %}
+

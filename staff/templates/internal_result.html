@@ -1,0 +1,241 @@
+{% extends 'staff_base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<style>
+  .datatable tbody tr:nth-child(even){
+    background-color: #f5f5f5;
+}
+@media(max-width: 746px){
+    .datatable thead{
+        display: none;
+    }
+
+    .datatable, .datatable tbody, .datatable tr, .datatable td{
+        display: block;
+        width: 100%;
+    }
+
+    .datatable tr{
+        margin-bottom:15px;
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    .datatable td{
+        text-align: relative;
+        padding-left: 50%;
+        text-align: relative;
+    }
+
+    .datatable td::before{
+        content: attr(data-label);
+        position: absolute;
+        left:10px;
+        width: 50%;
+        padding-left: 30px;
+        font-size:15px;
+        font-weight: bold;
+        text-align: left;
+    }
+    
+
+  /*
+  Label the data
+  You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+  */
+  td:nth-of-type(1):before { content: "UNIVERSITY ROL NO"; }
+  td:nth-of-type(2):before { content: "NAME"; }
+  td:nth-of-type(3):before { content: "ASSIGNMENT 1"; }
+  td:nth-of-type(4):before { content: "ASSIGNMENT 2"; }
+  td:nth-of-type(5):before { content: "INTERNAL 1"; }
+  td:nth-of-type(6):before { content: "INTERNAL 2"; }
+  td:nth-of-type(7):before { content: "ATTENDANCE(%)"; }
+  td:nth-of-type(8):before { content: "TOTAL MARK"; }
+  
+ 
+  
+}
+
+</style>
+
+<main id="main" class="main">
+<div class="col-lg-6">
+    <div class="container">
+      <h2 class="card-title-size">Internal Marks</h2>
+      
+      {% for j in subject_data %}
+      <h6>Subject : {{j.code}} {{j.subject_name}}</h6>
+      {% endfor %}
+
+      {% for j in batch_data %}
+      <h6>Class : {{j.class_name}}</h6>      
+      {% endfor %}
+
+      {% for i in check_subject_exist %}
+        <h6>Semester : {{i.semester}}</h6>
+      {% endfor %}
+
+      
+        <br/>
+    </div>
+</div>    
+<div class="row">
+  
+
+  <!-- edit form column -->
+ <div class="card">
+
+<div class="card-body">
+    <br>
+<form method="post" class="row g-3 needs-validation" >
+    {% csrf_token %}
+    
+    <table class="datatable">
+        <thead>
+          <tr>
+            
+            <th>University Roll No</th>
+            <th>Name</th>
+            <th>Assignment 1</th>
+            <th>Assignment 2</th>
+            <th>Series 1</th>
+            <th>Series 2</th>
+            <th>Attendance(%)</th>
+            <th>Total Mark</th>
+
+            
+          </tr>
+        </thead>
+        <tbody>
+
+            {% for i in student_data %}
+            
+            <tr>
+                
+                <td>{{i.university_no}}</td>
+                <td>{{i.first_name}} {{i.last_name}}</td>
+                
+                <td class="count-me">
+                  
+                            {% for j in internal_mark %}
+                            {% for k in subject_data %}
+                              {% if i.id == j.student_id%}
+                                {% if k.id == j.subject_id %}
+                                  {% if j.exam_type == 'Assignment 1' %}
+                                    {{j.mark}}  
+                                  {% endif %}
+                        
+                                {% endif %}
+                              {% endif %}
+                            {% endfor %}
+                            {% endfor %}  
+                                
+                  
+                </td>
+                <td class="count-me">
+                   
+                      {% for j in internal_mark %}
+                      {% for k in subject_data %}
+                        {% if i.id == j.student_id%}
+                          {% if k.id == j.subject_id %}
+                            {% if j.exam_type == 'Assignment 2' %}
+                              {{j.mark}}  
+                            {% endif %}
+                  
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                      {% endfor %}      
+                      
+                </td>
+
+                <td class="count-me">
+                  
+                      {% for j in internal_mark %}
+                      {% for k in subject_data %}
+                        {% if i.id == j.student_id%}
+                          {% if k.id == j.subject_id %}
+                            {% if j.exam_type == 'Internal 1' %}
+                              {{j.mark}}  
+                            {% endif %}
+                  
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                      {% endfor %}     
+                </td>
+
+                <td class="count-me">
+                  <div class="col-12">
+                     
+                      {% for j in internal_mark %}
+                      {% for k in subject_data %}
+                        {% if i.id == j.student_id%}
+                          {% if k.id == j.subject_id %}
+                            {% if j.exam_type == 'Internal 2' %}
+                            {{j.mark}}  
+                            {% endif %}
+                  
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                      {% endfor %} 
+                </td>
+                <td>
+                  
+                    {% for j in attendance_list %}
+                    {% if j.0 == i.register_no %}
+                      {{j.1}}
+                    {% endif %}
+                    {% endfor %}
+                  
+                  
+                </td>
+                <td>
+                  {% for j in total_mark_list %}
+                    {% if j.0 == i.register_no %}
+                      {{j.1}}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                
+              </tr>
+            
+            {% endfor %}
+          
+         
+        
+        </tbody>
+        
+      </table>
+      
+      
+</form>
+</div>
+</div>
+</div>
+{% endblock%}
+
+{% block custom_js %}
+    <script>
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        //var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //var dateTime = date+' '+time;
+        document.getElementById("display_date").innerHTML = date;
+
+      function total(){
+        var tds = document.getElementById('countit').getElementsByTagName('');
+            var sum = 0;
+            for(var i = 0; i < tds.length; i ++) {
+                if(tds[i].className == 'count-me') {
+                    sum += isNaN(tds[i].innerHTML) ? 0 : parseInt(tds[i].innerHTML);
+                }
+            }
+            document.getElementById('total').innerHTML +=  sum ;
+      }
+    </script>
+{% endblock %}

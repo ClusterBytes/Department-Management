@@ -1,0 +1,507 @@
+
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Profile</h1>
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+        {% for message in messages %}
+  
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    
+                    </div>
+            
+          {% endfor %}
+
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <h2>{{staff_details.First_name}} {{staff_details.Last_name}}</h2>
+            <!-- <h3>Web Designer</h3>
+            <div class="social-links mt-2">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>>
+          -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xl-8">
+
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+              </li>
+              <!--
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+              </li>
+                -->
+            </ul>
+            <div class="tab-content pt-2">
+
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                <!--<h5 class="card-title">About</h5>
+                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                -->
+                <h5 class="card-title">Profile Details</h5>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">First Name</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.First_name}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Last Name</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Last_name}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Faculty unique id</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Faculty_unique_id}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Gender</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Gender}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Date of Birth</div>
+                  <div class="col-lg-9 col-md-8">{{date_dob}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone No</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.phone_no}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">E-mail id </div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.email}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Aadhaar No</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Aadhar_No}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Caste</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Caste}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Religion</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Religion}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Category</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.category}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">PAN</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.PAN}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Date of Joining</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Date_of_Joining}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">AICTE Unique id</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.AICTE_unique_Id}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Appointment Type</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Appointment_type}}</div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Cadre</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Cadre}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Designation</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Designation}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Specialisation</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Specialisation}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Department of Program</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Department_of_program}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Examiner Institution</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Examiner_institution}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Area of Research</div>
+                  <div class="col-lg-9 col-md-8">{{staff_details.Area_of_Research}}</div>
+                </div>
+
+              </div>
+
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                <!-- Profile Edit Form -->
+                <form method="post" action="">
+                {% csrf_token %}
+                  <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                    <div class="col-md-8 col-lg-9">
+                      <img src="assets/img/profile-img.jpg" alt="Profile">
+                      <div class="pt-2">
+                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label" >First Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="first_name" type="text" class="form-control" id="fullName" value="{{ staff_details.First_name }}" required>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label" >Last Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="last_name" type="text" class="form-control" id="fullName" value="{{ staff_details.Last_name }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="about" class="col-md-4 col-lg-3 col-form-label">Faculty unique id</label>
+                    <div class="col-md-8 col-lg-9">
+                    <input name="faculty_unique_id" type="text" class="form-control"  value="{{ staff_details.Faculty_unique_id }}" >
+
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                    <div class="col-md-8 col-lg-9">
+                      <select name="gender" class="form-control" required>
+
+                          {% if staff_details.Gender == 'Male' %}
+
+                              <option value="Male" selected>Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Others">Others</option>
+                              <option value="0">Select</option>
+
+                          {% elif staff_details.Gender == 'Female' %}
+
+                              <option value="Male" >Male</option>
+                              <option value="Female" selected>Female</option>
+                              <option value="Others">Others</option>
+                              <option value="0">Select</option>
+
+                          {% elif staff_details.Gender == 'Others' %}
+
+                              <option value="Male" >Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Others" selected>Others</option>
+                              <option value="0">Select</option>
+
+                           {% else %}
+                              <option value="0">Select</option>
+                              <option value="Male" >Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Others" >Others</option>
+                              <option value="0">Select</option>
+                              
+                          {% endif %}
+
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Date of Birth</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="date_of_birth" type="date" class="form-control" id="Job" value="{{ date_dob }}" required>
+                    </div>
+                  </div>
+
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Phone No</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="phone_no" type="number" class="form-control" id="Country" value="{{ staff_details.phone_no }}" required>
+                    </div>
+                  </div>
+
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Email id</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="email" type="email" class="form-control"  value="{{ staff_details.email }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Aadhaar No</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="aadhaar_no" type="number" class="form-control"  value="{{ staff_details.Aadhar_No }}" required>
+                    </div>
+                  </div>
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Caste</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="caste" type="text" class="form-control"  value="{{ staff_details.Caste }}" required >
+                    </div>
+                  </div>
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Religion</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="religion" type="text" class="form-control"  value="{{ staff_details.Religion }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Category</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="category" type="text" class="form-control"  value="{{ staff_details.category }}" required>
+                    </div>
+                  </div>
+
+                   <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">PAN</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="pan" type="text" class="form-control"  value="{{ staff_details.PAN }}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Date of Joining</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="date_of_joining" type="date" class="form-control"  value="{{ date }}" >
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">AICTE Uninque id</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="aicte_unique_id" type="text" class="form-control"  value="{{ staff_details.AICTE_unique_Id }}" >
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Appointment type</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="appointment_type" type="text" class="form-control"  value="{{ staff_details.Appointment_type }}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Cadre</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="cadre" type="text" class="form-control"  value="{{ staff_details.Cadre}}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Designation</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="designation" type="text" class="form-control"  value="{{ staff_details.Designation }}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Specialisation</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="specialisation" type="text" class="form-control"  value="{{ staff_details.Specialisation }}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Department of Program</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="department_of_program" type="text" class="form-control"  value="{{ staff_details.Department_of_program }}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Examiner Institution</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="examiner_institution" type="text" class="form-control"  value="{{ staff_details.Examiner_institution }}">
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Area of Research</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="area_of_research" type="text" class="form-control"  value="{{ staff_details.Area_of_Research }}">
+                    </div>
+                  </div>
+
+
+
+
+                  <!--
+                  <div class="row mb-3">
+                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                    </div>
+                  </div>
+                  -->
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form><!-- End Profile Edit Form -->
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-settings">
+
+                <!-- Settings Form -->
+                <form>
+
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                        <label class="form-check-label" for="changesMade">
+                          Changes made to your account
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                        <label class="form-check-label" for="newProducts">
+                          Information on new products and services
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="proOffers">
+                        <label class="form-check-label" for="proOffers">
+                          Marketing and promo offers
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+                        <label class="form-check-label" for="securityNotify">
+                          Security alerts
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form><!-- End settings Form -->
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <!-- Change Password Form -->
+                <form>
+
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="password" type="password" class="form-control" id="currentPassword">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="newpassword" type="password" class="form-control" id="newPassword">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </div>
+                </form><!-- End Change Password Form -->
+
+              </div>
+
+            </div><!-- End Bordered Tabs -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+{% endblock %}

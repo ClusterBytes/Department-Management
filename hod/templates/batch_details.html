@@ -1,0 +1,192 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+
+    <div class="col-lg-12">
+      <div class="pagetitle">
+
+        <h1>Batch</h1>
+        <br/>
+      </div><!-- End Page Title -->
+
+	<div class="row">
+     <!-- edit form column -->
+        <div class="card">
+            <br>
+                <div class="card-body">
+
+
+                    <form method="post" class="row g-3 needs-validation" >
+                        {% csrf_token %}
+           
+           
+                       {% for message in messages %}
+                               <div class="alert alert-success alert-dismissible fade show" role="alert">
+           
+                                   {{ message }}
+                                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                               </div>
+                       {% endfor %}
+           
+                       <div class="col-3">
+                                 <label for="yourName" class="form-label">Class</label>
+                                 <select name="class_name" class="form-control" readonly="true" required >
+                                     {% if edit_data.class_name == 'CSE-B' %}
+                                         <option value="CSE-B" selected>CSE-B</option>
+                                     <option value="CSE-A">CSE-A</option>
+                                     <option value="IT">IT</option>
+           
+                                      {% elif edit_data.class_name == 'CSE-A' %}
+                                         <option value="CSE-B" >CSE-B</option>
+                                     <option value="CSE-A" selected>CSE-A</option>
+                                     <option value="IT">IT</option>
+           
+                                      {% elif edit_data.class_name == 'IT' %}
+                                         <option value="CSE-B" >CSE-B</option>
+                                     <option value="CSE-A" >CSE-A</option>
+                                     <option value="IT" selected>IT</option>
+           
+                                     {% endif %}
+           
+                                 </select>
+           
+                               </div>
+           
+                               <div class="col-12">
+                                 <label for="yourName" class="form-label">Date of join</label>
+                                 <input type="date" value={{ date }} name="date_of_join"  class="form-control" id="last_name" required>
+           
+                               </div>
+           
+                               <div class="col-12">
+                                 <label for="yourName" class="form-label">Semester</label>
+                                 <select name="semester" class="form-control" readonly="true" required >
+                                     {% if edit_data.semester == '1' %}
+                                     <option value="1" selected>1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+           
+                                     {% elif edit_data.semester == '2' %}
+                                         <option value="1">1</option>
+                                     <option value="2" selected>2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+                                     {% elif edit_data.semester == '3' %}
+                                         <option value="1"> 1</option>
+                                     <option value="2">2</option>
+                                     <option value="3" selected>3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+                                     {% elif edit_data.semester == '4' %}
+                                         <option value="1" >1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4" selected>4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+                                     {% elif edit_data.semester == '5' %}
+                                         <option value="1" >1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5" selected>5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+                                     {% elif edit_data.semester == '6' %}
+                                         <option value="1" >1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6" selected>6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+                                     {% elif edit_data.semester == '7' %}
+                                         <option value="1" >1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7" selected>7</option>
+                                     <option value="8">8</option>
+                                     {% elif edit_data.semester == '8' %}
+                                         <option value="1" >1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8" selected>8</option>
+           
+           
+                                     {% endif %}
+           
+                                 </select>
+           
+                               </div>
+           
+                               <div class="col-12">
+                                 <label for="yourName" class="form-label">Scheme</label>
+                                 <select name="scheme" class="form-control" required >
+           
+                                   <option value="0" selected>Select </option>
+           
+                                     {% for i in scheme_data  %}
+                                       <option value="{{i.id}}">{{i.scheme}}</option>
+                                     {% endfor %}
+                                   
+                                 </select>
+           
+                               </div>
+           
+           
+                               <div class="col-12">
+                                 <div class="form-check">
+                                   <input class="form-check-input"  type="checkbox" name="remember" value="true" id="rememberMe">
+                                   <label class="form-check-label" for="rememberMe">Remember me</label>
+                                 </div>
+                               </div>
+                               <div class="col-15" style="display: inline-block">
+                                 <button class="btn btn-primary w-26" type="submit"> Update </button>&nbsp;  <a href="{% url 'view_batch' %}"><button type="button" class="btn btn-primary w-30" >Cancel</button></a>
+           
+                               </div>
+                       <!--
+                               <div class="col-12">
+                                 <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                               </div>
+           
+                               -->
+                   </form>
+
+
+                   
+
+                </div>
+        </div>
+    </div>
+          
+
+<br/>
+
+
+  {% endblock %}
+

@@ -1,0 +1,159 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .datatable tbody tr:nth-child(even){
+        background-color: #f5f5f5;
+    }
+    @media(max-width: 746px){
+        .datatable thead{
+            display: none;
+        }
+    
+        .datatable, .datatable tbody, .datatable tr, .datatable td{
+            display: block;
+            width: 100%;
+        }
+        .datatable tr{
+            margin-bottom:15px;
+            padding-left: 50%;
+            text-align: left;
+
+        }
+        .datatable td{
+            text-align: relative;
+            padding-left: 50%;
+            text-align: relative;
+        }
+        .datatable td::before{
+            content: attr(data-label);
+            position: absolute;
+            left:0;
+            width: 50%;
+            padding-left: 30px;
+            font-size:15px;
+            font-weight: bold;
+            text-align: left;
+        }
+        td:nth-of-type(1):before { content: "SI NO"; }
+        td:nth-of-type(2):before { content: "FACULTY ID"; }
+        td:nth-of-type(3):before { content: "NAME"; }
+        td:nth-of-type(4):before { content: "PHONE NUMBER"; }
+        td:nth-of-type(5):before { content: "E-MAIL"; }
+        td:nth-of-type(6):before { content: "VIEW"; }
+        td:nth-of-type(7):before { content: "DELETE"; }
+    }
+
+
+  </style>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <a href="{% url 'add_staff' %}"><button class="btn btn-primary btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Add Faculty</button></a>
+        <h1>Faculties</h1>
+        
+
+     </div><!-- End Page Title -->
+     <div class="card">
+         <div class="card-body">
+             <br>
+             
+                 
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            <div class="row">
+    <br/>
+  <br/>
+  <br><br>
+  <table class="datatable">
+      <br>
+    <thead>
+    <tr>
+        <th>SI NO</th>
+        <th>FACULTY ID</th>
+        <th>FULL NAME</th>
+        <th>PHONE NO</th>
+        <th>E-MAIL</th>
+        
+
+       <!-- <th>AICTE ID</th>
+        
+        -->
+         <th colspan="2"></th>
+        
+
+
+    </tr>
+</thead>
+<tbody>
+    {% for i in staff_data %}
+
+        <tr>
+          <td >{{ forloop.counter }}</td>
+          <td >{{ i.Faculty_unique_id }}</td>
+          <td >{{ i.First_name }} {{i.Last_name}}</td>
+          <td >{{ i.phone_no }}</td>
+          <td >{{ i.email }}</td>
+          <!--<td>{{ i.AICTE_unique_Id }}</td>
+          -->
+          
+         
+          <td ><a href="{% url 'faculty_profile' f_id=i.Faculty_unique_id %}"><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-eye btn-sm"></i>View </button></a> </td>
+          <td > <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete </button>
+            
+            <div class="modal fade" id="exampleModalCenter{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLongTitle"><strong>Do you want to delete ?</strong> </h4>
+                      <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>-->
+                    </div>
+                    <div class="modal-body">
+                      
+                      <h5 ><b>ID </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.Faculty_unique_id }}</h5>
+                      <h5 ><b>Name </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.First_name }} {{i.Last_name}}</h5>
+                      <h5 ><b>Department </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.date_of_join }}</h5>
+                    
+                      <h4></h4>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" >No</button>
+                      <a href="{% url 'delete_faculty' f_id=i.Faculty_unique_id %}"><button type="submit" class="btn btn-primary" style="height: 40%;">Yes</button></a> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+        
+        
+        </td>
+
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+  
+         </div>
+     </div>
+    </div>
+</main>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/><br/><br/><br/><br/>
+
+
+
+
+  {% endblock %}
+

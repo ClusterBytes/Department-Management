@@ -1,0 +1,3025 @@
+{% extends 'staff_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  #datatable tbody tr:nth-child(even){
+      background-color: #f5f5f5;
+  }
+  @media(max-width: 746px){
+      .datatable thead{
+          display: none;
+      }
+  
+      #datatable, #datatable tbody, #datatable tr, #datatable td{
+          display: block;
+          width: 100%;
+      }
+      #datatable tr{
+          margin-bottom:15px;
+          padding-left: 50%;
+          text-align: left;
+
+      }
+      #datatable td{
+          text-align: relative;
+          padding-left: 50%;
+          text-align: relative;
+      }
+
+      #datatable td::before{
+          content: attr(data-label);
+          position: absolute;
+          left:0;
+          width: 50%;
+          padding-left: 50px;
+          font-size:15px;
+          font-weight: bold;
+          text-align: left;
+      }
+      
+      #datatable td:nth-of-type(1):before { content: "ROLL NO"; }
+      #datatable td:nth-of-type(2):before { content: "ADMISSION NO"; }
+      #datatable td:nth-of-type(3):before { content: "NAME"; }
+      #datatable td:nth-of-type(4):before { content: "PHONE NO"; }
+      #datatable td:nth-of-type(5):before { content: "EMAIL"; }
+     
+  }
+  
+    .datatable tbody tr:nth-child(even){
+        background-color: #f5f5f5;
+    }
+    @media(max-width: 746px){
+        .datatable thead{
+            display: none;
+        }
+    
+        .datatable, .datatable tbody, .datatable tr, .datatable td{
+            display: block;
+            width: 100%;
+        }
+        .datatable tr{
+            margin-bottom:15px;
+            padding-left: 50%;
+            text-align: left;
+  
+        }
+        .datatable td{
+            text-align: relative;
+            padding-left: 50%;
+            text-align: relative;
+        }
+        .datatable td::before{
+            content: attr(data-label);
+            position: absolute;
+            left:0;
+            width: 50%;
+            padding-left: 30px;
+            font-size:15px;
+            font-weight: bold;
+            text-align: left;
+        }
+        td:nth-of-type(1):before { content: "SI NO"; }
+        td:nth-of-type(2):before { content: "CLASS"; }
+        td:nth-of-type(3):before { content: "DATE OF JOIN"; }
+        td:nth-of-type(4):before { content: "SEMESTER"; }
+        td:nth-of-type(5):before { content: "SCHEME"; }
+        td:nth-of-type(6):before { content: "EDIT"; }
+        
+    }
+  
+  
+  
+
+
+</style>
+
+<main id="main" class="main">
+
+    
+
+    <div class="col-lg-6">
+      
+        <div class="container">
+
+          <h2 class="card-title-size">S{{batch_data.semester}} {{batch_data.class_name}}</h2>
+
+            <br/>
+        </div>
+    </div>    
+	<div class="row">
+    <a href="{% url 'add_result' batch_id=batch_data.id %}"><button class="btn btn-success btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Add Result</button></a>
+
+<br>
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+          <br/>
+          <br>
+
+        <form method="post" class="row g-3 needs-validation" >
+             {% csrf_token %}
+
+
+            {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+            <br>
+            <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Class</label>
+                      <input type="text" name="class_name" class="form-control" value={{batch_data.class_name}} readonly>
+                      <!--
+                        <select name="class_name" class="form-control" readonly required >
+                          {% if edit_data.class_name == 'CSE-B' %}
+                              <option value="CSE-B" selected>CSE-B</option>
+                          <option value="CSE-A">CSE-A</option>
+                          <option value="IT">IT</option>
+
+                           {% elif edit_data.class_name == 'CSE-A' %}
+                              <option value="CSE-B" >CSE-B</option>
+                          <option value="CSE-A" selected>CSE-A</option>
+                          <option value="IT">IT</option>
+
+                           {% elif edit_data.class_name == 'IT' %}
+                              <option value="CSE-B" >CSE-B</option>
+                          <option value="CSE-A" >CSE-A</option>
+                          <option value="IT" selected>IT</option>
+
+                          {% endif %}
+
+                      </select>
+                      -->
+
+                    </div>
+
+                    <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Date of join</label>
+                      <input type="date" value={{ date }} name="date_of_join"  class="form-control" id="last_name" readonly required>
+
+                    </div>
+
+                    <div class="col-6">
+                      <label class="col-sm-2 col-form-label">Semester</label>
+                      <div class="col-sm-12">
+                        <select class="form-select" name="semester" aria-label="Default select example" readonly>
+                          
+                          {% if batch_data.semester == '1' %}
+                          <option value="1" selected>1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+
+                          {% elif batch_data.semester == '2' %}
+                          <option value="1">1</option>
+                          <option value="2" selected>2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+        
+                          {% elif batch_data.semester == '3' %}
+                          <option value="1"> 1</option>
+                          <option value="2">2</option>
+                          <option value="3" selected>3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+        
+                          {% elif batch_data.semester == '4' %}
+                          <option value="1" >1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4" selected>4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+        
+                          {% elif batch_data.semester == '5' %}
+                          <option value="1" >1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5" selected>5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+        
+                          {% elif batch_data.semester == '6' %}
+                          <option value="1" >1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6" selected>6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+
+                          {% elif batch_data.semester == '7' %}
+                          <option value="1" >1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7" selected>7</option>
+                          <option value="8">8</option>
+
+
+                          {% elif batch_data.semester == '8' %}
+                          <option value="1" >1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8" selected>8</option>
+                          {% else%}
+                          
+                          
+
+                          {% endif %}
+
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <label class="col-sm-2 col-form-label">Tutor</label>
+                      <div class="col-sm-12">
+                        <select class="form-select" name="tutor" aria-label="Default select example" required>
+                          
+                            {% for j in staff_data %}
+                              {% if j.id == batch_data.tutor_id %}
+                                <option value='{{j.id}}' selected>{{j.First_name}} {{j.Last_name}}</option>
+                              {% endif %}
+                            {% endfor %}
+                              
+
+                          
+                          
+                        </select>
+                      </div>
+                    </div>
+    
+
+                    
+
+                    <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Scheme</label>
+                      
+                      <input type="text" class="form-control" 
+                      {% for i in scheme_data %}
+                       {% if i.id == batch_data.scheme %}
+                       value="{{i.scheme}} "
+                       {% endif %}
+                      
+                      {% endfor %}
+                       readonly>
+                      <!--
+                        <select name="scheme" class="form-control" readonly required >
+
+                        <option value="0" selected>Select </option>
+
+                          {% for i in scheme_data  %}
+                            <option value="{{i.id}}">{{i.scheme}}</option>
+                          {% endfor %}
+                        
+                      </select>
+                      -->
+
+                    </div>
+
+                    
+                    <div>
+                    </div>
+                    <div class="col-2" >
+                      <label class="form-label"><br></label>
+                      <button class="btn btn-primary w-20 form-control" name="update_semester" style="width: 94px;" type="submit"> Update </button>
+                    </div>
+            <!--
+                    <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                    </div>
+
+                    -->
+        </form>
+
+
+
+
+        
+      
+  </div>
+  <br>
+  <section class="section">
+    
+
+            <!-- Default Accordion -->
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <strong>Student Details</strong>
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapseed collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <table class="datatable">
+                      <br>
+                        <thead>
+                          <tr>
+                            <th>ROLL NO</th>
+                            <th>ADMISSION NO</th>
+                            <th>NAME</th>
+                            <th >PHONE NO</th>
+                            <th>EMAIL</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          
+                      {% for i in student_data %}
+                        
+                          <tr>
+                            <td>{{ i.roll_no }}</td>
+                            <td>{{ i.register_no }}</td>
+                            <td>{{ i.first_name }} {{ i.last_name }}</td>
+                            <td >{{ i.phone_no }}</td>
+                            <td>{{ i.email }} </td>
+                            <td><a href="{% url 'update_student_profile'  student_id=i.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a> </td>
+                          </tr>
+                      {% endfor %}
+
+                        </tbody>
+                    </table>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                   <strong> Subject</strong>
+                  </button>
+                </h2>
+                <!--Inside the subject details sem wise-->
+
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1">
+                  <div class="accordion-body">
+
+
+
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading10">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="true" aria-controls="collapse10">
+                            Semester 1
+                          </button>
+                        </h2>
+                        <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    <th></th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 1 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                      <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                      </td>
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading11">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="true" aria-controls="collapse11">
+                            Semester 2
+                          </button>
+                        </h2>
+                        <div id="collapse11" class="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 2 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                        
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading12">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12" aria-expanded="true" aria-controls="collapse12">
+                            Semester 3
+                          </button>
+                        </h2>
+                        <div id="collapse12" class="accordion-collapse collapse" aria-labelledby="heading12" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 3 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                        
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading13">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="true" aria-controls="collapse13">
+                            Semester 4
+                          </button>
+                        </h2>
+                        <div id="collapse13" class="accordion-collapse collapse" aria-labelledby="heading13" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 4 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                        
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading14">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse14" aria-expanded="true" aria-controls="collapse14">
+                            Semester 5
+                          </button>
+                        </h2>
+                        <div id="collapse14" class="accordion-collapse collapse" aria-labelledby="heading14" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 5 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading15">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse15" aria-expanded="true" aria-controls="collapse15">
+                            Semester 6
+                          </button>
+                        </h2>
+                        <div id="collapse15" class="accordion-collapse collapse" aria-labelledby="heading15" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 6 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                        
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading16">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse16" aria-expanded="true" aria-controls="collapse16">
+                            Semester 7
+                          </button>
+                        </h2>
+                        <div id="collapse16" class="accordion-collapse collapse" aria-labelledby="heading16" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable" id="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    <th></th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 7 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    <td>
+                                    {% for k in staff_data %}
+                                      {% if k.id == j.staff_id %}
+                                        {{k.First_name}} {{k.Last_name}}
+                                      {% endif %}
+                                    {% endfor %}
+                                    </td>
+                                    <td>
+                                      <a href="{% url 'subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                    </td>
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading17">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse17" aria-expanded="true" aria-controls="collapse17">
+                            Semester 8
+                          </button>
+                        </h2>
+                        <div id="collapse17" class="accordion-collapse collapse" aria-labelledby="heading17" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>SI NO</th>
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>CREDIT</th>
+                                    <th>FACULTY</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for j in assign_subject_data %}
+                                  {% if  j.semester == 8 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                      {% for k in staff_data %}
+                                        {% if k.id == j.staff_id %}
+                                          {{k.First_name}} {{k.Last_name}}
+                                        {% endif %}
+                                      {% endfor %}
+                                      </td>
+                                    
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                          
+                          </div>
+                        </div>
+                      </div>
+                      
+
+                      
+                    </div><!-- End Default Accordion Example -->
+                    
+
+
+                  </div>
+                </div>
+              </div>
+
+              
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <strong>Result</strong>
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading10">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="true" aria-controls="collapse10">
+                            Semester 1
+                          </button>
+                        </h2>
+                        <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 1 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 1 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                            {% elif k.grade_point == 0 %}
+                                            F
+                                          {% elif k.grade_point == -1 %}
+                                            Ab
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>     
+
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading11">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="true" aria-controls="collapse11">
+                            Semester 2
+                          </button>
+                        </h2>
+                        <div id="collapse11" class="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 2 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 2 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>     
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading12">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12" aria-expanded="true" aria-controls="collapse12">
+                            Semester 3
+                          </button>
+                        </h2>
+                        <div id="collapse12" class="accordion-collapse collapse" aria-labelledby="heading12" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 3 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 3 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                               </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading13">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="true" aria-controls="collapse13">
+                            Semester 4
+                          </button>
+                        </h2>
+                        <div id="collapse13" class="accordion-collapse collapse" aria-labelledby="heading13" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 4 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 4 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>     
+                          
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading14">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse14" aria-expanded="true" aria-controls="collapse14">
+                            Semester 5
+                          </button>
+                        </h2>
+                        <div id="collapse14" class="accordion-collapse collapse" aria-labelledby="heading14" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 5 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 5 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>                               </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading15">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse15" aria-expanded="true" aria-controls="collapse15">
+                            Semester 6
+                          </button>
+                        </h2>
+                        <div id="collapse15" class="accordion-collapse collapse" aria-labelledby="heading15" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 6 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 6 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>     
+                          
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading16">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse16" aria-expanded="true" aria-controls="collapse16">
+                            Semester 7
+                          </button>
+                        </h2>
+                        <div id="collapse16" class="accordion-collapse collapse" aria-labelledby="heading16" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 7 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 7 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>     
+                          
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading17">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse17" aria-expanded="true" aria-controls="collapse17">
+                            Semester 8
+                          </button>
+                        </h2>
+                        <div id="collapse17" class="accordion-collapse collapse" aria-labelledby="heading17" data-bs-parent="#accordionExample1">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>University No</th>
+                                    {% for k in subject_in_sem %}
+                                    {% if k.semester == 8 %}
+                                    <th>
+                                      {% for l in subject_data %}
+                                      {% if k.subject_id == l.id %}
+                                        {{l.code}}
+                                      {% endif %}
+                                      {% endfor %}
+                  
+                                    </th>
+                                    {% endif %}
+                                  {% endfor %}
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                  {% for i in student_data %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    
+                                      {% for j in subject_in_sem %}
+                                      {% if j.semester == 8 %}
+                                      <td>
+                                      {% for k in semester_result %}
+                                        {% if k.subject_id == j.subject_id %}
+                                        {% if k.university_no == i.university_no %}
+                                        
+                                          {% if k.no_of_chances == 10 %}
+
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+                                          
+                                          {% elif  k.no_of_chances == 9 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 8 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 7 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 6 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 5 %}
+
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 4 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 3 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 2 %}
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          {% elif  k.no_of_chances == 1 %}
+                                          
+                                          {% if k.grade_point == 10 %}
+                                            O
+                                          {% elif k.grade_point == 9 %}
+                                            A+
+                                          {% elif k.grade_point == 8.5 %}
+                                            A
+                                          {% elif k.grade_point == 8 %}
+                                            B+
+                                          {% elif k.grade_point == 7 %}
+                                            B
+                                          {% elif k.grade_point == 6 %}
+                                            C
+                                          {% elif k.grade_point == 5 %}
+                                            P
+                                          {% elif k.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+                                          
+                                          {% endif %}
+                                          
+                                        {% endif %}  
+                                        
+  
+                                        {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                      {% endif %}
+                                      {% endfor %}
+                                    
+                                  </tr>
+                                  
+                                  {% endfor %}
+
+                                  
+                             
+        
+                                </tbody>
+                            </table>     
+                          </div>
+                        </div>
+                      </div>
+                      
+
+                      
+                    </div><!-- End Default Accordion Example -->
+
+
+                  </div>
+                </div>
+              </div>
+              
+
+
+            </div><!-- End Default Accordion Example -->
+
+          <br>
+
+</div>
+</div>
+ </div>
+</div>
+<div>
+
+    <br>
+    <br>
+    <br>
+    <br/>
+
+
+</div>
+
+  </main>
+
+{% endblock %}
+

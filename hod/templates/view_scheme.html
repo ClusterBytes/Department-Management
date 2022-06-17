@@ -1,0 +1,160 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .datatable tbody tr:nth-child(even){
+      background-color: #f5f5f5;
+  }
+  @media(max-width: 746px){
+      .datatable thead{
+          display: none;
+      }
+  
+      .datatable, .datatable tbody, .datatable tr, .datatable td{
+          display: block;
+          width: 100%;
+      }
+      .datatable tr{
+          margin-bottom:15px;
+          padding-left: 50%;
+          text-align: left;
+
+      }
+      .datatable td{
+          text-align: relative;
+          padding-left: 50%;
+          text-align: relative;
+      }
+      .datatable td::before{
+          content: attr(data-label);
+          position: absolute;
+          left:0;
+          width: 50%;
+          padding-left: 30px;
+          font-size:15px;
+          font-weight: bold;
+          text-align: left;
+      }
+      td:nth-of-type(1):before { content: "SI NO"; }
+      td:nth-of-type(2):before { content: "SCHEME"; }
+      td:nth-of-type(3):before { content: "EDIT"; }
+      td:nth-of-type(4):before { content: "DELETE"; }
+  }
+
+
+</style>
+<main id="main" class="main">
+
+    <div class="col-lg-12">
+        <div class="pagetitle">
+          <a href="{% url 'create_scheme' %}"><button class="btn btn-primary btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Create Scheme</button></a>
+
+            <h1>Scheme</h1>
+            <br/>
+          </div><!-- End Page Title -->
+
+	<div class="row">
+
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+
+<br/>
+      {% for message in messages %}
+                   <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                {{ message }}
+              </div>
+            {% endfor %}
+
+
+
+
+      <div style="overflow-x:auto;">
+          <table class="datatable">
+              <br>
+              <thead>
+                <tr>
+                  <th >SI NO</th>
+                  <th>SCHEME</th>
+                  <!--<th colspan="2"></th>
+                  -->
+                  
+              </tr>
+
+              </thead>
+              <tbody>
+                
+              {% for i in scheme_data %}
+
+              <tr>
+                
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.scheme }}</td>
+                <!--
+                  <td><a href=""><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-pencil-square"></i> Edit</button></a> </td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm"  data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
+                 
+                  <div class="modal fade" id="exampleModalCenter{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="exampleModalLongTitle"><strong>Do you want to delete ?</strong> </h4>
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          
+                          <h5 ><b>Scheme</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.scheme}}</h5>
+                        
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal" >No</button>
+                          <a href=""><button type="submit" class="btn btn-primary" style="height: 40%;">Yes</button></a> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
+                
+                
+                
+                
+                </td>
+                -->
+
+              </tr>
+
+          {% endfor %}
+              </tbody>
+
+          </table>
+      </div>
+      </div>
+
+    </div>
+
+    </div>
+    </div>
+
+</main>
+ 
+ 
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ 
+ 
+{% endblock %}
+

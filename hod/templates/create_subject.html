@@ -1,0 +1,181 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+
+    <!--<div class="pagetitle">
+      <h1>Alerts</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="hod_index.html">Home</a></li>
+          <li class="breadcrumb-item">Components</li>
+          <li class="breadcrumb-item active">Alerts</li>
+        </ol>
+      </nav>
+    </div> End Page Title -->
+
+    <div class="col-lg-6">
+        <div class="container">
+
+            <br/>
+
+	<div class="row">
+      <!-- left column
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <h6>Upload a different photo...</h6>
+
+          <input type="file" class="form-control">
+        </div>
+        -->
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+          <br/>
+       <h2 class="card-title-size">Create Subject</h2>
+          <br>
+
+
+
+
+
+
+
+
+        <form method="post" class="row g-3 needs-validation" >
+             {% csrf_token %}
+
+
+            {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+
+
+            <div class="col-12">
+              <label for="yourName" class="form-label" id='scheme_check'>Scheme</label>
+              <select name="scheme" class="form-control" readonly="true" required >
+                  <option value="0">Select Scheme</option>
+                  {% for i in scheme_data  %}
+                  <option value= {{ i.id }}>{{i.scheme}}</option>
+                  {% endfor %}
+                  
+
+              </select>
+
+          </div>
+
+                    <div class="col-12">
+                      <label for="subject_code" class="form-label">Subject Code</label>
+                      
+                      <input type="text" name="subject_code" id="subject_code"  class="form-control" style="text-transform:uppercase"   required>
+
+                    </div>
+
+                    <div class="col-12">
+                        <label for="subject_name" class="form-label">Subject Name</label>
+                        <input type="text" name="subject_name"  class="form-control" style="text-transform:uppercase"  required>
+  
+                    </div>
+
+                    <div class="col-12">
+                        <label for="subject_credit" class="form-label">Subject Credit</label>
+                        <input type="number" name="subject_credit"  class="form-control" min="0"  required>
+  
+                    </div>
+
+                    
+
+
+                    <div class="col-12">
+                      
+                      
+                    </div>
+                    <div class="col-15" style="display: inline-block">
+                      <button class="btn btn-primary w-20" type="submit" name="create_subject" id="create_subject">Create</button>&nbsp;
+                      <button class="btn btn-primary w-30" type="reset">Cancel</button>
+
+                    </div>
+            <!--
+                    <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                    </div>
+
+                    -->
+        </form>
+
+      </div>
+  </div>
+</div>
+
+ </div>
+</div>
+<div>
+    <br>
+    <br>
+    <br>
+    <br/>
+
+
+</div>
+
+  </main>
+
+  {% block cutom_js %}
+  <script>
+    $(document).ready(function(){
+      $("#subject_code").keyup(function(){
+        var subject_code =$(this).val();
+        subject_code = subject_code.toUpperCase();
+        var scheme_id = document.getElementsByName('scheme')[0].value;
+        console.log(scheme_id);
+        if(scheme_id == '0')
+        {
+          $(".subject_error").remove();
+          $("<span class='subject_error' style='padding: 5px;color:red;font-weight: bold;font-size: smaller;'><i class='bi bi-x-circle'></i></span> ").insertAfter("#scheme_check");
+          document.getElementById("create_subject").disabled = true;
+
+        }
+        else{
+
+          $.ajax({
+            url:'{% url 'check_subject_exist' %}',
+            type: 'POST',
+            data: {subject_code:subject_code, scheme_id:scheme_id}
+          })
+          .done(function(response){
+            console.log(response);
+            if(response == 'True'){
+              $(".subject_error").remove();
+              $("<span class='subject_error' style='padding: 5px;color:red;font-weight: bold;font-size: smaller;'>Subject code not available <i class='bi bi-x-circle'></i></span> ").insertAfter("#subject_code");
+              document.getElementById("create_subject").disabled = true;
+            }
+            else{
+              $(".subject_error").remove();
+              $("<span class='subject_error icon' style='padding: 5px;color:green;font-weight: bold;font-size: smaller;'>Subject code is available <i class='bi bi-check-circle'></i></span>").insertAfter("#subject_code");
+              document.getElementById("create_subject").disabled = false;
+  
+            }
+          })
+          .fail(function(){
+            console.log("failed");
+          })
+        }
+        
+
+      });
+    });
+  </script>
+{% endblock cutom_js %} 
+
+
+{% endblock %}
+
