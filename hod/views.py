@@ -23,7 +23,7 @@ from autoscraper import AutoScraper
 # Create your views here.
 # print(make_password('123'))
 # print(check_password('1', '1'))
-
+#print("abc")
 @login_required
 def hod_index(request):
     current_user = request.user
