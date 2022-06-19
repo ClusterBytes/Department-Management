@@ -3,3 +3,5 @@ dj_database_url
 whitenoise
 autoscraper
 pytest
+psycopg2
+pillow
