@@ -5,6 +5,7 @@ from email import message
 from functools import total_ordering
 from re import T
 import re
+from unicodedata import name
 from django.forms import Form
 from django.db.models import Sum, Max
 
@@ -1133,3 +1134,7 @@ def report(request, batch_id, semester):
 def log_out(request):
     logout(request)
     return redirect(login.views.login)
+
+# # def faculty_dashboard_attendance():
+# get course name
+# get 

@@ -37,7 +37,7 @@ def hod_index(request):
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
 
-    notif = request.session['notif']
+    # notif = request.session['notif']
 
     student_count = profile_student.objects.all().count()
     staff_count = profile.objects.all().count()
@@ -49,7 +49,7 @@ def hod_index(request):
         "staff_count": staff_count, 
         "student_count": student_count,
         'batch_count':batch_count,
-        'notif': notif
+        # 'notif': notif
     })
 
     '''status = 0
