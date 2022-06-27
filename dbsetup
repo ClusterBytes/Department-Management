@@ -1,0 +1,25 @@
+
+____________________________________________________________________
+
+To activate Virtual environment created:-
+source Venv/bin/activate (virtual env)
+
+
+For installing all the needed requirements:-
+pip install -r requirementnew.txt
+
+For installing postgres:-
+sudo apt install wget ca-certificates 
+sudo apt update
+apt install postgresql postgresql-contrib
+sudo -u postgres psql
+
+
+
+python manage.py migrate
+python manage.py
+python manage.py makemigrations
+python manage.py inspectdb
+python manage.py createsuperuser   (to make admin)
+python manage.py runserver 
+ 
