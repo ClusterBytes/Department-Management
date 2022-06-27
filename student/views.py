@@ -193,7 +193,10 @@ def student_profile(request):
                     'sem_result_list': sem_result_list
                 })
 
-
+def feedback(request):
+    return render(request,'feedback.html',{
+        'name':'sdsds'
+    })
 # logout
 def log_out(request):
     logout(request)
