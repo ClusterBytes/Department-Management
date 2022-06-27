@@ -1,4 +1,3 @@
-
 {% extends 'student_base.html' %}
 {% load static %}
 
@@ -8,26 +7,31 @@
   <div class="pagetitle">
     <h1>Feedback</h1>
   </div><!-- End Page Title -->
-  
-    <div class="row">
-        <div class="col-md-12">
-            <div class="stars">
-      <form action="">
-        <input class="star star-5" id="star-5" type="radio" name="star"/>
-        <label class="star star-5" for="star-5"></label>
-        <input class="star star-4" id="star-4" type="radio" name="star"/>   
-        <label class="star star-4" for="star-4"></label>  
-        <input class="star star-3" id="star-3" type="radio" name="star"/>   
-        <label class="star star-3" for="star-3"></label>   
-        <input class="star star-2" id="star-2" type="radio" name="star"/>  
-        <label class="star star-2" for="star-2"></label>  
-        <input class="star star-1" id="star-1" type="radio" name="star"/> 
-        <label class="star star-1" for="star-1"></label>  
-      </form>   
-    </div>          
-     </div>  
-    </div> 
-    
+
+  <div class="card">
+
+
+    <div class="card-body profile-card pt-3 d-flex flex-column align-items-center ">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown button
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </div>
+      <div class="form-group input-material">
+        <textarea class="form-control" id="textarea-field" rows="3" required></textarea>
+        <button type="button" class="btn btn-success">Submit</button>
+      </div>
+
+    </div>
+
+
+  </div>
+
 </main><!-- End #main -->
 
 {% endblock %}
