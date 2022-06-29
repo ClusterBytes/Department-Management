@@ -98,8 +98,16 @@ DATABASES = {
 import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'project_dms',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '123456789',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
+    'default':{
+         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'project_dms',
         'USER': 'postgres',
         'PASSWORD': '123456789',
