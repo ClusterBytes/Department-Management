@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'login',
     'home_page',
     'tutor',
+    'parent',
 ]
 
 MIDDLEWARE = [
