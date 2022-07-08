@@ -34,6 +34,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>  <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -50,7 +51,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="{% url 'hod_index' %}" class="logo d-flex align-items-center">
         <!--<img src="{% static 'assets/img/logo.png' %}" alt="">-->
-        <span class="d-none d-lg-block">CSE & IT DEPARTMENT    </span>
+        <span class="d-none d-lg-block"><STRONG><H6>DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</H6></STRONG>    </span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -251,6 +252,20 @@
           <li>
             <a href="{% url 'assign_subject_to_staff' %}">
               <i class="bi bi-circle"></i><span>Assign Subjects</span>
+            </a>
+          </li>
+        </ul>
+      </li> <!-- Manage batch -->
+
+        <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#my_subject" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>My Subjects</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="my_subject" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a href="{% url 'hod_view_my_subject' %}">
+              <i class="bi bi-circle"></i><span>View Subjects</span>
             </a>
           </li>
         </ul>
