@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'login',
     'home_page',
     'tutor',
-    'parent',
 ]
 
 MIDDLEWARE = [
@@ -98,15 +97,28 @@ DATABASES = {
 
 import dj_database_url
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'project_DMS',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456789',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+# '''DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'project_DMS',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456789',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }'''
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'project_dms',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '123456789',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
+    
     'default':{
          'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'project_dms',
@@ -124,7 +136,6 @@ DATABASES = {
     #     'PORT': '5432',
     # }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -180,3 +191,5 @@ AUTH_USER_MODEL = 'login.MyUser'
 
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+
