@@ -140,111 +140,401 @@
                 <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
                 -->
                 <h5 class="card-title">Profile Details</h5>
-                
-                {% for student_data in student_data  %}
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Admission No</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.register_no}}</div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">University No</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.university_no}}</div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Class</div>
-                  <div class="col-lg-9 col-md-8">{{batch_data.class_name}}</div>
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="">
+                      <button class="accordion-button"   aria-expanded="true" aria-controls="">
+                        <strong>Basic Details </strong>
+                      </button>
+                    </h2>
+                    <div id="" class="" aria-labelledby="" data-bs-parent="">
+                      <div class="accordion-body">
+                        {% for student_data in student_data  %}
+
+                        <div class="row">
+                          <div class="col-lg-6">
+
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title"></h5>
+
+                                <!-- Default Table -->
+                                <table class="table table-bordered">
+
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Gender
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.sex}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Date of Birth
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.date_of_birth}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Phone No
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.phone_no}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          E-mail id
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.email}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td><b>
+                                        Aadhaar No
+                                      </b>
+                                      </td>
+                                      <td>{{student_data.aadhar_no}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <!-- End Default Table Example -->
+                              </div>
+                            </div>
+
+                          </div>
+
+
+
+
+
+                        <div class="col-lg-6">
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+
+                                <tbody>
+
+                                  <tr>
+                                    <td><b>Caste</b></td>
+                                    <td>{{student_data.caste}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Religion</b></td>
+                                    <td>{{student_data.religion}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Nationality</b></td>
+                                    <td>{{student_data.nationality}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Native Place</b></td>
+                                    <td>{{student_data.native_place}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Blood Group</b></td>
+                                    <td>{{student_data.blood_group}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Roll No</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.roll_no}}</div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <strong style="color:#211e6b">Admission Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div class="col-lg-6">
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+
+                              <!-- Default Table -->
+                              <table class="table table-bordered">
+
+                                <tbody>
+                                  <tr>
+                                    <td><b>Admission No</b></td>
+                                    <td>{{student_data.register_no}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>University No</b></td>
+                                    <td>{{student_data.university_no}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Class</b></td>
+                                    <td>{{batch_data.class_name}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Roll No</b></td>
+                                    <td>{{student_data.roll_no}}</td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                              <!-- End Default Table Example -->
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+
+                                <tbody>
+
+                                  <tr>
+                                    <td>
+                                      <b>Semester</b>
+                                    </td>
+                                    <td>{{batch_data.semester}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+
+                                       <b> Scheme
+                                      </b>
+                                      </td>
+                                    <td>
+                                      {{scheme_data.scheme}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+
+                                        <b>Date of Join
+                                      </b>
+                                      </td>
+                                    <td>{{batch_data.date_of_join}}</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>
+
+                                      <b>Staff Adviser</td>
+                                    <td>#</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      </div>
+                      </div>
+
                 </div>
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Semester</div>
-                  <div class="col-lg-9 col-md-8">{{batch_data.semester}}</div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Scheme</div>
-                  <div class="col-lg-9 col-md-8">{{scheme_data.scheme}}</div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Date of Join</div>
-                  <div class="col-lg-9 col-md-8">{{batch_data.date_of_join}}</div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <strong style="color:#211e6b">Contact Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <section class="section contact">
+
+
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h3>Communication Address</h3>
+                                    <p>{{student_data.address}}</p>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h3>Permanent Address</h3>
+                                    <p>{{student_data.address}}</p>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-telephone"></i>
+                                    <h3>Mobile</h3>
+                                    <p>+91 {{student_data.phone_no}}</p>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-envelope"></i>
+                                    <h3>Email</h3>
+                                    <p>{{student_data.email}}</p>
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+
+                    </section>
+                    </div>
+                  </div>
                 </div>
 
-                <!--
-                  <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">First Name</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.first_name}}</div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      <strong style="color:#211e6b">Bank Account Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    #
+                    </div>
+                  </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Last Name</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.last_name}}</div>
-                </div>
-                -->
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFheadingFive" aria-expanded="false" aria-controls="collapseFheadingFive">
+                      <strong style="color:#211e6b">Qualification Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseFheadingFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div class="col-lg-6">
 
-                
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Gender</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.sex}}</div>
+                              <!-- Default Table -->
+                              <table class="table table-bordered">
+
+                                <tbody>
+                                  <tr>
+                                    <td><b>Qualification</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Board / University</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Qualified Year</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Total Marks</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Percentage</b></td>
+                                    <td>#</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td><b>Entrance Type</b></td>
+                                    <td>#</td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                              <!-- End Default Table Example -->
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+
+                                <tbody>
+
+                                  <tr>
+                                    <td><b>Physics Marks</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Chemistry Marks</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Maths Mark</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Entrance Rank</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Entrance Score</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Qualification Exam Certificates</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Date of Birth</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.date_of_birth}}</div>
-                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingSix">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFheadingSix" aria-expanded="false" aria-controls="collapseFheadingSix">
+                      <strong style="color:#211e6b">Guardian Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseFheadingSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Phone No</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.phone_no}}</div>
-                </div>
+                    </div>
+                  </div>
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">E-mail id </div>
-                  <div class="col-lg-9 col-md-8">{{student_data.email}}</div>
-                </div>
+              </div><!-- End Default Accordion Example -->
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.address}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Aadhaar No</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.aadhar_no}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Caste</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.caste}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Religion</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.religion}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Nationality</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.nationality}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Native Place</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.native_place}}</div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Blood Group</div>
-                  <div class="col-lg-9 col-md-8">{{student_data.blood_group}}</div>
-                </div>
 
                 {% endfor %}
                 

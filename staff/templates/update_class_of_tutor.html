@@ -108,14 +108,17 @@
         </div>
     </div>    
 	<div class="row">
-    <a href="{% url 'add_result' batch_id=batch_data.id %}"><button class="btn btn-success btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Add Result</button></a>
+    <a href="{% url 'add_result' batch_id=batch_data.id %}"><button class="btn btn-success btn-sm" style="float: right;display: inline"><i class="bi bi-person-plus"></i> Add Result</button></a>
 
-<br>
+<br><br>
       <!-- edit form column -->
      <div class="card">
 
       <div class="card-body">
-          <br/>
+      <br/>
+          <a href="{% url 'performance_analysis' batch_id=batch_data.id %}"><button class="btn btn-primary btn-sm" style="float: right;display: inline"> Performance analysis</button></a>
+
+
           <br>
 
         <form method="post" class="row g-3 needs-validation" >
@@ -488,6 +491,9 @@
                                         {% endif %}
                                       {% endfor %}
                                       </td>
+                                  <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                      </td>
                                         
                                   </tr>
                                   {% endif %}
@@ -542,6 +548,9 @@
                                           {{k.First_name}} {{k.Last_name}}
                                         {% endif %}
                                       {% endfor %}
+                                      </td>
+                                  <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
                                       </td>
                                         
                                   </tr>
@@ -598,6 +607,9 @@
                                         {% endif %}
                                       {% endfor %}
                                       </td>
+                                  <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                      </td>
                                         
                                   </tr>
                                   {% endif %}
@@ -653,6 +665,9 @@
                                         {% endif %}
                                       {% endfor %}
                                       </td>
+                                  <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                      </td>
                                   </tr>
                                   {% endif %}
                               {% endfor %}
@@ -706,6 +721,9 @@
                                           {{k.First_name}} {{k.Last_name}}
                                         {% endif %}
                                       {% endfor %}
+                                      </td>
+                                  <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
                                       </td>
                                         
                                   </tr>
@@ -768,6 +786,9 @@
                                     <td>
                                       <a href="{% url 'subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
                                     </td>
+                                  <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                      </td>
                                   </tr>
                                   {% endif %}
                               {% endfor %}
@@ -823,7 +844,9 @@
                                         {% endif %}
                                       {% endfor %}
                                       </td>
-                                    
+                                    <td>
+                                        <a href="{% url 'tutor_subject_wise_report' subject_id=j.subject_id batch_id=batch_data.id %}" ><button type="button" class="btn btn-success"><i class="bi bi-eye btn-sm"></i> View</button></a>
+                                      </td>
                                   </tr>
                                   {% endif %}
                               {% endfor %}

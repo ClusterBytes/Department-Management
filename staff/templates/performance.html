@@ -1,0 +1,203 @@
+{% extends 'staff_base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+  <main id="main" class="main">
+
+
+
+    <div class="col-lg-6">
+
+        <div class="container">
+
+          <h2 class="card-title-size">S{{batch_data.semester}} {{batch_data.class_name}}</h2>
+
+            <br/>
+        </div>
+    </div>
+	<div class="row">
+
+<br><br>
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+      <br/>
+
+
+          <br>
+
+        <form method="post" class="row g-3 needs-validation" >
+             {% csrf_token %}
+
+
+            {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+            <br>
+
+
+
+
+                    <div class="col-6">
+                      <label class="col-sm-2 col-form-label">Semester</label>
+                      <div class="col-sm-12">
+                        <select class="form-select" name="semester" aria-label="Default select example" >
+
+
+                          <option value="1" selected>1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+
+
+
+                        </select>
+                      </div>
+                    </div>
+        <div class="col-6">
+                      <label class="col-sm-2 col-form-label">Student</label>
+                      <div class="col-sm-12">
+                        <select class="form-select" name="student" aria-label="Default select example" >
+
+
+                          <option value="0" selected>None</option>
+                            {% for i in student_data %}
+                                <option value="{{ i.id }}">{{ i.first_name }} {{ i.last_name }}</option>
+                            {% endfor %}
+
+
+
+
+
+                        </select>
+                      </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <div>
+                    </div>
+                    <div class="col-2" >
+                      <label class="form-label"><br></label>
+                      <button class="btn btn-primary w-20 form-control" name="update_semester" style="width: 94px;" type="submit"> Submit </button>
+                    </div>
+            <!--
+                    <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                    </div>
+
+                    -->
+        </form>
+
+    <h3>{{ data }} {{ sub_name }}</h3>
+
+
+
+
+  </div>
+  <br>
+  <section class="section">
+
+<div class="col-12">
+              <div class="card">
+
+                <div class="filter">
+
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Result Analysis<span>    | Predicted semester {{ predicted_sem }} result</span></h5>
+
+                  <!-- Line Chart -->
+                  <div id="reportsChart"></div>
+
+                  <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [{
+                          name: 'SGPA',
+                          data: {{ data }}
+                        }],
+                        chart: {
+                          height: 350,
+                          type: 'area',
+                          toolbar: {
+                            show: false
+                          },
+                        },
+                        markers: {
+                          size: 4
+                        },
+                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        fill: {
+                          type: "gradient",
+                          gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.3,
+                            opacityTo: 0.4,
+                            stops: [0, 90, 100]
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        stroke: {
+                          curve: 'smooth',
+                          width: 2
+                        },
+                        xaxis: {
+                          type: 'string',
+                          categories: ['wedf','ewd','ed']
+                        },
+                        tooltip: {
+                          x: {
+
+                          },
+                        }
+                      }).render();
+                    });
+                  </script>
+                  <!-- End Line Chart -->
+                <h6 style="text-align: center">Semester</h6>
+                </div>
+
+              </div>
+            </div><!-- End Reports -->
+
+
+
+
+</div>
+</div>
+ </div>
+</div>
+<div>
+
+    <br>
+    <br>
+    <br>
+    <br/>
+
+
+</div>
+
+  </main>
+
+{% endblock %}
+
