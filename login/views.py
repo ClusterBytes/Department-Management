@@ -4,35 +4,43 @@ from django.shortcuts import render, redirect
 from .models import AuthenticationBackend, MyUser
 from django.contrib import messages
 import student
-from django.contrib.auth import  login
+from django.contrib.auth import login
+
 
 # Create your views here.
 
 
-
 def login_page(request):
-
     if request.method == 'POST':
         username1 = request.POST.get('username')
         password1 = request.POST.get('password')
         # bug in login
-        #user = AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = True ,  is_faculty=False, is_student=False)
-        #print(user)
-        if AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = True ,  is_faculty=False, is_student=False) is not None:
-            user = AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = True ,  is_faculty=False, is_student=False)
+        # user = AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = True ,  is_faculty=False, is_student=False)
+        # print(user)
+        if AuthenticationBackend.authenticate(self=None, request=request, username=username1, password=password1,
+                                              is_hod=True, is_faculty=False, is_student=False) is not None:
+            user = AuthenticationBackend.authenticate(self=None, request=request, username=username1,
+                                                      password=password1, is_hod=True, is_faculty=False,
+                                                      is_student=False)
 
             login(request, user)
             # Redirect to a success page.
             return redirect('hod_index')
-        elif AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = False ,  is_faculty=True, is_student=False) is not None:
-            user = AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = False ,  is_faculty=True, is_student=False) 
+        elif AuthenticationBackend.authenticate(self=None, request=request, username=username1, password=password1,
+                                                is_hod=False, is_faculty=True, is_student=False) is not None:
+            user = AuthenticationBackend.authenticate(self=None, request=request, username=username1,
+                                                      password=password1, is_hod=False, is_faculty=True,
+                                                      is_student=False)
             login(request, user)
             # Redirect to a success page.
             return redirect('staff_index')
 
-        elif AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = False ,  is_faculty=False, is_student=True) is not None:
-            user = AuthenticationBackend.authenticate(self=None,request=request, username=username1, password=password1, is_hod = False ,  is_faculty=False, is_student=True) 
-            
+        elif AuthenticationBackend.authenticate(self=None, request=request, username=username1, password=password1,
+                                                is_hod=False, is_faculty=False, is_student=True) is not None:
+            user = AuthenticationBackend.authenticate(self=None, request=request, username=username1,
+                                                      password=password1, is_hod=False, is_faculty=False,
+                                                      is_student=True)
+
             login(request, user)
             # Redirect to a success page.
             return redirect('student_index')

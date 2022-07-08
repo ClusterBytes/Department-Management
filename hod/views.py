@@ -1,5 +1,6 @@
 from ast import For
 import code
+from datetime import date, datetime
 from itertools import count
 from django.http import HttpResponseRedirect
 from django.http.response import HttpResponse, HttpResponseBadRequest
@@ -9,7 +10,8 @@ from django.contrib.auth import logout
 from django.db.models import Sum, Max
 
 import login
-from hod.models import Internal_mark, attendance, attendance_record, batch, scheme, semester_result, subject, subject_to_staff
+from hod.models import Internal_mark, attendance, attendance_record, batch, scheme, semester_result, subject, \
+    subject_to_staff
 from login.models import MyUser
 from staff.models import profile
 from student.models import parents, profile_student, qualifications
@@ -20,65 +22,75 @@ import hod
 from django.contrib.auth.decorators import login_required
 from autoscraper import AutoScraper
 
+
 # Create your views here.
 # print(make_password('123'))
 # print(check_password('1', '1'))
-#print("abc")
+
 @login_required
 def hod_index(request):
+    url = 'https://ktu.edu.in/eu/core/announcements.htm'
+
+    try:
+        # url = 'https://ktu.edu.in/home.htm'
+
+        wanted_list = ['ANNOUNCEMENTS', 'Dec 24, 2021', 'Exam Registration opened - B.Tech S3 and S5 (supplementary) '
+                                                        'Jan 2022']
+        scraper = AutoScraper()
+        result = scraper.build(url, wanted_list)
+        data1 = result[0]
+        data2 = result[1]
+        data3 = result[2]
+
+        notif = {'data1': data1,
+                 'data2': data2,
+                 'data3': data3
+                 }
+        #request.session['notif'] = notif
+
+
+    except:
+
+        notif = {'data1': "KTU site cannot reach"}
+        request.session['notif'] = notif
+
     current_user = request.user
-    print (current_user.id)
-    #print( request.session['user'])
-    #return redirect(view_faculty)
+    print(current_user.id)
+    # print( request.session['user'])
+    # return redirect(view_faculty)
     current_user = request.user
-    staff_id=current_user.username
-    #staff_id = request.session['hod_username']
+    staff_id = current_user.username
+    # staff_id = request.session['hod_username']
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
 
-    notif = request.session['notif']
+    # notif = request.session['notif']
 
+    years = []
+    data = []
     student_count = profile_student.objects.all().count()
+    batch_data = batch.objects.all()
+    for i in batch_data:
+        dat = i.date_of_join
+        print(dat.year)
+        years.append(dat.year)
+        st_count = profile_student.objects.filter(batch=i.id).count()
+        data.append(st_count)
+    print(years, data)
     staff_count = profile.objects.all().count()
     batch_count = batch.objects.all().count()
     return render(request, 'hod_index.html',
-    {
-        'context':context,
-        'data_for_self_profile': staff_details_1,
-        "staff_count": staff_count, 
-        "student_count": student_count,
-        'batch_count':batch_count,
-        'notif': notif
-    })
-
-    '''status = 0
-    try:
-        status_new = request.session['status']
-    except:
-        status += 1
-
-    # print(user_name)
-    # full_name = request.session['full_name']
-    # if 'user_name' == user_name:
-    #  return redirect(login.views.login)
-    # else:
-
-    if status == 0:
-        # name = request.session['name']
-        staff_id = request.session['hod_username']
-        staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
-        name = staff_details_1.First_name + " " + staff_details_1.Last_name
-        context = {'name': name}
-        staff_count = profile.objects.all().count()
-        student_count = profile_student.objects.all().count()
-
-        #return render(request, 'hod_index.html',
-        #              {"staff_count": staff_count, "student_count": student_count, "context": context,
-        #               "data_for_self_profile": staff_details_1})
-        return redirect(view_faculty)
-    else:
-        return redirect(login.views.login_page)'''
+                  {
+                      'context': context,
+                      'data_for_self_profile': staff_details_1,
+                      "staff_count": staff_count,
+                      "student_count": student_count,
+                      'batch_count': batch_count,
+                      'years': years,
+                      'data': data,
+                      'notif': notif,
+                  })
 
 
 # staff code
@@ -86,8 +98,8 @@ def hod_index(request):
 def add_staff(request):
     # name = request.session['name']
     current_user = request.user
-    staff_id=current_user.username
-    #staff_id = request.session['hod_username']
+    staff_id = current_user.username
+    # staff_id = request.session['hod_username']
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -109,19 +121,18 @@ def add_staff(request):
                 messages.error(request, 'User already exist')
             else:
                 # enc_pswrd = make_password(password1)
-                #user = super().save(commit=False)
-                password= make_password(password1)
+                # user = super().save(commit=False)
+                password = make_password(password1)
                 MyUser.objects.create(username=username,
-                                    first_name=first_name,
-                                    last_name=last_name,
-                                    password=password,
-                                    is_faculty=True,
-                                    is_active=True,
-                                    is_student=False,
-                                    is_hod=False
-                                    
+                                      first_name=first_name,
+                                      last_name=last_name,
+                                      password=password,
+                                      is_faculty=True,
+                                      is_active=True,
+                                      is_student=False,
+                                      is_hod=False
 
-                                    )
+                                      )
 
                 profile.objects.create(Faculty_unique_id=username, First_name=first_name, Last_name=last_name,
                                        Date_of_Joining=date_of_joining)
@@ -129,12 +140,13 @@ def add_staff(request):
 
     return render(request, 'add_staff.html', {"context": context, "data_for_self_profile": staff_details_1})
 
+
 @login_required
 def view_faculty(request):
     # name = request.session['name']
     current_user = request.user
     staff_id = current_user.username
-    #print(staff)
+    # print(staff)
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -147,10 +159,11 @@ def view_faculty(request):
                    'batch_data': batch_data
                    })
 
+
 @login_required
 def delete_faculty(request, f_id):
     # check the faculty for delete is hod or not
-    login_data = User.objects.get(username=f_id)
+    login_data = MyUser.objects.get(username=f_id)
     f_data = profile.objects.get(Faculty_unique_id=f_id)
 
     if login_data.is_hod:
@@ -164,10 +177,10 @@ def delete_faculty(request, f_id):
         return redirect(view_faculty)
 
 
+@login_required
 def faculty_profile(request, f_id):
     # name = request.session['name']
     current_user = request.user
-    
 
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
@@ -178,14 +191,16 @@ def faculty_profile(request, f_id):
     date = str(staff_details.Date_of_Joining)
     dob = str(staff_details.Date_of_Birth)
 
-    print(staff_details.Profile_photo)
+    print(staff_details.Profile_photo.url)
 
     if 'edit_profile' in request.POST:
+        photo = request.POST.get('profile_photo')
+        print(photo)
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         faculty_unique_id = request.POST.get('faulty_unique_id')
         gender = request.POST.get('gender')
-
+        print(first_name)
         if gender == '0':
             messages.error(request, 'Please select the valid gender')
         else:
@@ -254,6 +269,7 @@ def faculty_profile(request, f_id):
                    "data_for_self_profile": staff_details_1})
 
 
+@login_required
 # student view
 @csrf_exempt
 def check_user_exist(request):
@@ -265,10 +281,10 @@ def check_user_exist(request):
         return HttpResponse(False)
 
 
+@login_required
 def add_student(request):
     # name = request.session['name']
     current_user = request.user
-    
 
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
@@ -309,17 +325,17 @@ def add_student(request):
                     messages.error(request, 'User already exist')
                 else:
                     # insert only the year in student profile (column : year_of_join)
-                    password= make_password(password1)
+                    password = make_password(password1)
                     MyUser.objects.create(username=username,
-                                        first_name=first_name,
-                                        last_name=last_name,
-                                        password=password,
-                                        is_faculty=False,
-                                        is_active=True,
-                                        is_student=True,
-                                        is_hod=False
-                                        
-                                        )
+                                          first_name=first_name,
+                                          last_name=last_name,
+                                          password=password,
+                                          is_faculty=False,
+                                          is_active=True,
+                                          is_student=True,
+                                          is_hod=False
+
+                                          )
 
                     profile_student.objects.create(
                         register_no=username,
@@ -329,8 +345,8 @@ def add_student(request):
                         scheme_id=batch_data.scheme
                     )
                     s_id = MyUser.objects.latest('id')
-                    qualifications.objects.create(s_id=s_id.id )
-                    parents.objects.create(s_id=s_id.id )
+                    qualifications.objects.create(s_id=s_id.id)
+                    parents.objects.create(s_id=s_id.id)
 
                     messages.error(request, 'Student ' + full_name + ' successfully added in ' + batch_data.class_name)
 
@@ -344,6 +360,7 @@ def add_student(request):
                   )
 
 
+@login_required
 def view_student(request):
     # name = request.session['name']
     current_user = request.user
@@ -416,10 +433,10 @@ def view_student(request):
 
 # batch details 
 
+@login_required
 def create_batch(request):
     # name = request.session['name']
     current_user = request.user
-    
 
     staff_id = current_user.username
 
@@ -463,10 +480,10 @@ def create_batch(request):
                    "tutor_data": tutor_data})
 
 
+@login_required
 def view_batch(request):
     # name = request.session['name']
     current_user = request.user
-    
 
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
@@ -480,10 +497,10 @@ def view_batch(request):
                                                "data_for_self_profile": staff_details_1, "tutor_data": tutor_data})
 
 
+@login_required
 def edit_batch(request, b_id):
     # name = request.session['name']
     current_user = request.user
-    
 
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
@@ -500,12 +517,28 @@ def edit_batch(request, b_id):
     student_data = profile_student.objects.filter(batch=b_id)
     staff_data = profile.objects.all()
     subject_data = subject.objects.all()
-
-    assign_subject_data = subject_to_staff.objects.filter(batch_id=b_id)
-    sem_result = semester_result.objects.filter(batch_id=b_id)
-
     subject_in_sem = subject_to_staff.objects.filter(batch_id=b_id)
+    assign_subject_data = subject_to_staff.objects.filter(batch_id=b_id)
 
+    sem_result_list = []
+    for i in assign_subject_data:
+        for st_data in student_data:
+            max_chances = semester_result.objects.filter(subject_id=i.subject_id,
+                                                         university_no=st_data.university_no).aggregate(
+                Max('no_of_chances'))
+
+            sem_result_data = semester_result.objects.filter(subject_id=i.subject_id,
+                                                             university_no=st_data.university_no,
+                                                             no_of_chances=max_chances['no_of_chances__max'])
+
+            print(max_chances['no_of_chances__max'])
+            for result in sem_result_data:
+                print(result)
+                sem_result_tuple = (
+                    i.subject_id, st_data.university_no, i.semester, result.grade_point, result.no_of_chances)
+                sem_result_list.append(sem_result_tuple)
+    print(sem_result_list)
+    sem_result = semester_result.objects.filter(batch_id=b_id)
 
     if request.method == 'POST':
         # class_name = request.POST.get('class_name')
@@ -533,43 +566,25 @@ def edit_batch(request, b_id):
             edit_data1.save()
             messages.error(request, 'Successfully Updated')
             return redirect(hod.views.view_batch)
-            '''
-            sh_data = int(scheme_input)
-            data = batch.objects.filter(class_name=class_name, date_of_join=date_of_join, semester=semester, scheme=sh_data)
-
-            if data:
-
-                messages.error(request, 'The class already exist')
-
-            else:
-
-                edit_data.class_name = class_name
-                edit_data.date_of_join = date_of_join
-                edit_data.semester = semester
-                edit_data.scheme = sh_data
-                edit_data.save()
-
-                # update_student = profile_student.objects.filter(class_name=class_name1, year_of_join=year_only)
-                messages.error(request, 'Successfully added the class ' + class_name + ' year ' + date_of_join)
-                return redirect(hod.views.view_batch)
-            '''
 
     return render(request, 'edit_batch.html',
                   {
                       'edit_data': edit_data, 'context': context, 'scheme_data': scheme_data, 'date': join_date,
-                   "data_for_self_profile": staff_details_1
+                      "data_for_self_profile": staff_details_1
                       , 'present_scheme': edit_scheme_data,
-                   'tutor_data': tutor_data,
-                   'student_data': student_data,
-                   'subject_data': subject_data,
-                   'assign_subject_data': assign_subject_data,
-                   'staff_data':staff_data,
-                   'semester_result':sem_result,
-                'subject_in_sem':subject_in_sem
+                      'tutor_data': tutor_data,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'assign_subject_data': assign_subject_data,
+                      'staff_data': staff_data,
+                      'sem_result_list': sem_result_list,
+                      'subject_in_sem': subject_in_sem,
+                      'batch_id': b_id
 
-                   })
+                  })
 
 
+@login_required
 def delete_batch(request, b_id):
     # Print(join_date, class_name1)
 
@@ -596,10 +611,10 @@ def delete_batch(request, b_id):
 
 # Manage scheme
 
+@login_required
 def create_scheme(request):
     # name = request.session['name']
     current_user = request.user
-    
 
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
@@ -622,6 +637,7 @@ def create_scheme(request):
     return render(request, 'create_scheme.html', {'context': context, "data_for_self_profile": staff_details_1})
 
 
+@login_required
 def view_scheme(request):
     # name = request.session['name']
     current_user = request.user
@@ -639,11 +655,12 @@ def view_scheme(request):
 
 # Manage Subject
 
+@login_required
 def create_subject(request):
     # name = request.session['name']
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -668,7 +685,7 @@ def create_subject(request):
 
             return redirect(create_subject)
             # return redirect(request, 'create_subject.html',
-             #             {'context': context, 'scheme_data': scheme_data, "data_for_self_profile": staff_details_1})
+            #             {'context': context, 'scheme_data': scheme_data, "data_for_self_profile": staff_details_1})
 
         else:
             messages.error(request, "The Subject code already exist!")
@@ -677,6 +694,7 @@ def create_subject(request):
 
     return render(request, 'create_subject.html',
                   {'context': context, 'scheme_data': scheme_data, "data_for_self_profile": staff_details_1})
+
 
 
 @csrf_exempt
@@ -689,12 +707,13 @@ def check_subject_exist(request):
     else:
         return HttpResponse(False)
 
+@login_required
 
 def view_subject(request):
     # name = request.session['name']
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -737,7 +756,9 @@ def view_subject(request):
                            })
 
     return render(request, 'view_subject.html',
-                  {'context': context, 'scheme_data': scheme_data, "data_for_self_profile": staff_details_1,
+                  {'context': context,
+                   'scheme_data': scheme_data,
+                   "data_for_self_profile": staff_details_1,
                    "view_subject": view_subject_all,
                    'assign_subject_data': assign_subject_data,
                    'none': none,
@@ -746,11 +767,12 @@ def view_subject(request):
                    })
 
 
+@login_required
 def edit_subject(request, subject_id):
     # name = request.session['name']
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -795,10 +817,11 @@ def edit_subject(request, subject_id):
                    })
 
 
+@login_required
 def assign_subject_to_staff(request):
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -807,6 +830,9 @@ def assign_subject_to_staff(request):
     scheme_data = scheme.objects.all()
     subject_data = subject.objects.all()
     faculty = profile.objects.all()
+
+    assign_subject_data = subject_to_staff.objects.all()
+    faculty_data = profile.objects.all()
 
     if request.method == 'POST':
         batch_id = int(request.POST.get('batch_id'))
@@ -848,10 +874,13 @@ def assign_subject_to_staff(request):
                    'batch_class': batch_data_class,
                    'scheme_data': scheme_data,
                    'subject_data': subject_data,
-                   'faculty': faculty
+                   'faculty': faculty,
+                   'assign_subject_data': assign_subject_data,
+                   'faculty_data': faculty_data
                    })
 
 
+@login_required
 def delete_subject(request, subject_id):
     subject_for_delete = subject.objects.get(id=subject_id)
     subject_for_delete.delete()
@@ -861,10 +890,11 @@ def delete_subject(request, subject_id):
 
 # manage all batch data 
 
+@login_required
 def batch_details(request, b_id):
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
@@ -873,17 +903,18 @@ def batch_details(request, b_id):
 
 # manage tutors
 
+@login_required
 def view_tutor(request):
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
     return render(request, 'view_tutor.html', {'context': context, "data_for_self_profile": staff_details_1})
 
 
-
+@login_required
 def subject_wise_report(request, subject_id, batch_id):
     print(subject_id)
     current_user = request.user
@@ -902,8 +933,8 @@ def subject_wise_report(request, subject_id, batch_id):
     # check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
     internal_mark = Internal_mark.objects.filter()
 
-    
-    total_attendance = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id).aggregate(Sum('no_of_hours'))
+    total_attendance = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id).aggregate(
+        Sum('no_of_hours'))
 
     attendance_record_data = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id)
     total_hour = total_attendance['no_of_hours__sum']
@@ -911,10 +942,7 @@ def subject_wise_report(request, subject_id, batch_id):
         messages.error(request, "Attendance not entered ")
         return redirect(edit_batch, batch_id)
     print(total_attendance, total_hour, type(total_hour))
-    
-    
 
-    
     attendance_data = attendance.objects.filter(batch_id=batch_id, subject_id=subject_id)
 
     attenance_list = []
@@ -923,16 +951,16 @@ def subject_wise_report(request, subject_id, batch_id):
         for j in attendance_data:
             if i.id == j.student_id:
                 if j.present == True:
-                    id1 =j.attendance_record_id
+                    id1 = j.attendance_record_id
                     # print('id',id1, type(id1))
                     no_of_hours_taken = attendance_record.objects.get(id=id1)
-                    
-                    hour = hour +  int(no_of_hours_taken.no_of_hours)
 
-        percentage_attendance = (hour/total_hour)*100
+                    hour = hour + int(no_of_hours_taken.no_of_hours)
+
+        percentage_attendance = (hour / total_hour) * 100
         # print(i.first_name, hour)
         att_tuple = (i.register_no, percentage_attendance)
-        attenance_list.append(att_tuple)   
+        attenance_list.append(att_tuple)
 
     mark_data = Internal_mark.objects.filter(subject_id=subject_id)
 
@@ -940,35 +968,36 @@ def subject_wise_report(request, subject_id, batch_id):
     for i in student_data:
         for j in mark_data:
             if i.id == j.student_id:
-                sum_of_mark = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id).aggregate(Sum('mark'))
+                sum_of_mark = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id).aggregate(
+                    Sum('mark'))
                 total_internal = sum_of_mark['mark__sum']
                 mark_tupple = (i.register_no, total_internal)
         total_mark_list.append(mark_tupple)
 
-
-
     return render(request, 'hod_subject_wise_report.html',
-    {
-        'context':context,
-        'student_data':student_data,
-        'subject_data':subject_data,
-        'batch_data':batch_data,
-        # 'check_subject_exist': check_subject_exist,
-        'internal_mark':internal_mark,
-        'attendance_data':attendance_data,
-        'attendance_record_data':attendance_record_data,
-        'attendance_list':attenance_list,
-        'total_mark_list':total_mark_list
-    })
+                  {
+                      'context': context,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'batch_data': batch_data,
+                      # 'check_subject_exist': check_subject_exist,
+                      'internal_mark': internal_mark,
+                      'attendance_data': attendance_data,
+                      'attendance_record_data': attendance_record_data,
+                      'attendance_list': attenance_list,
+                      'total_mark_list': total_mark_list
+                  })
 
+
+@login_required
 def view_student_details(request, student_id):
     current_user = request.user
     staff_id = current_user.username
-    
+
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
-    
+
     print(student_id)
     id = int(student_id)
     student_data = profile_student.objects.filter(id=id)
@@ -981,8 +1010,6 @@ def view_student_details(request, student_id):
         date_of_birth = i.date_of_birth
         name_first = i.first_name
         name_last = i.last_name
-
-    
 
     batch_data = batch.objects.get(id=batch_id)
     scheme_id = batch_data.scheme
@@ -1002,18 +1029,19 @@ def view_student_details(request, student_id):
         sum_of_mark = Internal_mark.objects.filter(student_id=id, subject_id=i.subject_id).aggregate(Sum('mark'))
         total_internal = sum_of_mark['mark__sum']
         st_data = profile_student.objects.get(id=id)
-        mark_tupple = (i.subject_id, st_data.register_no,i.semester, total_internal)
-                # x print(mark_tupple)
+        mark_tupple = (i.subject_id, st_data.register_no, i.semester, total_internal)
+        # x print(mark_tupple)
         total_mark_list.append(mark_tupple)
 
-        total_attendance = attendance_record.objects.filter(batch_id=batch_id, subject_id=i.subject_id).aggregate(Sum('no_of_hours'))
+        total_attendance = attendance_record.objects.filter(batch_id=batch_id, subject_id=i.subject_id).aggregate(
+            Sum('no_of_hours'))
         attendance_record_data = attendance_record.objects.filter(batch_id=batch_id, subject_id=i.subject_id)
         total_hour = total_attendance['no_of_hours__sum']
-        print('total_hour',total_hour, type(total_hour))
+        print('total_hour', total_hour, type(total_hour))
         attendance_data = attendance.objects.filter(batch_id=batch_id, subject_id=i.subject_id)
 
         if total_hour == None:
-            att_tuple = (i.subject_id, st_data.register_no,i.semester, 0)
+            att_tuple = (i.subject_id, st_data.register_no, i.semester, 0)
             attendance_list.append(att_tuple)
 
         else:
@@ -1021,31 +1049,30 @@ def view_student_details(request, student_id):
             for j in attendance_data:
                 if st_data.id == j.student_id:
                     if j.present == True:
-                        id1 =j.attendance_record_id
+                        id1 = j.attendance_record_id
                         # print('id',id1, type(id1))
                         no_of_hours_taken = attendance_record.objects.get(id=id1)
-                    
-                        hour = hour +  no_of_hours_taken.no_of_hours
-            percentage_attendance = round((hour/total_hour)*100, 2)
+
+                        hour = hour + no_of_hours_taken.no_of_hours
+            percentage_attendance = round((hour / total_hour) * 100, 2)
             print(st_data.first_name, hour)
-            att_tuple = (i.subject_id, st_data.register_no,i.semester, percentage_attendance)
+            att_tuple = (i.subject_id, st_data.register_no, i.semester, percentage_attendance)
             attendance_list.append(att_tuple)
 
-        max_chances = semester_result.objects.filter(subject_id = i.subject_id, university_no=st_data.university_no).aggregate(Max('no_of_chances')) 
-        
-        sem_result_data = semester_result.objects.filter(subject_id = i.subject_id,university_no=st_data.university_no, no_of_chances=max_chances['no_of_chances__max'])
-        
+        max_chances = semester_result.objects.filter(subject_id=i.subject_id,
+                                                     university_no=st_data.university_no).aggregate(
+            Max('no_of_chances'))
+
+        sem_result_data = semester_result.objects.filter(subject_id=i.subject_id, university_no=st_data.university_no,
+                                                         no_of_chances=max_chances['no_of_chances__max'])
+
         print(max_chances['no_of_chances__max'])
         for result in sem_result_data:
             print(result)
-            sem_result_tuple = (i.subject_id, st_data.register_no,i.semester, result.grade_point, result.no_of_chances)
+            sem_result_tuple = (i.subject_id, st_data.register_no, i.semester, result.grade_point, result.no_of_chances)
             sem_result_list.append(sem_result_tuple)
-    #print(attendance_list)    
+    # print(attendance_list)
     # print(total_mark_list)
-
-    
-
-    
 
     if 'edit_profile' in request.POST:
 
@@ -1072,7 +1099,7 @@ def view_student_details(request, student_id):
             messages.error(request, "Please select a valid blood Group")
             return redirect(view_student_details, student_id)
         else:
-            
+
             student_data1 = profile_student.objects.get(id=id)
             username = student_data1.register_no
             user_data = MyUser.objects.get(username=username)
@@ -1115,7 +1142,7 @@ def view_student_details(request, student_id):
         if new_password != renew_password:
             messages.error(request, "Password mismatch")
             return redirect(view_student_details, student_id)
-        #elif current_password != user_password:
+        # elif current_password != user_password:
         #    messages.error(request, "incorrect old password")
         else:
             user_data.password = new_password
@@ -1125,21 +1152,474 @@ def view_student_details(request, student_id):
 
     return render(request, 'view_student_details.html',
                   {
-                      'student_data': student_data, 
-                      'scheme_data': scheme_data, 
+                      'student_data': student_data,
+                      'scheme_data': scheme_data,
                       'batch_data': batch_data,
-                      'date_dob': date_dob, 
+                      'date_dob': date_dob,
                       'context': context,
-                      'assign_subject_data':assign_subject_data,
-                      'subject_data':subject_data,
+                      'assign_subject_data': assign_subject_data,
+                      'subject_data': subject_data,
                       'internal_mark_data': internal_mark_data,
                       "data_for_self_profile": staff_details_1,
-                      'total_mark_list':total_mark_list,
-                      'attendance_list' : attendance_list,
+                      'total_mark_list': total_mark_list,
+                      'attendance_list': attendance_list,
                       'sem_result_list': sem_result_list,
-                      'student_q_details':student_q_details,
-                      'parent_details':parent_details
-                    })
+                      'student_q_details': student_q_details,
+                      'parent_details': parent_details
+                  })
+
+
+@login_required
+def hod_subject_wise_report(request, subject_id, batch_id, ):
+    print(subject_id)
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+
+    student_data = profile_student.objects.filter(batch=batch_id).order_by('roll_no')
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    # staff_id = staff_details.id
+    # check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
+    internal_mark = Internal_mark.objects.filter()
+
+    total_attendance = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id).aggregate(
+        Sum('no_of_hours'))
+
+    attendance_record_data = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id)
+    total_hour = total_attendance['no_of_hours__sum']
+    if total_hour == None:
+        messages.error(request, "Attendance not entered ")
+        return redirect(edit_batch, batch_id)
+    print(total_attendance, total_hour, type(total_hour))
+
+    attendance_data = attendance.objects.filter(batch_id=batch_id, subject_id=subject_id)
+
+    attenance_list = []
+    for i in student_data:
+        hour = 0
+        for j in attendance_data:
+            if i.id == j.student_id:
+                if j.present == True:
+                    id1 = j.attendance_record_id
+                    # print('id',id1, type(id1))
+                    no_of_hours_taken = attendance_record.objects.get(id=id1)
+
+                    hour = hour + int(no_of_hours_taken.no_of_hours)
+
+        percentage_attendance = (hour / total_hour) * 100
+        # print(i.first_name, hour)
+        att_tuple = (i.register_no, percentage_attendance)
+        attenance_list.append(att_tuple)
+
+    mark_data = Internal_mark.objects.filter(subject_id=subject_id)
+
+    total_mark_list = []
+    for i in student_data:
+        for j in mark_data:
+            if i.id == j.student_id:
+                sum_of_mark = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id).aggregate(
+                    Sum('mark'))
+                total_internal = sum_of_mark['mark__sum']
+                mark_tupple = (i.register_no, total_internal)
+        total_mark_list.append(mark_tupple)
+
+    return render(request, 'hod_subject_wise_report.html',
+                  {
+                      'context': context,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'batch_data': batch_data,
+                      # 'check_subject_exist': check_subject_exist,
+                      'internal_mark': internal_mark,
+                      'attendance_data': attendance_data,
+                      'attendance_record_data': attendance_record_data,
+                      'attendance_list': attenance_list,
+                      'total_mark_list': total_mark_list,
+                      "data_for_self_profile": staff_details_1
+                  })
+
+
+@login_required
+def hod_view_my_subject(request):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+    scheme_data = scheme.objects.all()
+    view_subject_all = subject.objects.all()
+    assign_subject_data = subject_to_staff.objects.all()
+    none = "None"
+    staff_data = profile.objects.all()
+    batch_data = batch.objects.all()
+
+    assigned_subject_to_this_staff = subject_to_staff.objects.filter(staff_id=staff_details_1.id)
+
+    return render(request, 'hod_view_my_subject.html',
+                  {
+                      'scheme_data': scheme_data,
+                      "view_subject": view_subject_all,
+                      'assign_subject_data': assign_subject_data,
+                      'none': none,
+                      'staff_data': staff_data,
+                      'batch_data': batch_data,
+                      'context': context,
+                      'subject_to_this_staff': assigned_subject_to_this_staff,
+                      "data_for_self_profile": staff_details_1
+                  })
+
+
+@login_required
+def hod_update_class(request, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+
+    # print(batch_id, subject_id)
+    batch_id = int(batch_id)
+    subject_id = int(subject_id)
+
+    staff_id = staff_details_1.id
+    check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
+
+    subject_data = subject.objects.all()
+    student_data = profile_student.objects.all()
+    batch_data = batch.objects.all()
+    staff_data = profile.objects.all()
+    att_record = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id)
+    subject_to_staff_data = subject_to_staff.objects.filter(batch_id=batch_id, subject_id=subject_id)
+
+    from datetime import date
+    today = date.today()
+
+    check_today_attendance_marked = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id,
+                                                                     date=today)
+    if check_today_attendance_marked:
+        marked = True
+    else:
+        marked = False
+
+    for i in batch_data:
+        # Join date
+        date = str(i.date_of_join)
+
+    if 'assign' in request.POST:
+        # request.session['batch_id'] = batch_id
+        # request.session['subject_id'] = subject_id
+        return redirect(hod_my_subject_add_attendance, batch_id, subject_id)
+
+    if 'internal' in request.POST:
+        # request.session['batch_id'] = batch_id
+        # request.session['subject_id'] = subject_id
+        return redirect(hod_my_subject_add_internal, batch_id, subject_id)
+
+    if 'result' in request.POST:
+        # request.session['batch_id'] = batch_id
+        # request.session['subject_id'] = subject_id
+        return redirect(hod_my_subject_view_internal_result, batch_id, subject_id)
+
+    # if 'view_attendance' in request.POST:
+    #    return redirect(view_attendance, batch_id, subject_id, )
+
+    return render(request, 'hod_update_class.html', {
+        'context': context,
+        'check_subject_exist': check_subject_exist,
+        'subject_data': subject_data,
+        'student_data': student_data,
+        'batch_data': batch_data,
+        'staff_data': staff_data,
+        'date': date,
+        'attendance_record': att_record,
+        'marked': marked,
+        'subject_to_staff_data': subject_to_staff_data,
+        "data_for_self_profile": staff_details_1
+
+    })
+
+
+@login_required
+def hod_my_subject_add_attendance(request, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+
+    # batch_id = request.session['batch_id']
+    # subject_id = request.session['subject_id']
+
+    student_data = profile_student.objects.filter(batch=batch_id).order_by('roll_no')
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    staff_id = staff_details_1.id
+    check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
+    for i in check_subject_exist:
+        sem = i.semester
+
+    if request.method == 'POST':
+        today = date.today()
+        from_time = request.POST.get('from_time')
+        end_time = request.POST.get('end_time')
+        no_of_hours = request.POST.get('no_of_hours')
+
+        from_time = datetime.strptime(from_time, '%H:%M')
+        end_time = datetime.strptime(end_time, '%H:%M')
+        print(from_time, end_time, type(from_time), type(end_time))
+        no_of_hours = int(no_of_hours)
+
+        att_record = attendance_record.objects.filter(date=today, from_time=from_time, subject_id=subject_id,
+                                                      batch_id=batch_id)
+
+        if att_record:
+            messages.error(request, "Attendance already Marked")
+            return redirect(hod_my_subject_add_attendance, batch_id, subject_id)
+        else:
+
+            attendance_record.objects.create(date=today, marked=True, subject_id=subject_id, batch_id=batch_id,
+                                             from_time=from_time, end_time=end_time, no_of_hours=no_of_hours)
+            record_id = attendance_record.objects.get(date=today, marked=True, subject_id=subject_id, batch_id=batch_id,
+                                                      from_time=from_time, end_time=end_time, no_of_hours=no_of_hours)
+
+            for i in student_data:
+                x = i.register_no
+                att_mark = request.POST.get(str(x))
+                # print(att_mark, type(att_mark))
+
+                attendance.objects.create(attendance_record_id=record_id.id, student_id=i.id, subject_id=subject_id,
+                                          batch_id=batch_id, present=att_mark, semester=sem)
+            messages.error(request, "Attendance successfully added")
+            return redirect('update_class', batch_id, subject_id)
+
+    return render(request, 'hod_attendance.html',
+                  {
+                      'context': context,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'batch_data': batch_data,
+                      'check_subject_exist': check_subject_exist,
+                      "data_for_self_profile": staff_details_1
+                  })
+
+
+@login_required
+def hod_my_subject_view_attendance(request, record_id, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+
+    record_id = int(record_id)
+    batch_id = int(batch_id)
+    subject_id = int(subject_id)
+    print(record_id, batch_id, subject_id)
+
+    attendance_data = attendance.objects.filter(attendance_record_id=record_id)
+    for i in attendance_data:
+        print(i.present, type(i.present))
+    attendance_record_data = attendance_record.objects.filter(id=record_id)
+    student_data = profile_student.objects.filter(batch=batch_id).order_by('roll_no')
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    staff_id = staff_details_1.id
+    check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
+
+    return render(request, 'hod_view_attendance.html',
+                  {
+                      'context': context,
+                      'attendance_data': attendance_data,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'batch_data': batch_data,
+                      'check_subject_exist': check_subject_exist,
+                      'attendance_record_data': attendance_record_data,
+                      "data_for_self_profile": staff_details_1
+                  })
+
+
+# Internal
+
+@login_required
+def hod_my_subject_add_internal(request, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+
+    # batch_id = request.session['batch_id']
+    # subject_id = request.session['subject_id']
+
+    student_data = profile_student.objects.filter(batch=batch_id).order_by('roll_no')
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    staff_id = staff_details_1.id
+    check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
+    internal_mark = Internal_mark.objects.filter()
+
+    for i in check_subject_exist:
+        sem = i.semester
+
+    if 'internal' in request.POST:
+        for i in student_data:
+            x = i.roll_no
+            mark = request.POST.getlist(str(x))
+            print(mark)
+
+            exist_ass1 = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                      exam_type='Assignment 1').count()
+            exist_ass2 = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                      exam_type='Assignment 2').count()
+            exist_internal1 = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                           exam_type='Internal 1').count()
+            exist_internal2 = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                           exam_type='Internal 2').count()
+            print(exist_ass1, exist_ass2, exist_internal1, exist_internal2)
+            if exist_ass1 > 0:
+                update_ass1 = Internal_mark.objects.get(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                        exam_type='Assignment 1')
+                update_ass1.mark = mark[0]
+                update_ass1.save()
+
+            if exist_ass2 > 0:
+                update_ass2 = Internal_mark.objects.get(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                        exam_type='Assignment 2')
+                update_ass2.mark = mark[1]
+                update_ass2.save()
+
+            if exist_internal1 > 0:
+                update_internal1 = Internal_mark.objects.get(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                             exam_type='Internal 1')
+                update_internal1.mark = mark[2]
+                update_internal1.save()
+
+            if exist_internal2 > 0:
+                update_internal2 = Internal_mark.objects.get(student_id=i.id, subject_id=subject_id, semester=sem,
+                                                             exam_type='Internal 2')
+                update_internal2.mark = mark[3]
+                update_internal2.save()
+
+            if exist_ass1 == 0 and exist_ass2 == 0 and exist_internal1 == 0 and exist_internal2 == 0:
+                Internal_mark.objects.create(student_id=i.id, subject_id=subject_id, semester=sem, mark=mark[0],
+                                             exam_type='Assignment 1')
+                Internal_mark.objects.create(student_id=i.id, subject_id=subject_id, semester=sem, mark=mark[1],
+                                             exam_type='Assignment 2')
+                Internal_mark.objects.create(student_id=i.id, subject_id=subject_id, semester=sem, mark=mark[2],
+                                             exam_type='Internal 1')
+                Internal_mark.objects.create(student_id=i.id, subject_id=subject_id, semester=sem, mark=mark[3],
+                                             exam_type='Internal 2')
+
+        return redirect('hod_update_class', batch_id, subject_id)
+
+    return render(request, 'hod_internal.html',
+                  {
+                      'context': context,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'batch_data': batch_data,
+                      'check_subject_exist': check_subject_exist,
+                      'internal_mark': internal_mark,
+                      "data_for_self_profile": staff_details_1
+
+                  })
+
+
+
+# view_internal_result
+@login_required
+def hod_my_subject_view_internal_result(request, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details_1 = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': fullname}
+
+    # batch_id = request.session['batch_id']
+    # subject_id = request.session['subject_id']
+
+    student_data = profile_student.objects.filter(batch=batch_id).order_by('roll_no')
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    staff_id = staff_details_1.id
+    check_subject_exist = subject_to_staff.objects.filter(batch_id=batch_id, staff_id=staff_id, subject_id=subject_id)
+    internal_mark = Internal_mark.objects.filter()
+
+    total_attendance = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id).aggregate(
+        Sum('no_of_hours'))
+
+    attendance_record_data = attendance_record.objects.filter(batch_id=batch_id, subject_id=subject_id)
+    total_hour = total_attendance['no_of_hours__sum']
+    if total_hour == None:
+        messages.error(request, "Attendance not entered ")
+        return redirect(hod_update_class, batch_id, subject_id)
+    # print(total_attendance, total_hour, type(total_hour))
+
+    attendance_data = attendance.objects.filter(batch_id=batch_id, subject_id=subject_id)
+
+    attenance_list = []
+    for i in student_data:
+        hour = 0
+        for j in attendance_data:
+            if i.id == j.student_id:
+                if j.present == True:
+                    id1 = j.attendance_record_id
+                    # print('id',id1, type(id1))
+                    no_of_hours_taken = attendance_record.objects.get(id=id1)
+
+                    hour = hour + no_of_hours_taken.no_of_hours
+        percentage_attendance = (hour / total_hour) * 100
+        # print(i.first_name, hour)
+        att_tuple = (i.register_no, percentage_attendance)
+        attenance_list.append(att_tuple)
+
+    mark_data = Internal_mark.objects.filter(subject_id=subject_id)
+
+    total_mark_list = []
+    for i in student_data:
+        for j in mark_data:
+            if i.id == j.student_id:
+                sum_of_mark = Internal_mark.objects.filter(student_id=i.id, subject_id=subject_id).aggregate(
+                    Sum('mark'))
+                total_internal = sum_of_mark['mark__sum']
+                mark_tupple = (i.register_no, total_internal)
+                # x print(mark_tupple)
+        total_mark_list.append(mark_tupple)
+        # total_mark_list.append(mark_tupple)
+
+    print(total_mark_list)
+
+    return render(request, 'hod_internal_result.html',
+                  {
+                      'context': context,
+                      'student_data': student_data,
+                      'subject_data': subject_data,
+                      'batch_data': batch_data,
+                      'check_subject_exist': check_subject_exist,
+                      'internal_mark': internal_mark,
+                      'attendance_data': attendance_data,
+                      'attendance_record_data': attendance_record_data,
+                      'attendance_list': attenance_list,
+                      'total_mark_list': total_mark_list,
+                      "data_for_self_profile": staff_details_1
+
+                  })
 
 
 # logout
