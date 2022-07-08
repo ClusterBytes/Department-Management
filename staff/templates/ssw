@@ -1,0 +1,105 @@
+<div class="row">
+                    <div class="col-lg-3 col-md-4 label ">First Name</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.First_name}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Last Name</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Last_name}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Faculty unique id</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Faculty_unique_id}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Gender</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Gender}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Date of Birth</div>
+                    <div class="col-lg-9 col-md-8">{{date_dob}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Phone No</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.phone_no}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">E-mail id </div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.email}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Aadhaar No</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Aadhar_No}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Caste</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Caste}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Religion</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Religion}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Category</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.category}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">PAN</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.PAN}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Date of Joining</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Date_of_Joining}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">AICTE Unique id</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.AICTE_unique_Id}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Appointment Type</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Appointment_type}}</div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Cadre</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Cadre}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Designation</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Designation}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Specialisation</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Specialisation}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Department of Program</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Department_of_program}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Examiner Institution</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Examiner_institution}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Area of Research</div>
+                    <div class="col-lg-9 col-md-8">{{staff_details.Area_of_Research}}</div>
+                  </div>

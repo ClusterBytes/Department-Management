@@ -1,0 +1,386 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/*    body
+{
+    counter-reset: Serial;
+
+table
+{
+    border-collapse: separate;
+}
+
+tr td:first-child:before
+{
+  counter-increment: Serial;
+  content: counter(Serial);
+}
+*/
+
+  #datatable tbody tr:nth-child(even){
+      background-color: #f5f5f5;
+  }
+  @media(max-width: 746px){
+      .datatable thead{
+          display: none;
+      }
+  
+      #datatable, #datatable tbody, #datatable tr, #datatable td{
+          display: block;
+          width: 100%;
+      }
+
+      #datatable tr{
+          margin-bottom:15px;
+          padding-left: 50%;
+          text-align: left;
+
+      }
+
+      #datatable td{
+          text-align: relative;
+          padding-left: 50%;
+          text-align: relative;
+      }
+
+      #datatable td::before{
+          content: attr(data-label);
+          position: absolute;
+          left:0;
+          width: 50%;
+          padding-left: 50px;
+          font-size:15px;
+          font-weight: bold;
+          text-align: left;
+      }
+      
+      #datatable td:nth-of-type(1):before { content: "SI NO"; }
+      #datatable td:nth-of-type(2):before { content: "DATE"; }
+      #datatable td:nth-of-type(3):before { content: "ATTENDANCE"; }
+      
+     
+  }
+  
+    .datatable tbody tr:nth-child(even){
+        background-color: #f5f5f5;
+    }
+
+    @media(max-width: 746px){
+        .datatable thead{
+            display: none;
+        }
+    
+        .datatable, .datatable tbody, .datatable tr, .datatable td{
+            display: block;
+            width: 100%;
+        }
+        .datatable tr{
+            margin-bottom:15px;
+            padding-left: 50%;
+            text-align: left;
+  
+        }
+        .datatable td{
+            text-align: relative;
+            padding-left: 50%;
+            text-align: relative;
+        }
+        .datatable td::before{
+            content: attr(data-label);
+            position: absolute;
+            left:0;
+            width: 50%;
+            padding-left: 40px;
+            font-size:15px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        td:nth-of-type(1):before { content: "SI NO"; }
+        td:nth-of-type(2):before { content: "DATE"; }
+        td:nth-of-type(3):before { content: "ATTENDANCE"; }
+      
+ 
+    }
+  
+  
+  
+
+
+</style>
+
+<main id="main" class="main">
+  <a href="{% url 'hod_view_my_subject' %}"><button class="btn btn-success btn-sm" style="float: right;">s<i class="bi bi-peron-plus"></i> View Subjects</button></a>
+
+    
+    <div class="col-lg-6">
+        <div class="container">
+
+          <h2 class="card-title-size">Class Details</h2>
+
+            <br/>
+            
+        </div>
+        
+    </div>    
+	<div class="row">
+      
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+          
+        <br>
+        <form method="post" class="row g-3 needs-validation" >
+             {% csrf_token %}
+          <br>
+
+
+            {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+            <br>
+            <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Class</label>
+                      {% for i in check_subject_exist %}
+                        {% for j in batch_data %}
+                            {% if i.batch_id == j.id  %}
+                                <input type="text" name="class_name" class="form-control" value={{j.class_name}} readonly>
+                            {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+
+                    </div>
+
+                    
+
+                    <div class="col-6">
+                      <label class="col-sm-2 col-form-label">Semester</label>
+                      <div class="col-sm-12">
+                          {% for i in check_subject_exist %}
+                            <input type="text" name="class_name" class="form-control" value={{i.semester}} readonly>
+
+                          {% endfor %}
+
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <label class="col-sm-2 col-form-label">Tutor</label>
+                      <div class="col-sm-12">
+                        {% for i in check_subject_exist %}
+                        {% for j in batch_data %}
+                            {% if i.batch_id == j.id  %}
+                                {% for tutor in staff_data %}
+                                    {% if j.tutor_id == tutor.id %}
+                                        <input type="text" name="class_name" class="form-control" value="{{tutor.First_name}} {{tutor.Last_name}}" readonly>
+
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+
+
+                      </div>
+                    </div>
+    
+
+                    
+
+                    <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Subject</label>
+                      {% for i in check_subject_exist %}
+                        {% for j in subject_data %}
+                            {% if i.subject_id == j.id %}
+                                 <input type="text" class="form-control" value="{{j.code}} {{j.subject_name}}"  readonly>
+
+                            {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                      
+
+                    </div>
+                    <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Date of join</label>
+                      
+                                <input type="date" name="" class="form-control" value={{date}} readonly>
+
+                    </div>
+
+                    <div class="col-6">
+                      <label for="yourName" class="col-sm-2 col-form-label">Faculty</label>
+                      
+                                <input type="text" name="" class="form-control" 
+                                {% for i in subject_to_staff_data %}
+                                  {% for j in staff_data %}
+                                    {% if i.staff_id == j.id %}
+                                      value='{{j.First_name}} {{j.Last_name}}'
+                                    {% endif %}
+                                  {% endfor %}
+                                {% endfor %} readonly>
+
+                    </div>
+                    
+                    <div>
+                    </div>
+                    
+        </form>
+
+
+
+
+        
+      
+  </div>
+  <br>
+
+<br>
+  <section class="section">
+    
+
+            <!-- Default Accordion -->
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <strong>Attendance</strong>
+                  </button>
+                </h2>
+
+                
+                <div id="collapseOne" class="accordion-collapseed collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+
+                    
+                  
+
+                  
+                    <form method="post" class="row g-3 needs-validation" >
+                      {% csrf_token %}
+                    <br>
+                    
+                    <table class="datatable">
+                      <br>
+                        <thead>
+                          <tr>
+                            <th>SI NO</th>
+                            <th>DATE</th>
+                            <th>TIME</th>
+                            <th >ATTENDANCE</th>
+                            
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                           
+                           {% for i in attendance_record %}
+                           <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ i.date }} </td>
+                            <td>{{i.from_time}} to {{i.end_time}} </td>
+                            <td colspan=2><button class="btn btn-danger" disabled>Submitted</button>&nbsp;&nbsp;&nbsp;<a href="{% url 'view_attendance' record_id=i.id batch_id=i.batch_id subject_id=i.subject_id%}"> <button class="btn btn-success" type="button" name="view_attendance"><i class="bi bi-eye-fill"></i> View</button></a></td>
+                           </tr>                             
+                           {% endfor %}
+                           
+                                  <tr>
+                                    <td></td>
+                                    <td><p id="display_date"></p></td>
+                                    <td>
+                                    <button class="btn btn-primary" type="submit" id="assign" name="assign">Assign</button>
+                                  
+                                  </td>
+                            </tr>
+                            
+                        </tbody>
+
+                    </table>
+              
+                  </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                   <strong> Internal</strong>
+                  </button>
+                </h2>
+                <!--Inside the subject details sem wise-->
+
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1">
+                  <div class="accordion-body">
+
+
+                    <form method="post" class="row g-3 needs-validation" >
+                      {% csrf_token %}
+                    <button class="btn btn-primary" type="submit" name="internal">Update</button>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+              
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <strong>Result</strong>
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <form method="post" class="row g-3 needs-validation" >
+                      {% csrf_token %}
+                    <button class="btn btn-primary" type="submit" name="result">View</button>
+                    </form>
+
+
+                  </div>
+                </div>
+              </div>
+              
+
+
+            </div><!-- End Default Accordion Example -->
+
+          <br>
+
+</div>
+</div>
+ </div>
+</div>
+<div>
+
+    <br>
+    <br>
+    <br>
+    <br/>
+
+
+</div>
+
+  </main>
+
+
+
+
+
+{% endblock content %}
+{% block custom_js %}
+    <script>
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        //var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        //var dateTime = date+' '+time;
+        document.getElementById("display_date").innerHTML = date;
+    </script>
+{% endblock %}

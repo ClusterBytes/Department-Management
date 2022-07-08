@@ -97,17 +97,45 @@ DATABASES = {
 
 import dj_database_url
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'project_DMS',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456789',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+# '''DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'project_DMS',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456789',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }'''
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+    
+    'default':{
+         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'project_dms',
         'USER': 'postgres',
         'PASSWORD': '123456789',
         'HOST': 'localhost',
         'PORT': '5432',
-    }
+    },
+    # 'default':{
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'd6r6g1el4m892u',
+    #     'USER': 'wpiuxtrduedake',
+    #     'PASSWORD':'4590bf46a3dbb1dca1d0f67e5402c6d60e09efca0a332720ae97030ea936cb7a',
+    #     'HOST': 'ec2-44-198-82-71.compute-1.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -163,3 +191,5 @@ AUTH_USER_MODEL = 'login.MyUser'
 
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+

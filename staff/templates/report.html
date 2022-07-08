@@ -64,10 +64,12 @@
 <main id="main" class="main">
 <div class="col-lg-6">
     <div class="container">
-      <h2 class="card-title-size">Report</h2>
+      <h2 class="card-title-size">Result Analysis</h2>
       
       {% for j in batch_data %}
-      <h6>Class : {{j.class_name}}</h6>      
+      <h6>Class : {{j.class_name}}</h6>
+          <h6>Date of Join : {{ j.date_of_join }}</h6>
+
       {% endfor %}
 
       
@@ -86,10 +88,13 @@
 
 <div class="card-body">
     <br>
+<br>
 <form method="post" class="row g-3 needs-validation" >
     {% csrf_token %}
-    
-    <table id='report_table' name='report_table'  class="table" data-page-length='100'>
+      <strong><h2 style="text-align: center">University Result</h2></strong>
+
+    <br><br><br>
+    <table id='report_table' name='report_table'  class="table table-bordered table-striped" data-page-length='100'>
         <thead>
           <tr>
             
@@ -139,7 +144,29 @@
                         {% if result.university_no == i.university_no %}
                           {% if result.subject_id ==  sub_data.id %}
                           {% if result.no_of_chances == 1 %}
-                          <td> {{result.grade_point}}</td>
+                          <td>
+                          {% if result.grade_point == 10 %}
+                                            O
+                                          {% elif result.grade_point == 9 %}
+                                            A+
+                                          {% elif result.grade_point == 8.5 %}
+                                            A
+                                          {% elif result.grade_point == 8 %}
+                                            B+
+                                          {% elif result.grade_point == 7 %}
+                                            B
+                                          {% elif result.grade_point == 6 %}
+                                            C
+                                          {% elif result.grade_point == 5 %}
+                                            P
+                                            {% elif result.grade_point == -1 %}
+                                            Ab
+                                          {% elif result.grade_point < 5 %}
+                                            F
+                                          {% endif %}
+
+
+                          </td>
                           {% endif %}
                            
                           
@@ -216,8 +243,8 @@
         
       </table>
       <br><br>
-      <h2>No of Students enrolled : {{total_students}}</h2>
-      <table id='report_table' name='report_table'  class="table" data-page-length='100'>
+      <h4 style="text-align: center">No of Students enrolled : {{total_students}}</h4>
+      <table id='report_table' name='report_table'  class="table table-bordered table-striped" data-page-length='100'>
         <thead>
           <tr>
             

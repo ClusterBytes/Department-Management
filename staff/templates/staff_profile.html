@@ -30,7 +30,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+              <img src="" alt="Profile" class="rounded-circle">
               <h2>{{context.name}}</h2>
               <!-- <h3>Web Designer</h3>
               <div class="social-links mt-2">
@@ -45,7 +45,7 @@
 
         </div>
 
-        <div class="col-xl-8">
+        <div class="col-xl-12">
 
           <div class="card">
             <div class="card-body pt-3">
@@ -76,112 +76,233 @@
                   <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
                   -->
                   <h5 class="card-title">Profile Details</h5>
+                        <div class="accordion" id="accordionExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="">
+                      <button class="accordion-button"   aria-expanded="true" aria-controls="">
+                        <strong>Basic Details </strong>
+                      </button>
+                    </h2>
+                    <div id="" class="" aria-labelledby="" data-bs-parent="">
+                      <div class="accordion-body">
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">First Name</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.First_name}}</div>
+                        <div class="row">
+                          <div class="col-lg-6">
+
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title"></h5>
+
+                                <!-- Default Table -->
+                                <table class="table table-bordered">
+
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Gender
+                                        </b>
+                                        </td>
+                                      <td>{{staff_details.Gender}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Date of Birth
+                                        </b>
+                                        </td>
+                                      <td>{{date_dob}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Phone No
+                                        </b>
+                                        </td>
+                                      <td>{{staff_details.phone_no}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          E-mail id
+                                        </b>
+                                        </td>
+                                      <td>{{staff_details.email}}</td>
+                                    </tr>
+
+                                  </tbody>
+                                </table>
+                                <!-- End Default Table Example -->
+                              </div>
+                            </div>
+
+                          </div>
+
+
+
+
+
+                        <div class="col-lg-6">
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+
+                                <tbody>
+                                <tr>
+                                      <td><b>
+                                        Aadhaar No
+                                      </b>
+                                      </td>
+                                      <td>{{staff_details.Aadhar_No}}</td>
+                                    </tr>
+
+                                  <tr>
+                                    <td><b>Caste</b></td>
+                                    <td>{{staff_details.Caste}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Religion</b></td>
+                                    <td>{{staff_details.Religion}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Category</b></td>
+                                    <td>{{staff_details.category}}</td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      </div>
+                    </div>
                   </div>
+                </div>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Last Name</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Last_name}}</div>
-                  </div>
+                    <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <strong style="color:#211e6b">Joining Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div class="col-lg-6">
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Faculty unique id</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Faculty_unique_id}}</div>
-                  </div>
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Gender</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Gender}}</div>
-                  </div>
+                              <!-- Default Table -->
+                              <table class="table table-bordered">
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Date of Birth</div>
-                    <div class="col-lg-9 col-md-8">{{date_dob}}</div>
-                  </div>
+                                <tbody>
+                                  <tr>
+                                    <td><b>Faculty unique id</b></td>
+                                    <td>{{staff_details.Faculty_unique_id}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>AICTE Unique id</b></td>
+                                    <td>{{staff_details.AICTE_unique_Id}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Date of Joining</b></td>
+                                    <td>{{staff_details.Date_of_Joining}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Appointment Type</b></td>
+                                    <td>{{staff_details.Appointment_type}}</td>
+                                  </tr>
+                                <tr>
+                                    <td>
+                                      <b>Cadre</b>
+                                    </td>
+                                    <td>{{staff_details.Cadre}}</td>
+                                  </tr>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Phone No</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.phone_no}}</div>
-                  </div>
+                                </tbody>
+                              </table>
+                              <!-- End Default Table Example -->
+                            </div>
+                          </div>
+                        </div>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">E-mail id </div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.email}}</div>
-                  </div>
+                        <div class="col-lg-6">
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Aadhaar No</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Aadhar_No}}</div>
-                  </div>
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Caste</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Caste}}</div>
-                  </div>
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Religion</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Religion}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Category</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.category}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">PAN</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.PAN}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Date of Joining</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Date_of_Joining}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">AICTE Unique id</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.AICTE_unique_Id}}</div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Appointment Type</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Appointment_type}}</div>
-                  </div>
+                                <tbody>
 
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Cadre</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Cadre}}</div>
-                  </div>
+                                  <tr>
+                                    <td>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Designation</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Designation}}</div>
-                  </div>
+                                       <b> Designation
+                                      </b>
+                                      </td>
+                                    <td>
+                                      {{staff_details.Designation}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Specialisation</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Specialisation}}</div>
-                  </div>
+                                        <b>Specialisation
+                                      </b>
+                                      </td>
+                                    <td>{{staff_details.Specialisation}}</td>
+                                  </tr>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Department of Program</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Department_of_program}}</div>
-                  </div>
+                                  <tr>
+                                    <td>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Examiner Institution</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Examiner_institution}}</div>
-                  </div>
+                                      <b>Department of Program</td>
+                                    <td>{{staff_details.Department_of_program}}</td>
+                                  </tr>
+                                <tr>
+                                    <td>
 
-                  <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Area of Research</div>
-                    <div class="col-lg-9 col-md-8">{{staff_details.Area_of_Research}}</div>
-                  </div>
+                                      <b>Examiner Institution</td>
+                                    <td>{{staff_details.Examiner_institution}}</td>
+                                  </tr>
+                                <tr>
+                                    <td>
+
+                                      <b>Area of Research</td>
+                                    <td>{{staff_details.Area_of_Research}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      </div>
+                      </div>
+
+                </div>
+
+
+
+
 
                 </div>
 

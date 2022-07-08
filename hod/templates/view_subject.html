@@ -189,20 +189,15 @@
                   {% if staff.id == s.staff_id %}
                     {{staff.First_name}} {{staff.Last_name}}
                   {% endif %}
-
                 {% endfor %}
-
               </td>
+
               <td>
-                
                     {% for batch in batch_data %}
-    
                       {% if s.batch_id == batch.id %}
                       S{{batch.semester}} {{batch.class_name}} 
-    
                       {% endif %}
                     {% endfor %}
-                  
               </td>
 
               {% endif %}

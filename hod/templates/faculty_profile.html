@@ -1,4 +1,3 @@
-
 {% extends 'hod_base.html' %}
 {% load static %}
 
@@ -13,195 +12,39 @@
     <div class="row">
       <div class="col-xl-4">
         {% for message in messages %}
-  
+
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
 
                         {{ message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    
+
                     </div>
-            
-          {% endfor %}
+
+        {% endfor %}
+
 
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img src="{{staff_details.Profile_photo.url}}" alt="Profile" class="rounded-circle">
-           
-            <h2>{{staff_details.First_name}} {{staff_details.Last_name}}</h2>
-            <!-- <h3>Web Designer</h3>
+
+            <h2></h2>
+             <h3>Web Designer</h3>
             <div class="social-links mt-2">
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
               <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
               <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
               <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </div>>
-          -->
+            </div>
+
           </div>
         </div>
 
       </div>
 
-      <div class="col-xl-8">
-
-        <div class="card">
-          <div class="card-body pt-3">
-            <!-- Bordered Tabs -->
-            <ul class="nav nav-tabs nav-tabs-bordered">
-
-              <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
-              </li>
-
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
-              </li>
-<!--
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-              </li>
-              -->
-              
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
-              </li>
-                
-            </ul>
-            <div class="tab-content pt-2">
-
-              <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                <!--<h5 class="card-title">About</h5>
-                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
-                -->
-                <h5 class="card-title">Profile Details</h5>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">First Name</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.First_name}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Last Name</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Last_name}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Faculty unique id</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Faculty_unique_id}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Gender</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Gender}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Date of Birth</div>
-                  <div class="col-lg-9 col-md-8">{{date_dob}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Phone No</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.phone_no}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">E-mail id </div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.email}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Aadhaar No</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Aadhar_No}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Caste</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Caste}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Religion</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Religion}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Category</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.category}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">PAN</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.PAN}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Date of Joining</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Date_of_Joining}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">AICTE Unique id</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.AICTE_unique_Id}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Appointment Type</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Appointment_type}}</div>
-                </div>
 
 
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Cadre</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Cadre}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Designation</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Designation}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Specialisation</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Specialisation}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Department of Program</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Department_of_program}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Examiner Institution</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Examiner_institution}}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Area of Research</div>
-                  <div class="col-lg-9 col-md-8">{{staff_details.Area_of_Research}}</div>
-                </div>
-
-              </div>
-
-              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
-                <!-- Profile Edit Form -->
-                <form method="post" action="">
+ <form method="post">
                 {% csrf_token %}
-                  <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-
-                    <div class="col-md-8 col-lg-9">
-                      <img src="{{ staff_details.Profile_photo.url }}" alt="Profile">
-                      <div class="pt-2"><button type="button" class="btn btn-primary  btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-                        <i class="bi bi-upload"></i></button>
-                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Button trigger modal -->
-
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -209,26 +52,26 @@
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle"><strong>Upload Photo</strong></h5>
         </button>
-        
-                  
-        
-          
+
+
+
+
       </div>
       <div class="modal-body">
         <div class="col-xl-8">
-          
-            <form method="post">
+
+
               <div class="col-md-8 col-lg-9">
                 <img src="http://placehold.it/180" alt="Your image" id="blah">
-                
+
               </div>
               <br>
               <input type="file" class="form-control" id="profile_photo" name="profile_photo" accept="image/png, image/gif, image/jpeg" onchange="readURL(this);" >
-            </form>
-          
+
+
         </div>
-        
-        
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
@@ -297,7 +140,7 @@
                               <option value="Female">Female</option>
                               <option value="Others" >Others</option>
                               <option value="0">Select</option>
-                              
+
                           {% endif %}
 
                       </select>
@@ -469,7 +312,7 @@
 
               <div class="tab-pane fade pt-3" id="profile-settings">
 
-                <!-- Settings Form 
+                <!-- Settings Form
                 <form>
 
                   <div class="row mb-3">
@@ -524,7 +367,7 @@
                   <div class="row mb-3">
                     <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="renew_password" type="password" class="form-control" id="renewPassword" required> 
+                      <input name="renew_password" type="password" class="form-control" id="renewPassword" required>
                     </div>
                   </div>
 
@@ -545,11 +388,12 @@
   </section>
 
 </main><!-- End #main -->
+    {% endblock %}
 
 {% block custom_js %}
 
 <script>
-  
+
   var password = document.getElementById("newPassword"), confirm_password = document.getElementById("renewPassword");
 
 
@@ -564,13 +408,13 @@
     renewPassword.onkeyup = validatePassword;
 
 </script>
-  
+
 {% endblock custom_js %}
 
 {% block profile_photo_prevew_js %}
 
   <script>
-    
+
     function readURL(input) {
       if (input.files && input.files[0]) {
           var reader = new FileReader();
