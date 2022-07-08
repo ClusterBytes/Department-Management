@@ -1,6 +1,6 @@
 from atexit import register
 
-import matplotlib as matplotlib
+# import matplotlib as matplotlib
 from autoscraper import AutoScraper
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
@@ -14,7 +14,7 @@ import login
 from django.db.models import Sum, Max
 
 # %matplotlib inline
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -73,7 +73,8 @@ def student_index(request):
                 supply += 1
 
     max_sem = semester_result.objects.filter(university_no=student_details_1.university_no).aggregate(Max('semester'))
-    highest_sem = max_sem['semester__max']
+    highest_sem = 8
+    #   highest_sem = max_sem['semester__max']
 
     data = []
     sem = []
@@ -81,7 +82,8 @@ def student_index(request):
     sgpa = 0
     for i in range(1, highest_sem + 1):
         sem_sgpa = 0
-        sem_credit = 0
+        # sem_credit = 
+        sem_credit=1
         for j in subject_data:
             max_chance = semester_result.objects.filter(university_no=student_details_1.university_no,
                                                         subject_id=j.id, semester=i).aggregate(Max('no_of_chances'))
@@ -110,6 +112,8 @@ def student_index(request):
 
     model.fit(x, y)
     ypred = model.predict(x)
+   
+    predicted_sem=2 # ADDED NOW
     if highest_sem < 8:
         sem.append(highest_sem + 1)
         predict_sem = highest_sem + 1
