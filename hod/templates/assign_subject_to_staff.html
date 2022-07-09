@@ -214,59 +214,59 @@
       </tr>
     </thead>
     <tbody>
-      {% for i in view_subject %}
+      {% for i in assign_subject_data %}
       
       <tr>
         <td>{{ forloop.counter }}</td>
-        <td>{{ i.code }}</td>
-        <td>{{ i.subject_name }}</td>
-        <td>{{ i.credit }}</td>
         <td>
-          
-          {% for j in scheme_data  %}
-            
-            {% if i.scheme == j.id %}
-                {{ j.scheme }}
-              
-            {% endif %}
-              
-            
-          {% endfor %}
-            
-          
+            {% for j in subject_data %}
+                {% if j.id == i.subject_id %}
+                    {{ j.code }}
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            {% for j in subject_data %}
+                {% if j.id == i.subject_id %}
+                    {{ j.subject_name }}
+                {% endif %}
+            {% endfor %}
 
         </td>
         <td>
-        {% for s in assign_subject_data %}
-        
-          {% if i.id == s.subject_id %}
-            {% for staff in staff_data %}
-              {% if staff.id == s.staff_id %}
-
-                {{staff.First_name}} {{staff.Last_name}}
-
-              {% endif %}
-              
+            {% for j in subject_data %}
+                {% if j.id == i.subject_id %}
+                    {{ j.credit }}
+                {% endif %}
             {% endfor %}
-          {% endif %}
-        
-        {% endfor %}
-      </td>
-
+        </td>
       <td>
-        {% for s in assign_subject_data %}
-        
-          {% if i.id == s.subject_id %}
-            {% for batch in batch_data %}
-
-              {% if s.batch_id == batch.id %}
-              S{{batch.semester}} {{batch.class_name}} 
-
-              {% endif %}
+          {% for j in batch_class %}
+                {% if j.id == i.batch_id %}
+                    {% for k in scheme_data %}
+                        {% if j.scheme == k.id %}
+                            {{ k.scheme }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
-          {% endif %}
-        
-        {% endfor %}
+      </td>
+      <td>
+          {% for j in faculty_data %}
+            {% if j.id == i.staff_id %}
+                {{ j.First_name }}{{ j.Last_name }}
+            
+            {% endif %} 
+          {% endfor %}
+          
+          
+      </td>
+      <td>
+          {% for j in batch_class %}
+                {% if j.id == i.batch_id %}
+                    S{{ j.semester }}, {{ j.class_name }}
+                {% endif %}
+            {% endfor %}
       </td>
         
 

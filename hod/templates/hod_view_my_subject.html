@@ -1,0 +1,192 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  .datatable tbody tr:nth-child(even){
+    background-color: #f5f5f5;
+}
+@media(max-width: 746px){
+    .datatable thead{
+        display: none;
+    }
+
+    .datatable, .datatable tbody, .datatable tr, .datatable td{
+        display: block;
+        width: 100%;
+    }
+
+    .datatable tr{
+        margin-bottom:15px;
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    .datatable td{
+        text-align: relative;
+        padding-left: 50%;
+        text-align: relative;
+    }
+
+    .datatable td::before{
+        content: attr(data-label);
+        position: absolute;
+        left:0;
+        width: 50%;
+        padding-left: 30px;
+        font-size:15px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+
+  /*
+  Label the data
+  You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+  */
+  td:nth-of-type(1):before { content: "SI NO"; }
+  td:nth-of-type(2):before { content: "SUBJECT CODE"; }
+  td:nth-of-type(3):before { content: "SUBJECT NAME"; }
+  td:nth-of-type(4):before { content: "SUBJECT CREDIT"; }
+  td:nth-of-type(5):before { content: "SCHEME"; }
+  td:nth-of-type(6):before { content: "CLASS"; }
+  td:nth-of-type(7):before { content:  }
+
+
+}
+</style>
+<main id="main" class="main">
+    <div class="col-lg-12">
+      <div class="pagetitle">
+        <h1>Subjects</h1>
+        <br/>
+      </div><!-- End Page Title -->
+
+    </div>
+
+
+
+	<div class="row">
+
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+        <br/>
+
+
+       <div>
+
+      <table class='datatable'>
+         <br>
+
+        <thead >
+          <tr>
+            <th >SI NO</th>
+            <th>SUBJECT CODE</th>
+            <th>SUBJECT NAME</th>
+            <th>SUBJECT CREDIT</th>
+            <th>SCHEME</th>
+            <th>CLASS</th>
+            <th></th>
+            <!--<th colspan="2"></th>-->
+
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in subject_to_this_staff %}
+
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+            {% for j in view_subject %}
+                {% if i.subject_id == j.id %}
+                    {{ j.code }}
+
+                {% endif %}
+            {% endfor %}
+            </td>
+
+            <td>
+            {% for j in view_subject %}
+                {% if i.subject_id == j.id %}
+                    {{ j.subject_name }}
+                {% endif %}
+            {% endfor %}
+            </td>
+
+            <td>
+            {% for j in view_subject %}
+                {% if i.subject_id == j.id %}
+                    {{ j.credit }}
+
+                {% endif %}
+            {% endfor %}
+            </td>
+
+            <td>
+            {% for j in view_subject %}
+                {% if i.subject_id == j.id %}
+                    {% for scheme in scheme_data %}
+                        {% if j.scheme == scheme.id %}
+                            {{ scheme.scheme }}
+                        {% endif %}
+                    {% endfor %}
+
+                {% endif %}
+            {% endfor %}
+            </td>
+
+          <td>
+                {% for batch in batch_data %}
+                  {% if i.batch_id == batch.id %}
+                    S{{batch.semester}} {{batch.class_name}}
+                  {% endif %}
+                {% endfor %}
+          </td>
+
+
+
+
+              <td>
+                {% for batch in batch_data %}
+                {% if i.batch_id == batch.id %}
+                  <a href="{% url 'hod_update_class' batch_id=batch.id subject_id=i.subject_id %}"><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-pencil-square"></i> Update</button></a>
+                {% endif %}
+                {% endfor %}
+
+              </td>
+             <!--<td><a href="{% url 'delete_subject' subject_id=i.id %}" onclick="return confirm('Are you sure you want to delete this?')"><button type="button" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> Delete</button></a> </td>
+          -->
+
+
+        </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+       </div>
+      </div>
+
+    </div>
+
+    </div>
+    </div>
+</main>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/><br/><br/>
+
+
+
+
+
+{% endblock %}
