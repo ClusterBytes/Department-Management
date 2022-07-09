@@ -121,7 +121,7 @@ def student_index(request):
         predicted_sem = highest_sem + 1
         data.append(y)
 
-    return render(request, 'student_index.html', {
+    return render(request, 'parent_index.html', {
         'context': context,
         'credit': credit,
         'supply': supply,
@@ -271,7 +271,7 @@ def student_profile(request):
             student_data1.save()
 
             messages.error(request, "Successfully updated")
-            # return render(request, 'student_profile.html',
+            # return render(request, 'parent_profile.html',
             #              {'student_data': student_data, 'scheme_data': scheme_data, 'batch_data': batch_data,
             #               'date_dob': date_dob, 'context': context})
             return redirect(student_profile)
@@ -292,11 +292,11 @@ def student_profile(request):
             user_data.password = new_password
             user_data.save()
             messages.error(request, "Successfully changed password")
-            return render(request, 'student_profile.html',
+            return render(request, 'parent_profile.html',
                           {'student_data': student_data, 'scheme_data': scheme_data, 'batch_data': batch_data,
                            'date_dob': date_dob, 'context': context})
 
-    return render(request, 'student_profile.html',
+    return render(request, 'parent_profile.html',
                   {
                       'student_data': student_data,
                       'scheme_data': scheme_data,
