@@ -1,0 +1,217 @@
+{% extends 'hod_base.html' %}
+{% load static %}
+
+{% block content %}
+  <!-- ======= Sidebar ======= -->
+
+  <main id="main" class="main">
+
+    <!--<div class="pagetitle">
+      <h1>Alerts</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="hod_index.html">Home</a></li>
+          <li class="breadcrumb-item">Components</li>
+          <li class="breadcrumb-item active">Alerts</li>
+        </ol>
+      </nav>
+    </div> End Page Title -->
+
+    <div class="col-lg-5">
+        <div class="container">
+
+            <br/>
+
+	<div class="row">
+      <!-- left column
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <h6>Upload a different photo...</h6>
+
+          <input type="file" class="form-control">
+        </div>
+        -->
+      </div>
+
+      <!-- edit form column -->
+     <div class="card">
+
+      <div class="card-body">
+          <br/>
+       <h2 class="card-title-size">Add Parent</h2>
+          <br>
+
+
+        <form class="row g-3 needs-validation" method="post">
+        {% csrf_token %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                Username should be <strong> Student Admission Number</strong>
+              </div>
+
+        {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+
+
+            <div class="col-12">
+                      <label for="yourName" class="form-label">First Name</label>
+                      <input type="text" name="first_name" class="form-control" id="first_name" required>
+                      <div class="invalid-feedback">Please, enter your name!</div>
+                    </div>
+
+            <div class="col-12">
+                      <label for="yourName" class="form-label">Last Name</label>
+                      <input type="text" name="last_name" class="form-control" id="last_name" >
+                      <div class="invalid-feedback">Please, enter your name!</div>
+                    </div>
+
+            <div class="col-12">
+                      <label for="yourName" class="form-label">Class</label>
+                      <select name="batch_id" class="form-select  " readonly="true" required>
+                        <option value="0">Select Student Class</option>
+
+                        {% for i in batch_class %}
+                          {% for j in scheme_data %}
+                            {% if i.scheme == j.id %}
+                        
+                              <option value= {{ i.id }} >Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}} scheme : {{j.scheme}}</option>
+                            {% endif %}
+                          {% endfor %}
+                        {% endfor %}
+ 
+                      </select>
+                    </div>
+
+                    <!--<div class="col-12">
+                      <label for="yourName" class="form-label">Scheme</label>
+                      <select name="scheme_id" class="form-control" readonly="true" required>
+                        <option value="0">Select Scheme</option>
+
+                        {% for i in scheme_data %}
+                          <option value= {{ i.id }} >Scheme : {{ i.scheme }}</option>
+
+                        {% endfor %}
+
+                      </select>
+                    </div>-->
+<!--
+            <div class="col-12">
+                      <label for="yourName" class="form-label">Batch</label>
+                      <select name="batch" class="form-control" readonly="true" required>
+                      <option value="0">Select Batch</option>
+                        {% for i in batch_year %}
+                          <option value="{{ i.date_of_join }}">{{i.date_of_join}}</option>
+
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    -->
+
+                    <div class="col-12">
+                      <label for="yourUsername" class="form-label" >Username</label>
+                      <div class="input-group has-validation" id='username_div'>
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <input type="text" name="username" class="form-control" id="username" required>
+                        <div class="invalid-feedback" >Please enter your username.</div>
+                      </div>
+                      <h3></h3>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourPassword" class="form-label">Password</label>
+                      <input type="password" name="password_1" class="form-control" id="password_1" required>
+                      <div class="invalid-feedback">Please enter your password!</div>
+                    </div>
+
+                    <div class="col-15">
+                      <label for="yourPassword" class="form-label">Confirm Password</label>
+                      <input type="password" name="password_2" class="form-control" id="password_2" required>
+                      <div class="invalid-feedback">Please enter your password!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                      </div>
+                    </div>
+                    <div class="col-15" style="display: inline-block">
+                      <button class="btn btn-primary w-20" type="submit" id="add_student">Add Parent</button>&nbsp;<button class="btn btn-primary w-30" type="reset">Cancel</button>
+
+                    </div>
+            <!--
+                    <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                    </div>
+
+                    -->
+        </form>
+
+      </div>
+  </div>
+</div>
+
+ </div>
+</div>
+ </div>
+  </main><!-- End #main -->
+
+  {% block cutom_js %}
+  <script>
+    $(document).ready(function(){
+      $("#username").keyup(function(){
+        var username =$(this).val();
+
+        $.ajax({
+          url:'{% url 'check_user_exist' %}',
+          type: 'POST',
+          data: {username:username}
+        })
+        .done(function(response){
+          console.log(response);
+          if(response == 'True'){
+            $(".faculty_error").remove();
+            $("<span class='faculty_error' style='color:red;font-weight: bold; font-size: smaller;'> Username is not available <i class='bi bi-x' style='font-size:large;'></i></span> ").insertAfter("#username_div");
+            document.getElementById("add_faculty").disabled = true;
+          }
+          else{
+            $(".faculty_error").remove();
+            $("<span class='faculty_error icon' style='color:green;font-weight: bold; font-size: smaller;'> Username is available <i class='bi bi-check-lg' style='font-size:large;'></i></span>").insertAfter("#username_div");
+            document.getElementById("add_faculty").disabled = false;
+
+          }
+        })
+        .fail(function(){
+          console.log("failed");
+        })
+
+      });
+      
+    });
+    var password = document.getElementById("password_1")
+  , 
+confirm_password = document.getElementById("password_2");
+
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+    password_1.onchange = validatePassword;
+    password_2.onkeyup = validatePassword;
+  </script>
+{% endblock cutom_js %} 
+
+
+{% endblock %}
+

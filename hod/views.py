@@ -1621,7 +1621,25 @@ def hod_my_subject_view_internal_result(request, batch_id, subject_id):
 
                   })
 
-
+def add_parent(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    print(name)
+    context = {'name': name}
+    return render(request, 'add_parent.html',
+                  {'context':context,
+                  "data_for_self_profile": staff_details_1})
+def view_parent(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': name}
+    return render(request,'view_parent.html',
+    { 'context':context,
+    "data_for_self_profile": staff_details_1 })
 # logout
 def log_out(request):
     logout(request)

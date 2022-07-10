@@ -234,23 +234,24 @@
 
 
         <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-mortarboard"></i><span>Manage parents</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#manage-parent" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people-fill"></i><span>Manage parents</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="manage-parent" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="{% url 'add_parent' %}">
               <i class="bi bi-circle"></i><span>Add parent</span>
             </a>
           </li>
-          <li>
+         <li>
             <a href="{% url 'view_parent' %}">
               <i class="bi bi-circle"></i><span>View parent</span>
             </a>
           </li>
 
         </ul>
-      </li> <!-- Manage parents-->
+      </li> 
+      
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#manage-subject" data-bs-toggle="collapse" href="#">
