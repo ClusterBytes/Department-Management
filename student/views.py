@@ -375,4 +375,29 @@ def log_out(request):
 
 
 def feedback(request):
+    current_user = request.user
+    user_id = current_user.username
+    print("logged in", current_user, user_id)
+    # student_details = profile_student.objects.get(register_no=user_id)
+    student_data = profile_student.objects.filter(register_no=user_id)
+    print(student_data)
+    for i in student_data:
+        print("student", i.id)
+        student_id = i.id
+        batch_id = i.batch
+        date_of_birth = i.date_of_birth
+        name_first = i.first_name
+        name_last = i.last_name
+
+    print(batch_id)
+    batch_data = batch.objects.get(semester=4)
+    scheme_id = batch_data.scheme
+    scheme_data = scheme.objects.get(id=scheme_id)
+    # batch_id = student_details_1.batch
+    subject_in_sem = subject_to_staff.objects.all()
+    print(batch_data)
+    # subjects = subject_to_staff.objects.get(batch_id=batch_id)
+    # for i in str(subject_in_sem):
+    #     print(i)
+    # print(subject_in_sem.subject_id)
     return render(request, "feedback.html", {"name": "sdsds"})
