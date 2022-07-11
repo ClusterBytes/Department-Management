@@ -143,7 +143,7 @@ def student_index(request):
 
     return render(
         request,
-        "parent_index.html",
+        "student_index.html",
         {
             "context": context,
             "credit": credit,

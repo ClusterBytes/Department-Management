@@ -32,7 +32,6 @@ from hod.views import view_scheme, create_subject, view_subject, edit_subject
 from hod.views import check_subject_exist, check_user_exist, batch_details
 from hod.views import add_parent, view_parent
 
-
 urlpatterns = [
     path("", hod_index, name="hod_index"),
     path("add_staff/", add_staff, name="add_staff"),

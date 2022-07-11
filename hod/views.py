@@ -482,6 +482,7 @@ def view_student(request):
     return render(request, 'student_list.html', {"student_data": data, "scheme_data":scheme_data, 'batch_data': batch_data, "context": context})
 """
 
+# batch details
 
 # batch details
 
