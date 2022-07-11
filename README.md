@@ -35,12 +35,7 @@ For installing postgres:-
 
     python manage.py migrate
 
-python manage.py
-
     python manage.py makemigrations
-
-python manage.py createsuperuser (to make admin)
-python manage.py runserver
 
 ## Create admin
 
