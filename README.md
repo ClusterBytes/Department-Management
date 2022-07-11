@@ -11,13 +11,13 @@ A simple and minimal system for managing common activities in a College Departme
 
 ## Set up virtual environment
 
-- create a virtual enviroment [guide](https://docs.python.org/3/library/venv.html)
-- activate virtual enviroment `source Venv/bin/activate`
+create a virtual enviroment [guide](https://docs.python.org/3/library/venv.html)
+activate virtual enviroment `source Venv/bin/activate`
 
 ## install requirements
 
-- open the project root directory and run
-- pip3 install requirementv2.txt
+open the project root directory and run
+pip3 install requirementv2.txt
 
 ## set up local postgres database and configure
 
@@ -30,6 +30,8 @@ For installing postgres:-
     apt install postgresql postgresql-contrib
 
     sudo -u postgres psql
+
+# Manage Django project
 
 ## Migrate and update database
 
