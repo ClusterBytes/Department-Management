@@ -6,21 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0035_alter_internal_mark_exam_type'),
+        ("hod", "0035_alter_internal_mark_exam_type"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='internal_mark',
-            name='grade_point',
+            model_name="internal_mark",
+            name="grade_point",
         ),
         migrations.RemoveField(
-            model_name='internal_mark',
-            name='no_of_chanses',
+            model_name="internal_mark",
+            name="no_of_chanses",
         ),
         migrations.AlterField(
-            model_name='internal_mark',
-            name='exam_type',
-            field=models.CharField(choices=[('Assignment 1', 'Assignment 1'), ('Assignment 2', 'Assignment 2'), ('Internal 1', 'Internal 1'), ('Internal 2', 'Internal 2')], max_length=255),
+            model_name="internal_mark",
+            name="exam_type",
+            field=models.CharField(
+                choices=[
+                    ("Assignment 1", "Assignment 1"),
+                    ("Assignment 2", "Assignment 2"),
+                    ("Internal 1", "Internal 1"),
+                    ("Internal 2", "Internal 2"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

@@ -7,5 +7,6 @@ class parent_profile(models.Model):
     phone_no = models.BigIntegerField()
     email = models.EmailField()
 
+
 class parent_student(models.Model):
-    register_no = models.ForeignKey(profile_student,on_delete=models.CASCADE)
+    register_no = models.ForeignKey(profile_student, on_delete=models.CASCADE)
