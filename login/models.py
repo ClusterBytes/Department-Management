@@ -4,31 +4,31 @@ from django.db import models
 
 # Create your models here.
 
-from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username,first_name, last_name, password=None):
+    def create_user(self, username, first_name, last_name, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
         """
         if not username:
-            raise ValueError('Users must have an email address')
-        
+            raise ValueError("Users must have an email address")
+
         user = self.model(
             username=username,
             first_name=first_name,
             last_name=last_name,
-            #username=self.normalize_email(email),
-            #date_of_birth=date_of_birth,
+            # username=self.normalize_email(email),
+            # date_of_birth=date_of_birth,
         )
-        
+
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,username,first_name, last_name, password=None):
+    def create_superuser(self, username, first_name, last_name, password=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
@@ -38,9 +38,9 @@ class MyUserManager(BaseUserManager):
             password=password,
             first_name=first_name,
             last_name=last_name,
-            #date_of_birth=date_of_birth,
+            # date_of_birth=date_of_birth,
         )
-        
+
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -48,24 +48,24 @@ class MyUserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     username = models.CharField(
-        verbose_name='username',
+        verbose_name="username",
         max_length=255,
         unique=True,
     )
-    #date_of_birth = models.DateField()
-    first_name =  models.CharField(max_length=255)
-    last_name =  models.CharField(max_length=255)
+    # date_of_birth = models.DateField()
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
-    is_faculty= models.BooleanField(default=False)
+    is_faculty = models.BooleanField(default=False)
     is_hod = models.BooleanField(default=False)
     is_parent = models.BooleanField(default=False)
 
     objects = MyUserManager()
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def __str__(self):
         return self.username
@@ -86,9 +86,11 @@ class MyUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+
 from django.contrib.auth.backends import BaseBackend
 from .models import MyUser
-#from IntellerMatrix.CommonUtilities.constants import Constants
+
+# from IntellerMatrix.CommonUtilities.constants import Constants
 
 
 class AuthenticationBackend(BaseBackend):
@@ -97,10 +99,23 @@ class AuthenticationBackend(BaseBackend):
     :To manage the authentication process of user
     """
 
-    def authenticate(self, request, username=None, password=None, is_hod=None, is_faculty=None, is_student=None):
-        print("pass",password)
+    def authenticate(
+        self,
+        request,
+        username=None,
+        password=None,
+        is_hod=None,
+        is_faculty=None,
+        is_student=None,
+    ):
+        print("pass", password)
         try:
-            user = MyUser.objects.get(username=username, is_hod=is_hod, is_faculty=is_faculty, is_student=is_student)
+            user = MyUser.objects.get(
+                username=username,
+                is_hod=is_hod,
+                is_faculty=is_faculty,
+                is_student=is_student,
+            )
         except MyUser.DoesNotExist:
             return None
         if user is not None and user.check_password(password):
@@ -114,7 +129,8 @@ class AuthenticationBackend(BaseBackend):
         except MyUser.DoesNotExist:
             return None
 
-'''class User(models.Model):
+
+"""class User(models.Model):
     username = models.CharField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -135,14 +151,10 @@ class AuthenticationBackend(BaseBackend):
         elif self.is_student:
             category = 'Student'
         name = self.first_name +" "+ self.last_name + " - " + category
-        return name'''
+        return name"""
 
-'''class User(AbstractBaseUser):
+"""class User(AbstractBaseUser):
     is_hod = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
-'''    
-    
-
-
-
+"""
