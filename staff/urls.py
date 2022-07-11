@@ -1,5 +1,5 @@
 from django.urls import path, include
-from staff.views import add_attendance, add_internal, add_result, add_sem_result, report,  staff_index, log_out, staff_profile, tutor_subject_wise_report, university_result, update_class, update_class_of_tutor, update_student_profile, view_attendance, view_classes, view_internal_result, view_subjects
+from staff.views import add_attendance,performance_analysis, add_internal, add_result, add_sem_result, report,  staff_index, log_out, staff_profile, tutor_subject_wise_report, university_result, update_class, update_class_of_tutor, update_student_profile, view_attendance, view_classes, view_internal_result, view_subjects
 
 urlpatterns = [
     path('', staff_index, name='staff_index'),
@@ -19,7 +19,6 @@ urlpatterns = [
     path('add_result/<int:batch_id>/', add_result, name='add_result' ),
     path('add_sem_result/<int:batch_id>/<str:month>/<int:year>/<int:semester>/', add_sem_result, name='add_sem_result' ),
     path('report/<int:batch_id>/<int:semester>/', report, name='report'),
-    
-    
+    path('performance_analysis /<int:batch_id>/', performance_analysis, name='performance_analysis'),
 
 ]

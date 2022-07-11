@@ -117,9 +117,11 @@
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Profile</button>
               </li>
 
-              <li class="nav-item">
+             <!-- <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
-              </li>
+              </li> <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+              </li>-->
 
               <!--<li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
@@ -562,7 +564,8 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                <!-- Profile Edit Form -->
+
+                <!-- Profile Edit Form
                 <form method="post" action="">
                 {% csrf_token %}
 
@@ -821,7 +824,55 @@
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary" name="edit_profile" >Save Changes</button>
                   </div>
-                </form><!-- End Profile Edit Form -->
+                </form>
+              <form method="post">
+              {% csrf_token %}
+
+                   <table class="table" style="border:none">
+                   <tr>
+                       <th></th>
+                       <th></th>
+                   </tr>
+                   </tr>
+                       <tr>
+                           <td>
+                               {% for i in student_data %}
+                      Do you want to Allow {{i.first_name  }}{{i.last_name  }} to edit profile
+                       {% endfor %}
+
+                           </td>
+                           <td>
+                               <div class="form-check form-switch">
+                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+
+
+
+                            </div>
+                           </td>
+                       </tr>
+                   </table>
+
+
+
+              <div class="modal fade" id="verticalycentered" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Vertically Centered</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                      <button type="button" class="btn btn-primary" name="">Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>--><!-- End Vertically centered Modal-->
+
+              </form>
 
               </div>
 

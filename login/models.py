@@ -60,6 +60,7 @@ class MyUser(AbstractBaseUser):
     is_student = models.BooleanField(default=False)
     is_faculty= models.BooleanField(default=False)
     is_hod = models.BooleanField(default=False)
+    is_parent = models.BooleanField(default=False)
 
     objects = MyUserManager()
 
