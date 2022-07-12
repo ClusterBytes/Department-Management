@@ -107,6 +107,7 @@ class AuthenticationBackend(BaseBackend):
         is_hod=None,
         is_faculty=None,
         is_student=None,
+        is_parent=None
     ):
         print("pass", password)
         try:
@@ -115,6 +116,7 @@ class AuthenticationBackend(BaseBackend):
                 is_hod=is_hod,
                 is_faculty=is_faculty,
                 is_student=is_student,
+                is_parent=is_parent
             )
         except MyUser.DoesNotExist:
             return None
