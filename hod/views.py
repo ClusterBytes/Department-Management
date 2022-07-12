@@ -429,6 +429,8 @@ def view_student(request):
     scheme_data = scheme.objects.get(id=batch_data.scheme)
     return render(request, 'student_list.html', {"student_data": data, "scheme_data":scheme_data, 'batch_data': batch_data, "context": context})
 '''
+#def view_parent(request):
+
 
 
 # batch details 
