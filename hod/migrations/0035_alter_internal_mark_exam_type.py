@@ -6,13 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0034_internal_mark'),
+        ("hod", "0034_internal_mark"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='internal_mark',
-            name='exam_type',
-            field=models.CharField(choices=[('Assignment 1', 'Assignment 1'), ('Assignment 2', 'Assignment 2'), ('Internal 1', 'Internal 1'), ('Internal 2', 'Internal 2'), ('University', 'University')], max_length=255),
+            model_name="internal_mark",
+            name="exam_type",
+            field=models.CharField(
+                choices=[
+                    ("Assignment 1", "Assignment 1"),
+                    ("Assignment 2", "Assignment 2"),
+                    ("Internal 1", "Internal 1"),
+                    ("Internal 2", "Internal 2"),
+                    ("University", "University"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

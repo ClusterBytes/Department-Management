@@ -6,27 +6,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0019_alter_subject_to_staff_subject_id'),
+        ("hod", "0019_alter_subject_to_staff_subject_id"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='attendance',
+            name="attendance",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('attendance_record_id', models.BigIntegerField()),
-                ('student_id', models.BigIntegerField()),
-                ('subject_id', models.BigIntegerField()),
-                ('batch_id', models.BigIntegerField()),
-                ('present', models.BooleanField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("attendance_record_id", models.BigIntegerField()),
+                ("student_id", models.BigIntegerField()),
+                ("subject_id", models.BigIntegerField()),
+                ("batch_id", models.BigIntegerField()),
+                ("present", models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
-            name='attendance_record',
+            name="attendance_record",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(null=True, unique=True)),
-                ('marked', models.BooleanField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField(null=True, unique=True)),
+                ("marked", models.BooleanField()),
             ],
         ),
     ]

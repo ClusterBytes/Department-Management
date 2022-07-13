@@ -6,19 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0012_delete_subject_to_staff'),
+        ("hod", "0012_delete_subject_to_staff"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='subject_to_staff',
+            name="subject_to_staff",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=255)),
-                ('scheme', models.BigIntegerField()),
-                ('semester', models.BigIntegerField()),
-                ('batch_id', models.BigIntegerField()),
-                ('staff_id', models.BigIntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=255)),
+                ("scheme", models.BigIntegerField()),
+                ("semester", models.BigIntegerField()),
+                ("batch_id", models.BigIntegerField()),
+                ("staff_id", models.BigIntegerField()),
             ],
         ),
     ]

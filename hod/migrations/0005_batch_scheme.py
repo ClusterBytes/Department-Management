@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0004_scheme'),
+        ("hod", "0004_scheme"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='batch',
-            name='scheme',
+            model_name="batch",
+            name="scheme",
             field=models.BigIntegerField(default=2015),
             preserve_default=False,
         ),

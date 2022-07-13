@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0020_attendance_attendance_record'),
+        ("hod", "0020_attendance_attendance_record"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='attendance',
-            name='semester',
+            model_name="attendance",
+            name="semester",
             field=models.BigIntegerField(default=1, max_length=255),
             preserve_default=False,
         ),
