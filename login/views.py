@@ -44,6 +44,7 @@ def login_page(request):
             login(request, user)
             # Redirect to a success page.
             return redirect('student_index')
+
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login_page')
