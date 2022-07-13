@@ -9,4 +9,3 @@ class parent_profile(models.Model):
     phone_no = models.BigIntegerField()
     email = models.EmailField()
     register_no = models.ForeignKey(profile_student, on_delete=models.CASCADE)
-

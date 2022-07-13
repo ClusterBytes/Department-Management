@@ -6,21 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0002_course'),
+        ("hod", "0002_course"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='subject',
+            name="subject",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=255)),
-                ('name', models.CharField(max_length=255)),
-                ('credit', models.BigIntegerField()),
-                ('scheme', models.BigIntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=255)),
+                ("name", models.CharField(max_length=255)),
+                ("credit", models.BigIntegerField()),
+                ("scheme", models.BigIntegerField()),
             ],
         ),
         migrations.DeleteModel(
-            name='course',
+            name="course",
         ),
     ]

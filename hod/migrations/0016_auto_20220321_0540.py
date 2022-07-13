@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0015_alter_subject_to_staff_subject_id'),
+        ("hod", "0015_alter_subject_to_staff_subject_id"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='subject_to_staff',
-            name='batch_id',
+            model_name="subject_to_staff",
+            name="batch_id",
         ),
         migrations.RemoveField(
-            model_name='subject_to_staff',
-            name='staff_id',
+            model_name="subject_to_staff",
+            name="staff_id",
         ),
     ]
