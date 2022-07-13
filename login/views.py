@@ -7,7 +7,7 @@ import student
 from django.contrib.auth import login
 
 
-# Create your views here.
+# Create Your Views Here.
 
 
 def login_page(request):
