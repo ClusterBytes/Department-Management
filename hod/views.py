@@ -334,11 +334,12 @@ def add_student(request):
     # batch_data_year = batch.objects.all().distinct('date_of_join')
     scheme_data = scheme.objects.all()
 
-    if request.method == "POST":
-        username = request.POST.get("username")
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        batch_id_str = request.POST.get("batch_id")
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        batch_id_str = request.POST.get('batch_id')
         batch_id_int = int(batch_id_str)
 
         full_name = first_name + " " + last_name
@@ -422,8 +423,8 @@ def view_student(request):
 
     if request.method == "POST":
 
-        batch_id = request.POST.get("batch_select")
-        # print(batch_id)
+        batch_id = request.POST.get('batch_select')
+        #print(batch_id)
         batch_id_int = int(batch_id)
 
         if batch_id == "0":
@@ -482,7 +483,7 @@ def view_student(request):
     return render(request, 'student_list.html', {"student_data": data, "scheme_data":scheme_data, 'batch_data': batch_data, "context": context})
 <<<<<<< HEAD
 '''
-#def view_parent(request):
+
 
 =======
 """
@@ -2013,7 +2014,80 @@ def view_parent(request):
         {"context": context, "data_for_self_profile": staff_details_1},
     )
 
+def add_parent(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    print(name)
+    context = {'name': name}
+    return render(request, 'add_parent.html',
+                  {'context':context,
+                  "data_for_self_profile": staff_details_1})
+def view_parent(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': name}
 
+    #1
+    batch_data = batch.objects.all()
+    scheme_data = scheme.objects.all()#1
+
+    #2
+    if request.method == 'POST':
+
+        batch_id = request.POST.get('batch_select')
+        #print(batch_id)
+        batch_id_int = int(batch_id)
+
+        if batch_id == '0':
+
+            messages.error(request, 'Please select Batch')
+
+        else:
+
+            batch_id = batch_id_int
+
+            data = profile_student.objects.filter(batch=batch_id)
+
+            batch_data1 = batch.objects.get(id=batch_id)
+            scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
+
+            batch_data = batch.objects.all()
+            scheme_data = scheme.objects.all()#2
+
+
+
+    return render(request,'view_parent.html',
+    { 'context':context,
+    "data_for_self_profile": staff_details_1 })
+
+
+'''
+return render(request, 'view_student.html',
+                          {"student_data": data, "scheme_data1": scheme_data1, 'batch_data1': batch_data1,
+                           "context": context,
+                           "scheme_data": scheme_data,
+                           'batch': batch_data,
+                           "data_for_self_profile": staff_details_1
+                           })
+
+    return render(request, 'view_student.html',
+
+                  {
+                      "batch": batch_data,
+                      "scheme_data": scheme_data,
+                      "context": context,
+                      "data_for_self_profile": staff_details_1
+
+                  }
+
+                  )
+
+
+'''
 # logout
 def log_out(request):
     logout(request)
