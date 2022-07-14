@@ -1,3 +1,4 @@
+from parent.models import parent_profile
 from ast import For
 import code
 from datetime import date, datetime
@@ -2000,34 +2001,67 @@ def add_parent(request):
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     batch_data_class = batch.objects.all()
     scheme_data = scheme.objects.all()
-    print(batch_data_class)
+    data = profile_student.objects.all()
     context = {"name": name}
     if request.method == "POST":
-
-        batch_id = request.POST.get("batch_id")
-        print("batch_id", batch_id)
-        batch_id_int = int(batch_id)
-
-        if batch_id == "0":
-
-            messages.error(request, "Please select Batch")
-
+        username = request.POST.get("username")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        student_id_str = request.POST.get("student_id")
+        student_id_int = int(student_id_str)
+        full_name = first_name + " " + last_name
+        password1 = request.POST.get("password_1")
+        password2 = request.POST.get("password_2")
+        email = request.POST.get("email")
+        phone_number = request.POST.get("phone_number")
+        if student_id_int == 0:
+            messages.error(request, "Please select Student")
         else:
 
-            batch_id = batch_id_int
+            if password1 != password2:
+                messages.error(request, "Password mismatch")
+            else:
 
-            data = profile_student.objects.filter(batch=batch_id)
+                user = MyUser.objects.filter(username=username)
+                if user:
+                    messages.error(request, "User already exist")
+                else:
+                    # insert only the year in student profile (column : year_of_join)
+                    password = make_password(password1)
+                    MyUser.objects.create(
+                        username=username,
+                        first_name=first_name,
+                        last_name=last_name,
+                        password=password,
+                        is_faculty=False,
+                        is_active=True,
+                        is_student=False,
+                        is_hod=False,
+                        is_parent=True
+                    )
 
-            batch_data1 = batch.objects.get(id=batch_id)
-            scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
+                    parent_profile.objects.create(
+                        parent_id=username,
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        phone_no=phone_number,
+                        register_no_id=student_id_int
 
-            batch_data = batch.objects.all()
-            scheme_data = scheme.objects.all()
+                    )
+
+                    messages.error(
+                        request,
+                        "parent "
+                        + full_name
+                        + " successfully added"
+                    )
 
     return render(
         request,
         "add_parent.html",
         {"batch_class": batch_data_class,
+         "data": data,
          "scheme_data": scheme_data, "context": context,
             "data_for_self_profile": staff_details_1},
     )
