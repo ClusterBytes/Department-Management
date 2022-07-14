@@ -26,6 +26,7 @@ def login_page(request):
                 is_hod=True,
                 is_faculty=False,
                 is_student=False,
+                is_parent=False
                 
             )
             is not None
@@ -38,6 +39,7 @@ def login_page(request):
                 is_hod=True,
                 is_faculty=False,
                 is_student=False,
+                is_parent=False
             )
 
             login(request, user)
