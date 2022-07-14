@@ -161,7 +161,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for i in parent_data%}
+          {% for i in student_data%}
           
           <tr>
             <td>{{ forloop.counter }}</td>
@@ -169,8 +169,8 @@
             <td>{{ i.first_name }} {{i.last_name}}</td>
             <td>{{ i.phone_no }}</td>
             <td>{{ i.email }}</td>
-           <!-- <td><a href="{% url 'view_student_details' student_id=i.id %}"><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-eye btn-sm"></i>View </button></a> </td>
-        --><td><button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
+            <td><a href="{% url 'view_student_details' student_id=i.id %}"><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-eye btn-sm"></i>View </button></a> </td>
+            <td><button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
             
               <div class="modal fade" id="exampleModalCenter{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
