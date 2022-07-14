@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.db.models import Sum, Max
+from parent.models import parent_profile
 
 import login
 from hod.models import (
@@ -2002,7 +2003,7 @@ def add_parent(request):
     )
 
 
-def view_parent(request):
+'''def view_parent(request):
     current_user = request.user
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
@@ -2012,7 +2013,7 @@ def view_parent(request):
         request,
         "view_parent.html",
         {"context": context, "data_for_self_profile": staff_details_1},
-    )
+    )'''
 
 def add_parent(request):
     current_user = request.user
@@ -2031,8 +2032,10 @@ def view_parent(request):
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
 
+    data = parent_profile.objects.all()
+
     #1
-    batch_data = batch.objects.all()
+    '''batch_data = batch.objects.all()
     scheme_data = scheme.objects.all()#1
 
     #2
@@ -2057,22 +2060,20 @@ def view_parent(request):
 
             batch_data = batch.objects.all()
             scheme_data = scheme.objects.all()#2
-
-
-
-    return render(request,'view_parent.html',
-    { 'context':context,
-    "data_for_self_profile": staff_details_1 })
-
-
 '''
-return render(request, 'view_student.html',
-                          {"student_data": data, "scheme_data1": scheme_data1, 'batch_data1': batch_data1,
-                           "context": context,
-                           "scheme_data": scheme_data,
-                           'batch': batch_data,
-                           "data_for_self_profile": staff_details_1
-                           })
+
+
+    return render(request,'view_parent.html',{'parent_data':data,'context':context})
+                           
+'''{"student_data": data, "scheme_data": scheme_data, 'batch_data': batch_data,
+                                'context':context,
+                                "scheme_data": scheme_data,
+                                'batch': batch_data,
+                                " data_for_self_profile": staff_details_1,
+                                "data_for_self_profile": staff_details_1 
+                            })
+
+
 
     return render(request, 'view_student.html',
 
@@ -2085,9 +2086,8 @@ return render(request, 'view_student.html',
                   }
 
                   )
-
-
 '''
+
 # logout
 def log_out(request):
     logout(request)
