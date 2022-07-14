@@ -2063,7 +2063,9 @@ def view_parent(request):
 '''
 
 
-    return render(request,'view_parent.html',{'parent_data':data,'context':context})
+    return render(request,'view_parent.html',{'parent_data':data,
+                                            'context':context,
+                                            "data_for_self_profile": staff_details_1})
                            
 '''{"student_data": data, "scheme_data": scheme_data, 'batch_data': batch_data,
                                 'context':context,
