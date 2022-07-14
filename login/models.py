@@ -109,7 +109,7 @@ class AuthenticationBackend(BaseBackend):
         is_student=None,
         is_parent=None
     ):
-        print("pass", password)
+        
         try:
             user = MyUser.objects.get(
                 username=username,
