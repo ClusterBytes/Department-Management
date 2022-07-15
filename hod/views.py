@@ -2032,11 +2032,11 @@ def view_parent(request):
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
 
-    data = parent_profile.objects.all()
+    #data = parent_profile.objects.all()
 
-    #1
-    '''batch_data = batch.objects.all()
-    scheme_data = scheme.objects.all()#1
+    
+    #batch_data = batch.objects.all()
+    #scheme_data = scheme.objects.all()#1
 
     #2
     if request.method == 'POST':
@@ -2055,15 +2055,19 @@ def view_parent(request):
 
             data = profile_student.objects.filter(batch=batch_id)
 
+            #student_id = profile_student.objects.get(register_no)
+
             batch_data1 = batch.objects.get(id=batch_id)
-            scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
+            #scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
 
             batch_data = batch.objects.all()
-            scheme_data = scheme.objects.all()#2
-'''
+            #scheme_data = scheme.objects.all()#2
 
 
-    return render(request,'view_parent.html',{'parent_data':data,
+
+    return render(request,'view_parent.html',{#'parent_data':data,
+                                             'student_data':data,
+                                             ''
                                             'context':context,
                                             "data_for_self_profile": staff_details_1})
                            
@@ -2073,11 +2077,11 @@ def view_parent(request):
                                 'batch': batch_data,
                                 " data_for_self_profile": staff_details_1,
                                 "data_for_self_profile": staff_details_1 
-                            })
+                            })'''
 
 
 
-    return render(request, 'view_student.html',
+    '''return render(request, 'view_student.html',
 
                   {
                       "batch": batch_data,
