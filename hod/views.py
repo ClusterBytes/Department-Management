@@ -2131,18 +2131,18 @@ def view_parent(request):
 
             batch_id = batch_id_int
 
-            data = profile_student.objects.filter(batch=batch_id)
+            student_data = profile_student.objects.filter(batch=batch_id)
 
             batch_data1 = batch.objects.get(id=batch_id)
             scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
 
            #student_id = profile_student.objects.get(id = data.register_no_id)
             # print(data)
-            for i in data:
+            for i in student_data:
                 parent_data = parent_profile.objects.filter(
                     register_no_id=i.id)
                 for j in parent_data:
-                    print(j.first_name)
+                    print(j)
             batch_data = batch.objects.all()
             scheme_data = scheme.objects.all()
 
@@ -2154,6 +2154,7 @@ def view_parent(request):
                     # "scheme_data1": scheme_data1,
                     # "batch_data1": batch_data1,
                     "parent_data": parent_data,
+                    "student_data":student_data,
                     "context": context,
                     "scheme_data": scheme_data,
                     "batch": batch_data,
