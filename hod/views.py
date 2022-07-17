@@ -2137,41 +2137,43 @@ def view_parent(request):
 
             batch_data1 = batch.objects.get(id=batch_id)
             scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
-
+            print("cdcdc", batch_id)
            #student_id = profile_student.objects.get(id = data.register_no_id)
             # print(data)
+            data_list = []
             for i in student_data:
-                parent_data = parent_profile.objects.all().filter(register_no_id=i.id).values()
-                # data = []
-                # data.append(parent_data)
-                #print(i)
-                # for j in parent_data:
-                #   print(j.first_name)
-                
-            
+                data_dict = {}
+                parent_data = parent_profile.objects.filter(
+                    register_no_id=i.id)
+                for j in parent_data:
+                    data_dict["student_name"] = i.first_name+' '+i.last_name
+                    data_dict["parent_name"] = j.first_name+' '+j.last_name
+                    data_dict['email'] = j.email
+                    data_dict['phone_number'] = j.phone_no
+                if(len(data_dict) != 0):
+                    data_list.append(data_dict)
+
             batch_data = batch.objects.all()
             scheme_data = scheme.objects.all()
 
-                   
             return render(
-                    request,
-                    "view_parent.html",
-                    {
-                        # "student_data": data,
-                        # "scheme_data1": scheme_data1,
-                        # "batch_data1": batch_data1,
-                        # "parent_data": parent_data,
-                        "student_data":student_data,
-                        "parent_data": parent_data,
-                        "scheme_data1": scheme_data1,
-                        "batch_data1": batch_data1,
-                        "context": context,
-                        "scheme_data": scheme_data,
-                        "batch": batch_data,
-                        "data_for_self_profile": staff_details_1,
-                        },
-                    )
-                #batch_data = batch.objects.all()
+                request,
+                "view_parent.html",
+                {
+                    # "student_data": data,
+                    # "scheme_data1": scheme_data1,
+                    # "batch_data1": batch_data1,
+                    # "parent_data": parent_data,
+                    'data': data_list,
+                    "scheme_data1": scheme_data1,
+                    "batch_data1": batch_data1,
+                    "context": context,
+                    "scheme_data": scheme_data,
+                    "batch": batch_data,
+                    "data_for_self_profile": staff_details_1,
+                },
+            )
+            #batch_data = batch.objects.all()
 
     return render(request, 'view_parent.html', {  # 'parent_data':data,
         # 'parent_data':parent_data,
