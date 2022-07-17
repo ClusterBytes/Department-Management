@@ -1,4 +1,6 @@
 from atexit import register
+
+from numpy import s_
 from parent.models import parent_profile
 from ast import For
 import code
@@ -2139,28 +2141,37 @@ def view_parent(request):
            #student_id = profile_student.objects.get(id = data.register_no_id)
             # print(data)
             for i in student_data:
-                parent_data = parent_profile.objects.filter(
-                    register_no_id=i.id)
-                for j in parent_data:
-                    print(j)
+                parent_data = parent_profile.objects.all().filter(register_no_id=i.id).values()
+                # data = []
+                # data.append(parent_data)
+                #print(i)
+                # for j in parent_data:
+                #   print(j.first_name)
+                
+            
             batch_data = batch.objects.all()
             scheme_data = scheme.objects.all()
 
+                   
             return render(
-                request,
-                "view_parent.html",
-                {
-                    # "student_data": data,
-                    # "scheme_data1": scheme_data1,
-                    # "batch_data1": batch_data1,
-                    "parent_data": parent_data,
-                    "student_data":student_data,
-                    "context": context,
-                    "scheme_data": scheme_data,
-                    "batch": batch_data,
-                    "data_for_self_profile": staff_details_1,
-                },
-            )
+                    request,
+                    "view_parent.html",
+                    {
+                        # "student_data": data,
+                        # "scheme_data1": scheme_data1,
+                        # "batch_data1": batch_data1,
+                        # "parent_data": parent_data,
+                        "student_data":student_data,
+                        "parent_data": parent_data,
+                        "scheme_data1": scheme_data1,
+                        "batch_data1": batch_data1,
+                        "context": context,
+                        "scheme_data": scheme_data,
+                        "batch": batch_data,
+                        "data_for_self_profile": staff_details_1,
+                        },
+                    )
+                #batch_data = batch.objects.all()
 
     return render(request, 'view_parent.html', {  # 'parent_data':data,
         # 'parent_data':parent_data,
