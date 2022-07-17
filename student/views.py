@@ -403,7 +403,9 @@ def send_feedback(request):
         )
         print("subject feedback", subject_staff.id, feedback_text)
         feedback.objects.create(
-            student_id=student_id, subject_to_staff_id=subject_staff.id
+            student_id=student_id,
+            subject_to_staff_id=subject_staff.id,
+            feedback_text=feedback_text,
         )
 
     return render(

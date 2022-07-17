@@ -79,6 +79,7 @@ class parents(models.Model):
 class feedback(models.Model):
     student = models.ForeignKey(profile_student, on_delete=models.CASCADE)
     subject_to_staff = models.ForeignKey(subject_to_staff, on_delete=models.CASCADE)
+    feedback_text = models.CharField(max_length=256, null=True)
 
     def __str__(self):
         name = self.id
