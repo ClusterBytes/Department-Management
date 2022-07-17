@@ -16,7 +16,7 @@ from hod.models import (
     subject,
     subject_to_staff,
 )
-from student.models import profile_student
+from student.models import profile_student, feedback
 from login.models import MyUser
 import login
 
@@ -375,36 +375,37 @@ def log_out(request):
     return redirect(login.views.login)
 
 
-def feedback(request):
+def send_feedback(request):
     current_user = request.user
     user_id = current_user.username
-    print("logged in", current_user, user_id)
+    # print("logged in", current_user, user_id)
     # student_details = profile_student.objects.get(register_no=user_id)
     student_data = profile_student.objects.get(register_no=user_id)
     name = student_data.first_name + " " + student_data.last_name
     # id = request.session['student_id']
     context = {"name": name}
     batch = student_data.batch
-
+    student_id = student_data.id
     subject_data = subject_to_staff.objects.filter(batch_id=batch)
     subject_list = []
     for i in subject_data:
         subject_id = i.subject_id
         subjects = subject.objects.filter(id=subject_id)
         subject_list.append(subjects)
-        for j in subjects:
-            print(j.subject_name)
-    print(subject_list)
-    # batch_data = batch.objects.get(semester=4)
-    # scheme_id = batch_data.scheme
-    # scheme_data = scheme.objects.get(id=scheme_id)
-    # # batch_id = student_details_1.batch
-    # subject_in_sem = subject_to_staff.objects.all()
-    # print(batch_data)
-    # subjects = subject_to_staff.objects.get(batch_id=batch_id)
-    # for i in str(subject_in_sem):
-    #     print(i)
-    # print(subject_in_sem.subject_id)
+        # for j in subjects:
+        #     print(j.subject_name)
+
+    if request.method == "POST":
+        selected_subject = request.POST.get("subject_select")
+        feedback_text = request.POST.get("feedback_text")
+        subject_staff = subject_to_staff.objects.get(
+            batch_id=batch, subject_id=selected_subject
+        )
+        print("subject feedback", subject_staff.id, feedback_text)
+        feedback.objects.create(
+            student_id=student_id, subject_to_staff_id=subject_staff.id
+        )
+
     return render(
         request,
         "feedback.html",

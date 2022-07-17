@@ -77,10 +77,9 @@ class parents(models.Model):
 
 
 class feedback(models.Model):
-    feedback_id = models.BigIntegerField(null=False)
-    student_id = models.BigIntegerField(null=False)
-    subject_staff = models.ForeignKey(subject_to_staff, on_delete=models.CASCADE)
+    student = models.ForeignKey(profile_student, on_delete=models.CASCADE)
+    subject_to_staff = models.ForeignKey(subject_to_staff, on_delete=models.CASCADE)
 
     def __str__(self):
-        name = self.feedback_id
+        name = self.id
         return name
