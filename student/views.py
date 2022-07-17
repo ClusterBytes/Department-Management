@@ -1,4 +1,5 @@
 from atexit import register
+from re import sub
 
 # import matplotlib as matplotlib
 from autoscraper import AutoScraper
@@ -379,25 +380,31 @@ def feedback(request):
     user_id = current_user.username
     print("logged in", current_user, user_id)
     # student_details = profile_student.objects.get(register_no=user_id)
-    student_data = profile_student.objects.filter(register_no=user_id)
-    print(student_data)
-    for i in student_data:
-        print("student", i.id)
-        student_id = i.id
-        batch_id = i.batch
-        date_of_birth = i.date_of_birth
-        name_first = i.first_name
-        name_last = i.last_name
+    student_data = profile_student.objects.get(register_no=user_id)
+    name = student_data.first_name + " " + student_data.last_name
+    # id = request.session['student_id']
+    context = {"name": name}
+    batch = student_data.batch
 
-    print(batch_id)
-    batch_data = batch.objects.get(semester=4)
-    scheme_id = batch_data.scheme
-    scheme_data = scheme.objects.get(id=scheme_id)
-    # batch_id = student_details_1.batch
-    subject_in_sem = subject_to_staff.objects.all()
-    print(batch_data)
+    subject_data = subject_to_staff.objects.filter(batch_id=1)
+
+    for i in subject_data:
+        print(i.semester)
+    # batch_data = batch.objects.get(semester=4)
+    # scheme_id = batch_data.scheme
+    # scheme_data = scheme.objects.get(id=scheme_id)
+    # # batch_id = student_details_1.batch
+    # subject_in_sem = subject_to_staff.objects.all()
+    # print(batch_data)
     # subjects = subject_to_staff.objects.get(batch_id=batch_id)
     # for i in str(subject_in_sem):
     #     print(i)
     # print(subject_in_sem.subject_id)
-    return render(request, "feedback.html", {"name": "sdsds"})
+    return render(
+        request,
+        "feedback.html",
+        {
+            "context": context,
+            "student_data": student_data,
+        },
+    )
