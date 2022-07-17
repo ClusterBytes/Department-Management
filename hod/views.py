@@ -339,7 +339,6 @@ def add_student(request):
     # batch_data_year = batch.objects.all().distinct('date_of_join')
     scheme_data = scheme.objects.all()
 
-
     if request.method == 'POST':
         username = request.POST.get('username')
         first_name = request.POST.get('first_name')
@@ -429,7 +428,7 @@ def view_student(request):
     if request.method == "POST":
 
         batch_id = request.POST.get('batch_select')
-        #print(batch_id)
+        # print(batch_id)
         batch_id_int = int(batch_id)
 
         if batch_id == "0":
@@ -2076,28 +2075,6 @@ def add_parent(request):
     )
 
 
-'''def view_parent(request):
-    current_user = request.user
-    staff_id = current_user.username
-    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
-    name = staff_details_1.First_name + " " + staff_details_1.Last_name
-    context = {"name": name}
-    return render(
-        request,
-        "view_parent.html",
-        {"context": context, "data_for_self_profile": staff_details_1},
-    )'''
-
-'''def add_parent(request):
-    current_user = request.user
-    staff_id = current_user.username
-    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
-    name = staff_details_1.First_name + " " + staff_details_1.Last_name
-    print(name)
-    context = {'name': name}
-    return render(request, 'add_parent.html',
-                  {'context':context,
-                  "data_for_self_profile": staff_details_1})'''
 def view_parent(request):
     current_user = request.user
     staff_id = current_user.username
@@ -2107,7 +2084,6 @@ def view_parent(request):
 
     #data = parent_profile.objects.all()
 
-    
     # batch_data = batch.objects.all()
     # scheme_data = scheme.objects.all()#1
 
@@ -2132,14 +2108,11 @@ def view_parent(request):
 
     #         parent_data = parent_profile.objects.filter(register_no = student_id)
 
-
-
     #         batch_data1 = batch.objects.get(id=batch_id)
     #         scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
 
     #         batch_data = batch.objects.all()
     #         scheme_data = scheme.objects.all()#2
-
 
     batch_data = batch.objects.all()
     scheme_data = scheme.objects.all()
@@ -2147,7 +2120,7 @@ def view_parent(request):
     if request.method == "POST":
 
         batch_id = request.POST.get('batch_select')
-        #print(batch_id)
+        # print(batch_id)
         batch_id_int = int(batch_id)
 
         if batch_id == "0":
@@ -2164,9 +2137,12 @@ def view_parent(request):
             scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
 
            #student_id = profile_student.objects.get(id = data.register_no_id)
-
-            parent_data = parent_profile.objects.filter(register_no_id = data.register_no_id)
-
+            # print(data)
+            for i in data:
+                parent_data = parent_profile.objects.filter(
+                    register_no_id=i.id)
+                for j in parent_data:
+                    print(j.first_name)
             batch_data = batch.objects.all()
             scheme_data = scheme.objects.all()
 
@@ -2174,9 +2150,9 @@ def view_parent(request):
                 request,
                 "view_parent.html",
                 {
-                    #"student_data": data,
-                    #"scheme_data1": scheme_data1,
-                    #"batch_data1": batch_data1,
+                    # "student_data": data,
+                    # "scheme_data1": scheme_data1,
+                    # "batch_data1": batch_data1,
                     "parent_data": parent_data,
                     "context": context,
                     "scheme_data": scheme_data,
@@ -2185,15 +2161,12 @@ def view_parent(request):
                 },
             )
 
-
-
-
-    return render(request,'view_parent.html',{#'parent_data':data,
-                                             #'parent_data':parent_data,
-                                            'batch':batch_data,
-                                            'scheme_data':scheme_data,
-                                            'context':context,
-                                            "data_for_self_profile": staff_details_1})
+    return render(request, 'view_parent.html', {  # 'parent_data':data,
+        # 'parent_data':parent_data,
+        'batch': batch_data,
+        'scheme_data': scheme_data,
+        'context': context,
+        "data_for_self_profile": staff_details_1})
 
     '''
      current_user = request.user
@@ -2255,7 +2228,6 @@ def view_parent(request):
 
 
     '''
-                           
 
 
 # logout
