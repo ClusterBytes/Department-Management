@@ -386,10 +386,15 @@ def feedback(request):
     context = {"name": name}
     batch = student_data.batch
 
-    subject_data = subject_to_staff.objects.filter(batch_id=1)
-
+    subject_data = subject_to_staff.objects.filter(batch_id=batch)
+    subject_list = []
     for i in subject_data:
-        print(i.semester)
+        subject_id = i.subject_id
+        subjects = subject.objects.filter(id=subject_id)
+        subject_list.append(subjects)
+        for j in subjects:
+            print(j.subject_name)
+    print(subject_list)
     # batch_data = batch.objects.get(semester=4)
     # scheme_id = batch_data.scheme
     # scheme_data = scheme.objects.get(id=scheme_id)
@@ -405,6 +410,7 @@ def feedback(request):
         "feedback.html",
         {
             "context": context,
+            "subjects": subject_list,
             "student_data": student_data,
         },
     )

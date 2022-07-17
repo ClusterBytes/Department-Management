@@ -1,6 +1,8 @@
 import email
 from django.db import models
 
+from hod.models import subject_to_staff
+
 
 # Create your models here.
 class profile_student(models.Model):
@@ -14,8 +16,11 @@ class profile_student(models.Model):
     address = models.CharField(max_length=255, null=True)
     phone_no = models.BigIntegerField(unique=True, null=True)
     email = models.EmailField(unique=True, null=True)
-    sex = models.CharField(max_length=10, null=True,
-                           choices=[('Female', 'Female'), ('Male', 'Male'), ('Others', 'Others')])
+    sex = models.CharField(
+        max_length=10,
+        null=True,
+        choices=[("Female", "Female"), ("Male", "Male"), ("Others", "Others")],
+    )
     date_of_birth = models.DateField(unique=False, null=True)
     nationality = models.CharField(max_length=255, null=True)
     religion = models.CharField(max_length=255, null=True)
@@ -25,19 +30,21 @@ class profile_student(models.Model):
     scheme_id = models.BigIntegerField(unique=False, null=False)
 
     blood_groups = [
-        ('A+', 'A+'),
-        ('A-', 'A-'),
-        ('B+', 'B+'),
-        ('B-', 'B-'),
-        ('AB+', 'AB+'),
-        ('AB-', 'AB-'),
-        ('O+', 'O+'),
-        ('O-', 'O-'),
+        ("A+", "A+"),
+        ("A-", "A-"),
+        ("B+", "B+"),
+        ("B-", "B-"),
+        ("AB+", "AB+"),
+        ("AB-", "AB-"),
+        ("O+", "O+"),
+        ("O-", "O-"),
     ]
     blood_group = models.CharField(max_length=10, choices=blood_groups, null=True)
     hobbies = models.CharField(max_length=100, null=True)
-    photo = models.ImageField(upload_to='images/', null=True, default='images/user_default_image.png')
-    sign = models.ImageField(upload_to='images/', null=True)
+    photo = models.ImageField(
+        upload_to="images/", null=True, default="images/user_default_image.png"
+    )
+    sign = models.ImageField(upload_to="images/", null=True)
 
     def __str__(self):
         name = self.first_name + " " + self.last_name
@@ -67,3 +74,13 @@ class parents(models.Model):
     mothers_email_id = models.EmailField(null=True)
     fathers_number = models.BigIntegerField(null=True)
     mothers_number = models.BigIntegerField(null=True)
+
+
+class feedback(models.Model):
+    feedback_id = models.BigIntegerField(null=False)
+    student_id = models.BigIntegerField(null=False)
+    subject_staff = models.ForeignKey(subject_to_staff, on_delete=models.CASCADE)
+
+    def __str__(self):
+        name = self.feedback_id
+        return name

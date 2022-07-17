@@ -46,16 +46,20 @@
     </div><!-- End Page Title -->
    
     <section class="section">
-        <div class="col-md-3 position-relative">
-            <label for="validationTooltip04" class="form-label">Select Subject</label>
-            <select class="form-select" id="validationTooltip04" required>
-              <option selected disabled value="">Choose...</option>
-              <option>...</option>
-            </select>
-            <div class="invalid-tooltip">
-              Please select a valid state.
-            </div>
-          </div>
+      <div class="col-12">
+        <!--<label for="yourName" class="form-label">Select Batch</label>-->
+        <select name="batch_select" class="form-select" readonly="true" required >
+          <option value="0">Select subject</option>
+          
+          {% for i in subjects %}
+            {% for j in i %}
+               <option value="{{ j.id }}" selected>{{j.subject_name}} </option>
+            {% endfor %}
+          {% endfor %}
+
+        </select>
+
+      </div>
           
           <br/>
           <br/>
