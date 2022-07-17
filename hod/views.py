@@ -2083,73 +2083,38 @@ def view_parent(request):
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {'name': name}
-
-    #data = parent_profile.objects.all()
-
-    # batch_data = batch.objects.all()
-    # scheme_data = scheme.objects.all()#1
-
-    # #2
-    # if request.method == 'POST':
-
-    #     batch_id = request.POST.get('batch_select')
-    #     #print(batch_id)
-    #     batch_id_int = int(batch_id)
-
-    #     if batch_id == '0':
-
-    #         messages.error(request, 'Please select Batch')
-
-    #     else:
-
-    #         batch_id = batch_id_int
-
-    #         data = profile_student.objects.filter(batch=batch_id)
-
-    #         student_id = profile_student.objects.get(data.register_no)
-
-    #         parent_data = parent_profile.objects.filter(register_no = student_id)
-
-    #         batch_data1 = batch.objects.get(id=batch_id)
-    #         scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
-
-    #         batch_data = batch.objects.all()
-    #         scheme_data = scheme.objects.all()#2
-
     batch_data = batch.objects.all()
     scheme_data = scheme.objects.all()
-
+    
     if request.method == "POST":
-
+        
         batch_id = request.POST.get('batch_select')
-        # print(batch_id)
         batch_id_int = int(batch_id)
-
+        
         if batch_id == "0":
-
+            
             messages.error(request, "Please select Batch")
-
+        
         else:
-
+            
             batch_id = batch_id_int
-
             student_data = profile_student.objects.filter(batch=batch_id)
-
             batch_data1 = batch.objects.get(id=batch_id)
             scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
-            print("cdcdc", batch_id)
-           #student_id = profile_student.objects.get(id = data.register_no_id)
-            # print(data)
+            
             data_list = []
             for i in student_data:
                 data_dict = {}
                 parent_data = parent_profile.objects.filter(
                     register_no_id=i.id)
+                
                 for j in parent_data:
+                    
                     data_dict["student_name"] = i.first_name+' '+i.last_name
                     data_dict["parent_name"] = j.first_name+' '+j.last_name
                     data_dict['email'] = j.email
                     data_dict['phone_number'] = j.phone_no
+                
                 if(len(data_dict) != 0):
                     data_list.append(data_dict)
 
@@ -2160,10 +2125,7 @@ def view_parent(request):
                 request,
                 "view_parent.html",
                 {
-                    # "student_data": data,
-                    # "scheme_data1": scheme_data1,
-                    # "batch_data1": batch_data1,
-                    # "parent_data": parent_data,
+                    
                     'data': data_list,
                     "scheme_data1": scheme_data1,
                     "batch_data1": batch_data1,
@@ -2173,77 +2135,16 @@ def view_parent(request):
                     "data_for_self_profile": staff_details_1,
                 },
             )
-            #batch_data = batch.objects.all()
+           
+    return render(request, 'view_parent.html', 
+        {  
+            'batch': batch_data,
+            'scheme_data': scheme_data,
+            'context': context,
+            "data_for_self_profile": staff_details_1
+        })
 
-    return render(request, 'view_parent.html', {  # 'parent_data':data,
-        # 'parent_data':parent_data,
-        'batch': batch_data,
-        'scheme_data': scheme_data,
-        'context': context,
-        "data_for_self_profile": staff_details_1})
-
-    '''
-     current_user = request.user
-    staff_id = current_user.username
-
-    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
-    name = staff_details_1.First_name + " " + staff_details_1.Last_name
-    context = {"name": name}
-
-    batch_data = batch.objects.all()
-    scheme_data = scheme.objects.all()
-
-    if request.method == "POST":
-
-        batch_id = request.POST.get('batch_select')
-        #print(batch_id)
-        batch_id_int = int(batch_id)
-
-        if batch_id == "0":
-
-            messages.error(request, "Please select Batch")
-
-        else:
-
-            batch_id = batch_id_int
-
-            data = profile_student.objects.filter(batch=batch_id)
-
-            batch_data1 = batch.objects.get(id=batch_id)
-            scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
-
-            batch_data = batch.objects.all()
-            scheme_data = scheme.objects.all()
-
-            return render(
-                request,
-                "view_student.html",
-                {
-                    "student_data": data,
-                    "scheme_data1": scheme_data1,
-                    "batch_data1": batch_data1,
-                    "context": context,
-                    "scheme_data": scheme_data,
-                    "batch": batch_data,
-                    "data_for_self_profile": staff_details_1,
-                },
-            )
-
-    return render(
-        request,
-        "view_student.html",
-        {
-            "batch": batch_data,
-            "scheme_data": scheme_data,
-            "context": context,
-            "data_for_self_profile": staff_details_1,
-        },
-    )
-
-
-    '''
-
-
+   
 # logout
 def log_out(request):
     logout(request)
