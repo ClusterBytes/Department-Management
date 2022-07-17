@@ -2163,9 +2163,9 @@ def view_parent(request):
             batch_data1 = batch.objects.get(id=batch_id)
             scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
 
-           # student_id = profile_student.objects.get(id = data.id)
+           #student_id = profile_student.objects.get(id = data.register_no_id)
 
-            parent_data = parent_profile.objects.filter(register_no = data.register_no)
+            parent_data = parent_profile.objects.filter(register_no_id = data.register_no_id)
 
             batch_data = batch.objects.all()
             scheme_data = scheme.objects.all()
