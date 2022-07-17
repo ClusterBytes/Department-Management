@@ -161,11 +161,11 @@
           </tr>
         </thead>
         <tbody>
-          {% for i in student_data %}
+          {% for i in parent_data%}
           
           <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ i.register_no }}</td>
+            <td>{{ i.register_no}}</td>
             <td>{{ i.first_name }} {{i.last_name}}</td>
             <td>{{ i.phone_no }}</td>
             <td>{{ i.email }}</td>
