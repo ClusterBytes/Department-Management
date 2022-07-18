@@ -5,6 +5,7 @@ from student.views import (
     student_profile,
     send_feedback,
     send_leave_request,
+    view_leave_request,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path("student_profile/", student_profile, name="student_profile"),
     path("student_feedback/", send_feedback, name="student_feedback"),
     path("student_send_leave_request/", send_leave_request, name="send_leave_request"),
+    path("student_view_leave_request/", view_leave_request, name="view_leave_request"),
 ]
