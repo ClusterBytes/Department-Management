@@ -415,3 +415,34 @@ def send_feedback(request):
             "student_data": student_data,
         },
     )
+
+
+from tutor.models import leave_request
+
+
+def send_leave_request(request):
+    current_user = request.user
+    user_id = current_user.username
+
+    student_data = profile_student.objects.get(register_no=user_id)
+    name = student_data.first_name + " " + student_data.last_name
+    context = {"name": name}
+    student_id = student_data.id
+    batch_id = student_data.batch
+    print(student_data.batch)
+    if request.method == "POST":
+        request_letter = request.POST.get("leave_request")
+        leave_request.objects.create(
+            student_id=student_id,
+            batch_id=batch_id,
+            request=request_letter,
+        )
+
+    return render(
+        request,
+        "send_leave_request.html",
+        {
+            "context": context,
+            "student_data": student_data,
+        },
+    )
