@@ -392,8 +392,6 @@ def send_feedback(request):
         subject_id = i.subject_id
         subjects = subject.objects.filter(id=subject_id)
         subject_list.append(subjects)
-        # for j in subjects:
-        #     print(j.subject_name)
 
     if request.method == "POST":
         selected_subject = request.POST.get("subject_select")
