@@ -9,23 +9,40 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('student', '0008_auto_20220618_1715'),
+        ("student", "0008_auto_20220618_1715"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='parent_profile',
+            name="parent_profile",
             fields=[
-                ('parent_id', models.BigIntegerField(primary_key=True, serialize=False)),
-                ('phone_no', models.BigIntegerField()),
-                ('email', models.EmailField(max_length=254)),
+                (
+                    "parent_id",
+                    models.BigIntegerField(primary_key=True, serialize=False),
+                ),
+                ("phone_no", models.BigIntegerField()),
+                ("email", models.EmailField(max_length=254)),
             ],
         ),
         migrations.CreateModel(
-            name='parent_student',
+            name="parent_student",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('register_no', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='student.profile_student')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "register_no",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="student.profile_student",
+                    ),
+                ),
             ],
         ),
     ]

@@ -52,11 +52,10 @@ class Internal_mark(models.Model):
     subject_id = models.BigIntegerField(null=False)
 
     exm_type = [
-        ('Assignment 1', 'Assignment 1'),
-        ('Assignment 2', 'Assignment 2'),
-        ('Internal 1', 'Internal 1'),
-        ('Internal 2', 'Internal 2'),
-
+        ("Assignment 1", "Assignment 1"),
+        ("Assignment 2", "Assignment 2"),
+        ("Internal 1", "Internal 1"),
+        ("Internal 2", "Internal 2"),
     ]
     exam_type = models.CharField(max_length=255, choices=exm_type, null=False)
     semester = models.BigIntegerField(null=False)

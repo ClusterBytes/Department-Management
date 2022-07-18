@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0009_alter_subject_code'),
+        ("hod", "0009_alter_subject_code"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='batch',
-            name='tutor_id',
+            model_name="batch",
+            name="tutor_id",
             field=models.BigIntegerField(default=0),
         ),
     ]

@@ -6,21 +6,21 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hod', '0013_subject_to_staff'),
+        ("hod", "0013_subject_to_staff"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='subject_to_staff',
-            old_name='code',
-            new_name='subject_id',
+            model_name="subject_to_staff",
+            old_name="code",
+            new_name="subject_id",
         ),
         migrations.RemoveField(
-            model_name='subject_to_staff',
-            name='scheme',
+            model_name="subject_to_staff",
+            name="scheme",
         ),
         migrations.RemoveField(
-            model_name='subject_to_staff',
-            name='semester',
+            model_name="subject_to_staff",
+            name="semester",
         ),
     ]

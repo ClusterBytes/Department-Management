@@ -317,7 +317,7 @@ def student_profile(request):
             student_data1.save()
 
             messages.error(request, "Successfully updated")
-            # return render(request, 'student_profile.html',
+            # return render(request, 'parent_profile.html',
             #              {'student_data': student_data, 'scheme_data': scheme_data, 'batch_data': batch_data,
             #               'date_dob': date_dob, 'context': context})
             return redirect(student_profile)

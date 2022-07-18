@@ -1,7 +1,0 @@
-Django==3.2.9
-dj_database_url
-whitenoise
-autoscraper
-pytest
-psycopg2
-pillow

@@ -1,11 +1,36 @@
 from django.urls import path, include
-from hod.views import assign_subject_to_staff, delete_subject, hod_index, add_staff, log_out, subject_wise_report, \
-    view_faculty, add_student, create_batch, view_student, view_student_details, view_tutor, hod_subject_wise_report, \
-    hod_view_my_subject, hod_update_class, hod_my_subject_view_attendance, hod_my_subject_view_internal_result, \
-    hod_my_subject_add_internal, hod_my_subject_add_attendance
-from hod.views import view_batch, edit_batch, delete_batch, delete_faculty, faculty_profile, create_scheme
+from hod.views import (
+    assign_subject_to_staff,
+    delete_subject,
+    hod_index,
+    add_staff,
+    log_out,
+    subject_wise_report,
+    view_faculty,
+    add_student,
+    create_batch,
+    view_student,
+    view_student_details,
+    view_tutor,
+    hod_subject_wise_report,
+    hod_view_my_subject,
+    hod_update_class,
+    hod_my_subject_view_attendance,
+    hod_my_subject_view_internal_result,
+    hod_my_subject_add_internal,
+    hod_my_subject_add_attendance,
+)
+from hod.views import (
+    view_batch,
+    edit_batch,
+    delete_batch,
+    delete_faculty,
+    faculty_profile,
+    create_scheme,
+)
 from hod.views import view_scheme, create_subject, view_subject, edit_subject
 from hod.views import check_subject_exist, check_user_exist, batch_details
+from hod.views import add_parent,view_parent
 
 
 
@@ -43,4 +68,6 @@ urlpatterns = [
     path('hod_my_subject_internal/<int:batch_id>/<int:subject_id>/', hod_my_subject_add_internal, name='hod_my_subject_add_internal'),
     path('hod_my_subject_internal_result/<int:batch_id>/<int:subject_id>/', hod_my_subject_view_internal_result, name='hod_my_subject_view_internal_result'),
     path('hod_my_subject_view_attendance/<int:record_id>/<int:batch_id>/<int:subject_id>/', hod_my_subject_view_attendance, name='hod_my_subject_view_attendance'),
+    path('add_parent/', add_parent, name='add_parent'),
+    path('view_parent/', view_parent, name='view_parent')
 ]
