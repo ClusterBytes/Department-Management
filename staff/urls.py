@@ -75,4 +75,9 @@ urlpatterns = [
         performance_analysis,
         name="performance_analysis",
     ),
+     path(
+        "tutor_view_leave_requests<int:batch_id>/",
+        performance_analysis,
+        name="tutor_view_leave_requests",
+    ),
 ]
