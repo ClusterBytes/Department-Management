@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.db.models import Sum, Max
 from parent.models import parent_profile
+from student.models import feedback
 
 import login
 from hod.models import (
@@ -2133,7 +2134,7 @@ def view_parent(request):
                     "scheme_data": scheme_data,
                     "batch": batch_data,
                     "data_for_self_profile": staff_details_1,
-                },
+                }
             )
            
     return render(request, 'view_parent.html', 
@@ -2143,6 +2144,90 @@ def view_parent(request):
             'context': context,
             "data_for_self_profile": staff_details_1
         })
+
+def hod_feedback(request):
+
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': name}
+
+    batch_data = batch.objects.all()
+    scheme_data = scheme.objects.all()
+    sub_data = subject.objects.all()
+    
+    
+    if request.method == "POST":
+        
+        batch_id = request.POST.get('batch_select')
+        #batch_id_int = batch_id
+        #batch_id = 1
+        #print(batch_id)
+
+        if batch_id == 0:
+             messages.error(request, "Please select Batch")
+        
+    
+        batch_data = batch.objects.all()
+        scheme_data = scheme.objects.all()
+        sub_data = subject.objects.all()
+            #cdbatch_id = batch_id_int
+        batch_data1 = batch.objects.get(id = batch_id)
+       # print(batch_data1.class_name)
+        scheme_data1 = scheme.objects.get(id = batch_data1.scheme)
+       # print("bdd",batch_data1.scheme)
+        
+        
+
+        sub_id = request.POST.get('subject_select')
+           # sub_id_int = int(sub_id)
+
+        #sub_id = 1
+        #print(sub_id)
+
+        if sub_id == 0:
+            messages.error(request, "Please select Subject")
+
+            
+        #sub_
+                #for i in scheme_data1:
+        sub_data = subject.objects.all()
+        sub_data1 = subject.objects.filter(scheme = scheme_data1.scheme)
+        #print(sub_data.subject_name)
+        for i in sub_data1:
+            print("dfff",i.subject_name)
+
+
+        
+
+        return render(request,"hod_feedback.html",
+                  {
+                    
+                    #'data': data_list,
+                    "scheme_data1": scheme_data1,
+                    "batch_data1": batch_data1,
+                    "context": context,
+                    "scheme_data": scheme_data,
+                    "batch": batch_data,
+                    "sub_data":sub_data,
+                    "data_for_self_profile": staff_details_1,
+                  }
+               )
+
+
+        
+
+    return render(request,'hod_feedback.html',
+                   {
+                      #'batch_data1':batch_data1,
+                      #'scheme_data1':scheme_data1,
+                      'context':context,
+                      'batch_data1':batch_data1,
+                      'scheme_data':scheme_data1,
+                      'sub_data':sub_data1,
+                      'data_for_self_profile': staff_details_1
+                   })
 
    
 # logout
