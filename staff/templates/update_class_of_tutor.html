@@ -3052,9 +3052,18 @@
                                   {% for i in student_data %}
                                   <tr>
                                     <td>{{i.university_no}}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{i.first_name }} {{i.last_name}}</td>
+                                    {% for j in leave_requests %}
+                                    <td>{{j.request}}</td>
+                                    {% endfor %}
+                                    <td>
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gridCheck2" checked>
+                                        <label class="form-check-label" for="gridCheck2">
+                                         
+                                        </label>
+                                      </div>
+                                    </td>
                                   </tr>
                                   {% endfor %}
                                 </tbody>

@@ -10,6 +10,7 @@ from django.db.models import Sum, Max
 
 from psycopg2 import Date
 from pyparsing import line
+
 from pytest import mark
 import urllib3
 import login
@@ -30,6 +31,7 @@ from hod.models import (
 from staff.models import profile
 from login.models import MyUser
 from student.models import profile_student
+from tutor.models import leave_request
 
 
 def staff_index(request):
@@ -684,8 +686,11 @@ def update_class_of_tutor(request, batch_id):
     subject_data = subject.objects.all()
     assign_subject_data = subject_to_staff.objects.filter(batch_id=batch_id)
     sem_result = semester_result.objects.filter(batch_id=batch_id)
-
+    leave_requests = leave_request.objects.filter(batch_id=batch_id)
     subject_in_sem = subject_to_staff.objects.filter(batch_id=batch_id)
+    for i in leave_requests:
+        print(i.id)
+
     # all_subject = subject.objects.all()
 
     if "update_semester" in request.POST:
@@ -704,6 +709,7 @@ def update_class_of_tutor(request, batch_id):
             "context": context,
             "staff_data": staff_data,
             "batch_data": batch_data,
+            "leave_requests": leave_requests,
             "scheme_data": scheme_data,
             "date": join_date,
             "student_data": student_data,
