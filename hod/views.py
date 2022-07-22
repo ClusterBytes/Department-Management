@@ -2231,6 +2231,21 @@ def hod_feedback(request):
 
    
 # logout
+
+def hod_announcement(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {'name': name}
+
+
+    return render(request,'hod_announcement.html',
+                    {
+                        'context':context,
+                        'data_for_self_profile': staff_details_1
+                    })
+
 def log_out(request):
     logout(request)
 

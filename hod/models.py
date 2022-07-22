@@ -1,5 +1,8 @@
 from email.policy import default
+#from tkinter import CASCADE
 from django.db import models
+
+#from student.models import profile_student
 
 
 # Create your models here.
@@ -90,3 +93,7 @@ class attendance(models.Model):
     batch_id = models.BigIntegerField(unique=False, null=False)
     present = models.BooleanField(null=False)
     semester = models.BigIntegerField(null=False)
+
+
+class announcement(models.Model):
+    annoucement_text = models.CharField(max_length = 500)
