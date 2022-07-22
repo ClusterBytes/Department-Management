@@ -100,10 +100,10 @@
                      <select name="batch_select" class="form-select" readonly="true" required >
                        <option value="0">Select Batch</option>
                        
-                         {% for i in batch %}
+                         {% for i in batch_data %}
                            {% for j in scheme_data %}
                              {% if i.scheme == j.id %}
-                              {% if i.id == batch_data1.id %}
+                              {% if i.id == batch_data.id %}
                                   <option value="{{ i.id }}" selected>Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
                               {% else %}
                                   <option value="{{ i.id }}">Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
@@ -123,7 +123,8 @@
                    <div class="col-12">
                     <!--<label for="yourName" class="form-label">Select Batch</label>-->
                     <select name="subject_select" class="form-select" readonly="true" required >
-                      <option value="0">Select Subject</option>
+                      <option value="0" >Select Subject</option>
+                      
                       
                        <!--{% for i in batch %}
                           {% for j in scheme_data %}
@@ -151,7 +152,7 @@
                        
                       
 
-                    {%for k in sub_data1%}
+                    {%for k in sub_data%}
                         <option value="{{ k.id }}" selected>Subject :  {{ k.subject_name }} {{sdddd}}  <!--- Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}--> </option>
                       {%endfor%}
                       </select>
