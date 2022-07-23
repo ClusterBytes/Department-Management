@@ -723,6 +723,18 @@ def update_class_of_tutor(request, batch_id):
 
 # Subject Wise mark and attendance report
 
+from tutor.models import leave_request
+from django.utils import timezone
+
+
+def approve_request(request, r_id, batch_id):
+    print("student", r_id)
+    t = leave_request.objects.get(id=r_id)
+    t.status = "approved"
+    t.approved_date = timezone.now()
+    t.save()
+    return redirect(update_class_of_tutor, batch_id)
+
 
 def tutor_subject_wise_report(
     request,

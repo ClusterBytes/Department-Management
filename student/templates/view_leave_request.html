@@ -88,6 +88,9 @@
             <th>Date</th>
             <th>Status</th>
             <th>Request</th>
+            <th>  
+              Approved Date                                           
+            </th> 
             
             <th></th>
             <th></th>
@@ -101,6 +104,8 @@
                 <td>{{ i.requested_date}}</td>
                 <td>{{ i.status }} </td>
                 <td>{{ i.request }}</td>
+                <td>{{ i.approved_date }}</td>
+
                 
                 <td><button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
                 

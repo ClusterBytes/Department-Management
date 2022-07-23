@@ -3041,30 +3041,44 @@
                                       Name                                            
                                     </th>  
                                     <th>  
+                                     Date                                           
+                                    </th>  
+                                    <th>  
                                       Letter                                            
                                     </th>  
                                     <th>  
                                       Approve                                            
-                                    </th>    
+                                    </th>
+                                       
                                 </tr>
                                 </thead>
                                 <tbody>
                                   {% for i in student_data %}
+                                  {% for j in leave_requests %}
+                                  {% if i.id == j.student_id %}
                                   <tr>
                                     <td>{{i.university_no}}</td>
                                     <td>{{i.first_name }} {{i.last_name}}</td>
-                                    {% for j in leave_requests %}
+                                  
+                                    <td>{{j.requested_date}}</td>
                                     <td>{{j.request}}</td>
-                                    {% endfor %}
+                                  
                                     <td>
                                       <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="gridCheck2" checked>
-                                        <label class="form-check-label" for="gridCheck2">
-                                         
-                                        </label>
+                                        {% if j.status == "pending" %}
+                                        <a href="{% url 'approve_request' r_id=j.id batch_id=j.batch_id %}"> <button
+                                            class="btn btn-primary w-20" type="submit" id="approved">Approve now </button>&nbsp;
+                                        </a>
+                                        {% else %}
+                                        <button class="btn btn-primary w-20" type="submit" id="approved">Approved</button>
+                                        {% endif %}
                                       </div>
                                     </td>
+                                  
+                                    
                                   </tr>
+                                  {% endif %} 
+                                  {% endfor %}
                                   {% endfor %}
                                 </tbody>
                             </table>     
