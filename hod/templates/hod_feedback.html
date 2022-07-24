@@ -100,10 +100,10 @@
                      <select name="batch_select" class="form-select" readonly="true" required >
                        <option value="0">Select Batch</option>
                        
-                         {% for i in batch_data %}
+                         <!--{% for i in batch_data %}
                            {% for j in scheme_data %}
                              {% if i.scheme == j.id %}
-                              {% if i.id == batch_data.id %}
+                              {% if i.id == batch_data1.id %}
                                   <option value="{{ i.id }}" selected>Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
                               {% else %}
                                   <option value="{{ i.id }}">Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
@@ -111,10 +111,10 @@
                               {% endif %}
                              {% endif %}
                            {% endfor %}
-                         {% endfor %}
-                        <!-- {%for i in batch_data%}
-                            <option value="{{ i.id}}" selected> : {{i.class_name}}</option>
-                         {%endfor%}-->
+                         {% endfor %}-->
+                        {%for i in batch_data%}
+                            <option value="{{i.id}}" selected>Class: {{i.class_name}}  - Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{i.scheme}}</option>
+                         {%endfor%}
 
                      </select>
 
@@ -153,7 +153,7 @@
                       
 
                     {%for k in sub_data%}
-                        <option value="{{ k.id }}" selected>Subject :  {{ k.subject_name }} {{sdddd}}  <!--- Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}--> </option>
+                        <option value="{{ k.id }}" selected>Subject :  {{ k.subject_name }} {{sdddd}} <!-- Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}--></option>
                       {%endfor%}
                       </select>
                   </div>

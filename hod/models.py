@@ -33,6 +33,7 @@ class subject(models.Model):
     subject_name = models.CharField(max_length=255, null=False)
     credit = models.BigIntegerField(null=False)
     scheme = models.BigIntegerField(null=False)
+    semester = models.CharField(max_length=255,null = True)
 
     def __str__(self):
         name = self.code + "-" + self.subject_name

@@ -793,6 +793,7 @@ def create_subject(request):
         subject_code_input = request.POST.get("subject_code")
         subject_name_input = request.POST.get("subject_name")
         subject_credit = request.POST.get("subject_credit")
+        subject_sem = request.POST.get("subject_sem")
         scheme_id = request.POST.get("scheme")
         scheme_id_int = int(scheme_id)
 
@@ -809,6 +810,7 @@ def create_subject(request):
                 subject_name=subject_name,
                 credit=subject_credit,
                 scheme=scheme_id_int,
+                semester=subject_sem,
             )
             messages.error(
                 request, "The Subject " + subject_name + " successfully added"
@@ -2159,11 +2161,15 @@ def hod_feedback(request):
             messages.error(request, "Please select Batch")
 
         batch_data = batch.objects.all()
+        for i in batch_data:
+            print("SDS",i.semester)
         scheme_data = scheme.objects.all()
         sub_data = subject.objects.all()
+        for i in sub_data:
+            print("ASD",i.semester)
         # cdbatch_id = batch_id_int
         batch_data1 = batch.objects.get(id=batch_id)
-        # print(batch_data1.class_name)
+        print(batch_data1.class_name)
         scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
         # print("bdd",batch_data1.scheme)
 
@@ -2179,8 +2185,8 @@ def hod_feedback(request):
         # sub_
         # for i in scheme_data1:
         sub_data = subject.objects.all()
-        sub_data1 = subject.objects.filter(scheme=scheme_data1.scheme)
-        # print(sub_data.subject_name)
+        sub_data1 = subject.objects.filter(semester=batch_data.semester)
+        #print(sub_data.subject_name)
         for i in sub_data1:
             print("dfff", i.subject_name)
 
@@ -2190,11 +2196,11 @@ def hod_feedback(request):
             {
                 #'data': data_list,
                 "scheme_data1": scheme_data1,
-                "batch_data1": batch_data1,
+                #"batch_data1": batch_data1,
                 "context": context,
                 "scheme_data": scheme_data,
                 "batch": batch_data,
-                "sub_data": sub_data,
+                "sub_data": sub_data1,
                 "data_for_self_profile": staff_details_1,
             },
         )
