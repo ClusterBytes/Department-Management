@@ -58,11 +58,11 @@
 </style>
 <main id="main" class="main">
 
-    <div class="col-lg-12">
+   <!--<div class="col-lg-12">
       <div class="pagetitle">
         <a href="{% url 'add_parent' %}"><button class="btn btn-success btn-sm" style="float: right;"><i class="bi bi-person-plus"></i> Add Parent</button></a>
-
-        <h1>Parent</h1>
+          --> 
+        <h1>Feedback</h1>
         <br/>
       </div><!-- End Page Title -->
 
@@ -100,7 +100,7 @@
                      <select name="batch_select" class="form-select" readonly="true" required >
                        <option value="0">Select Batch</option>
                        
-                       {% for i in batch %}
+                         <!--{% for i in batch_data %}
                            {% for j in scheme_data %}
                              {% if i.scheme == j.id %}
                               {% if i.id == batch_data1.id %}
@@ -111,11 +111,58 @@
                               {% endif %}
                              {% endif %}
                            {% endfor %}
-                       {% endfor %}
+                         {% endfor %}-->
+                        {%for i in batch_data%}
+                          {%for j in scheme_data%}
+                            {%if i.scheme == j.id%}
+                              <option value="{{i.id}}" selected>Class: {{i.class_name}}  - Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}</option>
+                            {%else%}
+                              <option value="{{i.id}}">Class: {{i.class_name}}  - Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}</option>  
+                            {%endif%}    
+                          {%endfor%}
+                        {%endfor%}
 
                      </select>
 
                    </div>
+
+                   <div class="col-12">
+                    <!--<label for="yourName" class="form-label">Select Batch</label>-->
+                    <select name="subject_select" class="form-select" readonly="true" required >
+                      <option value="0" >Select Subject</option>
+                      
+                      
+                       <!--{% for i in batch %}
+                          {% for j in scheme_data %}
+                            {% if i.scheme == j.id %}
+                             {% if i.id == batch_data1.id %}
+                                 <option value="{{ i.id }}" selected>Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
+                             {% else %}
+                                 <option value="{{ i.id }}">Class :  {{ i.class_name  }}  -   Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}} </option>
+
+                             {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                       {% endfor %}-->
+                       <!--{%for i in sub_data1%}
+                        {%for j in scheme_data1%}
+                          {%if i.scheme == j.scheme%}
+                           {%if j.id == batch_data1.scheme%}-->
+                            <!--<option value="{{ i.id }}" selected>Code :  {{ i.code  }}  -   Subject: {{i.subject_name}}    -   Sem : {{batch_data1.semester}}  - Class :  {{ batch_data1.class_name  }}  - Scheme : {{j.scheme}} </option>
+                            --> <!--{% else %}
+                            <option value="{{ i.id }}">Code :  {{ i.code }}  -   subject: {{i.subject_name}}    -   Sem : {{batch_data1.semester}}  - Class :  {{ batch_data1.class_name  }} - Scheme : {{j.scheme}} </option>
+                           <{%endif%}-->
+                          <!--{%endif%}
+                        {%endfor%}
+                       {%endfor%}-->
+                       
+                      
+
+                    {%for k in sub_data%}
+                        <option value="{{ k.id }}" selected>Subject :  {{ k.subject_name }} {{sdddd}} <!-- Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}--></option>
+                      {%endfor%}
+                      </select>
+                  </div>
 
                  
 <!--                    <div class="col-12">
@@ -152,63 +199,21 @@
           <tr>
             <th >SI NO</th>
             <th>STUDENT NAME</th>
-            <th>NAME</th>
-            <th>PHONE NUMBER</th>
-            <th>E-MAIL</th>
-            <th></th>
-            <th></th>
-
+            <th>FEEDBACK</th>
           </tr>
         </thead>
         <tbody>
-        {% for i in data%}
+        {% for i in feedback_list%}
               <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ i.student_name}}</td>
-                <td>{{ i.parent_name }} </td>
-                <td>{{ i.phone_number }}</td>
-                <td>{{ i.email }}</td>
-                <td><a href=""><button type="button" class="btn btn-outline-success btn-sm"><i class="bi bi-eye btn-sm"></i>View </button></a> </td>
-                <td><button type="button"  class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ forloop.counter }}"><i class="bi bi-trash"></i> Delete</button>
-                
-                  <div class="modal fade" id="exampleModalCenter{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="exampleModalLongTitle"><strong>Do you want to delete ?</strong> </h4>
-                          <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>-->
-                        </div>
-                        <div class="modal-body">
-                          
-                          
-                          <h5 ><b>Name </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ i.first_name }} {{i.last_name}}</h5>
-                          <h5 ><b>Class </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.class_name }}</h5>
-                          <h5 ><b>Date of join </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.date_of_join }}</h5>
-                          <h5 ><b>Semester</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ batch_data1.semester }}</h5>
-                          <h5 ><b>Scheme </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ scheme_data1.scheme }}</h5>
-                        
-                          <h4></h4>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 20%;">No</button>
-                          <button type="button" class="btn btn-primary" style="width: 20%;">Yes</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </td>
-
+                <td>{{ i.feedback_text }} </td>
               </tr>
         {% endfor %}
         </tbody>
       </table>
       
               <br>
-              
-
             </div>     
       </div>
 
