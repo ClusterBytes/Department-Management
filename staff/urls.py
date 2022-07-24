@@ -18,6 +18,7 @@ from staff.views import (
     view_classes,
     view_internal_result,
     view_subjects,
+    staff_feedback
 )
 
 urlpatterns = [
@@ -75,4 +76,5 @@ urlpatterns = [
         performance_analysis,
         name="performance_analysis",
     ),
+    path('staff_feedback/', staff_feedback, name='staff_feedback'),
 ]

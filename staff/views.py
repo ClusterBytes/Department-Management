@@ -1666,7 +1666,21 @@ def add_feedback(request, batch_id, subject_id):
     )
 
 
+def staff_feedback(request):
 
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details.First_name + " " + staff_details.Last_name
+    context = {"name": fullname}
+
+
+    return render(request,"staff_feedback.html",
+                    {
+                      'context': context,
+                      'staff_details':staff_details,
+                    })
 # logout
 
 
