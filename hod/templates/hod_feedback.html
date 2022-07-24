@@ -113,8 +113,14 @@
                            {% endfor %}
                          {% endfor %}-->
                         {%for i in batch_data%}
-                            <option value="{{i.id}}" selected>Class: {{i.class_name}}  - Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{i.scheme}}</option>
-                         {%endfor%}
+                          {%for j in scheme_data%}
+                            {%if i.scheme == j.id%}
+                              <option value="{{i.id}}" selected>Class: {{i.class_name}}  - Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}</option>
+                            {%else%}
+                              <option value="{{i.id}}">Class: {{i.class_name}}  - Date of Join : {{i.date_of_join}}    -   Sem : {{i.semester}}  - Scheme : {{j.scheme}}</option>  
+                            {%endif%}    
+                          {%endfor%}
+                        {%endfor%}
 
                      </select>
 
