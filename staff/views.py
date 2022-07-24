@@ -1517,6 +1517,156 @@ def performance_analysis(request, batch_id):
     )
 
 
+    #Feedback
+
+
+def add_feedback(request, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details.First_name + " " + staff_details.Last_name
+    context = {"name": fullname}
+
+    # batch_id = request.session['batch_id']
+    # subject_id = request.session['subject_id']
+
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    staff_id = staff_details.id
+    check_subject_exist = subject_to_staff.objects.filter(
+        batch_id=batch_id, staff_id=staff_id, subject_id=subject_id
+    )
+    internal_mark = Internal_mark.objects.filter()
+
+    for i in check_subject_exist:
+        sem = i.semester
+
+    if "internal" in request.POST:
+        for i in student_data:
+            x = i.roll_no
+            mark = request.POST.getlist(str(x))
+            print(mark)
+
+            exist_ass1 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Assignment 1",
+            ).count()
+            exist_ass2 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Assignment 2",
+            ).count()
+            exist_internal1 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Internal 1",
+            ).count()
+            exist_internal2 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Internal 2",
+            ).count()
+            print(exist_ass1, exist_ass2, exist_internal1, exist_internal2)
+            if exist_ass1 > 0:
+                update_ass1 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Assignment 1",
+                )
+                update_ass1.mark = mark[0]
+                update_ass1.save()
+
+            if exist_ass2 > 0:
+                update_ass2 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Assignment 2",
+                )
+                update_ass2.mark = mark[1]
+                update_ass2.save()
+
+            if exist_internal1 > 0:
+                update_internal1 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Internal 1",
+                )
+                update_internal1.mark = mark[2]
+                update_internal1.save()
+
+            if exist_internal2 > 0:
+                update_internal2 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Internal 2",
+                )
+                update_internal2.mark = mark[3]
+                update_internal2.save()
+
+            if (
+                exist_ass1 == 0
+                and exist_ass2 == 0
+                and exist_internal1 == 0
+                and exist_internal2 == 0
+            ):
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[0],
+                    exam_type="Assignment 1",
+                )
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[1],
+                    exam_type="Assignment 2",
+                )
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[2],
+                    exam_type="Internal 1",
+                )
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[3],
+                    exam_type="Internal 2",
+                )
+
+        return redirect("update_class", batch_id, subject_id)
+
+    return render(
+        request,
+        "internal.html",
+        {
+            "context": context,
+            "student_data": student_data,
+            "subject_data": subject_data,
+            "batch_data": batch_data,
+            "check_subject_exist": check_subject_exist,
+            "internal_mark": internal_mark,
+        },
+    )
+
+
+
 # logout
 
 
