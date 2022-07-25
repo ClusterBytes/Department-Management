@@ -794,6 +794,7 @@ def create_subject(request):
         subject_code_input = request.POST.get("subject_code")
         subject_name_input = request.POST.get("subject_name")
         subject_credit = request.POST.get("subject_credit")
+        subject_sem = request.POST.get("subject_sem")
         scheme_id = request.POST.get("scheme")
         scheme_id_int = int(scheme_id)
 
@@ -810,6 +811,7 @@ def create_subject(request):
                 subject_name=subject_name,
                 credit=subject_credit,
                 scheme=scheme_id_int,
+                semester=subject_sem,
             )
             messages.error(
                 request, "The Subject " + subject_name + " successfully added"
@@ -2150,29 +2152,44 @@ def hod_feedback(request):
     sub_data = subject.objects.all()
 
     if request.method == "POST":
-
         batch_id = request.POST.get("batch_select")
         # batch_id_int = batch_id
         # batch_id = 1
-        # print(batch_id)
-
         if batch_id == 0:
             messages.error(request, "Please select Batch")
 
-        batch_data = batch.objects.all()
+        # batch_data = batch.objects.all()
+        # for i in batch_data:
+        #     print("SDS", i.semester)
         scheme_data = scheme.objects.all()
         sub_data = subject.objects.all()
+        # for i in sub_data:
+        #     print("ASD", i.semester)
         # cdbatch_id = batch_id_int
         batch_data1 = batch.objects.get(id=batch_id)
-        # print(batch_data1.class_name)
         scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
         # print("bdd",batch_data1.scheme)
 
         sub_id = request.POST.get("subject_select")
         # sub_id_int = int(sub_id)
+        subjectDetails = subject_to_staff.objects.filter(
+            batch_id=batch_id, subject_id=sub_id
+        )
+        feedback_list = []
+        for i in subjectDetails:
+
+            feedbacks = feedback.objects.filter(subject_to_staff=i.id)
+            for j in feedbacks:
+                feedback_object = {}
+                print(j.feedback_text)
+                feedback_object["feedback_text"] = j.feedback_text
+                student_details = profile_student.objects.get(id=j.student_id)
+                feedback_object["student_name"] = (
+                    student_details.first_name + " " + student_details.last_name
+                )
+                feedback_list.append(feedback_object)
 
         # sub_id = 1
-        # print(sub_id)
 
         if sub_id == 0:
             messages.error(request, "Please select Subject")
@@ -2180,22 +2197,22 @@ def hod_feedback(request):
         # sub_
         # for i in scheme_data1:
         sub_data = subject.objects.all()
-        sub_data1 = subject.objects.filter(scheme=scheme_data1.scheme)
+        # sub_data1 = subject.objects.filter(semester=batch_data.semester)
         # print(sub_data.subject_name)
-        for i in sub_data1:
-            print("dfff", i.subject_name)
+        # for i in sub_data1:
+        #     print("dfff", i.subject_name)
 
         return render(
             request,
             "hod_feedback.html",
             {
                 #'data': data_list,
-                "scheme_data1": scheme_data1,
-                "batch_data1": batch_data1,
+                # "batch_data1": batch_data1,
                 "context": context,
                 "scheme_data": scheme_data,
-                "batch": batch_data,
+                "batch_data": batch_data,
                 "sub_data": sub_data,
+                "feedback_list": feedback_list,
                 "data_for_self_profile": staff_details_1,
             },
         )
@@ -2217,19 +2234,20 @@ def hod_feedback(request):
 
 # logout
 
+
 def hod_announcement(request):
     current_user = request.user
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
-    context = {'name': name}
+    context = {"name": name}
 
+    return render(
+        request,
+        "hod_announcement.html",
+        {"context": context, "data_for_self_profile": staff_details_1},
+    )
 
-    return render(request,'hod_announcement.html',
-                    {
-                        'context':context,
-                        'data_for_self_profile': staff_details_1
-                    })
 
 def log_out(request):
     logout(request)
