@@ -23,8 +23,8 @@ import login
 
 from django.db.models import Sum, Max
 
-# %matplotlib inline
-# import matplotlib.pyplot as plt
+#%matplotlib inline
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -59,7 +59,7 @@ def parent_index(request):
     student_details_1 = profile_student.objects.get(id=stud_id)
     name = student_details_1.first_name + " " + student_details_1.last_name
     # id = request.session['student_id']
-    context = {"name": name}
+    context = {"name": current_user.first_name+" "+current_user.last_name}
 
     credit = 0
     subject_data = subject.objects.all()
@@ -70,7 +70,7 @@ def parent_index(request):
         for j in subject_data:
             if j.id == i.subject_id:
                 credit += j.credit
-
+    #print(credit)
     supply = 0
     for i in subject_data:
         max_chance = semester_result.objects.filter(
@@ -164,12 +164,13 @@ def parent_profile(request):
     # name = request.session['student_name']
     current_user = request.user
     user_id = current_user.username
-
-    student_details_1 = profile_student.objects.get(register_no=user_id)
+    stud_id=ppdb.objects.get(parent_id=user_id).register_no_id
+    
+    student_details_1 = profile_student.objects.get(id=stud_id)
     name = student_details_1.first_name + " " + student_details_1.last_name
 
-    id = user_id
-    student_data = profile_student.objects.filter(register_no=id)
+    id = stud_id
+    student_data = profile_student.objects.filter(id=id)
 
     for i in student_data:
         print("student", i.id)
@@ -179,13 +180,13 @@ def parent_profile(request):
         name_first = i.first_name
         name_last = i.last_name
 
-    print(student_id)
+    
     name = name_first + " " + name_last
     context = {"name": name}  # display the name
 
     batch_data = batch.objects.get(id=batch_id)
     scheme_id = batch_data.scheme
-    scheme_data = scheme.objects.get(id=scheme_id)
+    scheme_data = scheme.objects.get(scheme=scheme_id)
 
     date_dob = str(date_of_birth)  # dob can only display in html only as string type
     assign_subject_data = subject_to_staff.objects.filter(batch_id=batch_id)
