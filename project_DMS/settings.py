@@ -103,26 +103,7 @@ DATABASES = {
 
 import dj_database_url
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'project_DMS',
-#         'USER': 'postgres',
-#         'PASSWORD': '123456789',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-# '''DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'project_DMS',
-#         'USER': 'postgres',
-#         'PASSWORD': '123456789',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }'''
+
 DATABASES = {
     # "default": {
     #     "ENGINE": "django.db.backends.postgresql",
