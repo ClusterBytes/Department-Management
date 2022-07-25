@@ -62,25 +62,12 @@
       <!-- End Page Title -->
       <form class="row g-3 needs-validation" method="post">
         {% csrf_token %}
-       <!--<div class="col-12">
-          <select
-            name="subject_select"
-            class="form-select"
-            readonly="true"
-            required
-          >
-            <option value="0">Select subject</option>
-
-            {% for i in subjects %} {% for j in i %}
-            <option value="{{ j.id }}" selected>{{j.subject_name}}</option>
-            {% endfor %} {% endfor %}
-          </select>
-        </div>-->
+    
         <div class="card">
           <div class="card-body">
             <div class="col-12">
               <label for="yourName" class="form-label">
-                Enter annoucement
+                Enter announcement
             </label>
 
               <input
@@ -90,7 +77,7 @@
                 id="announcement_text"
                 required
               />
-             <div class="invalid-feedback">Please enter your username.</div>
+             <div class="invalid-feedback">Please enter your Announcement.</div>
             </div>
           </div>
         </div>

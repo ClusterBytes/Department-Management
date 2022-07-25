@@ -2235,6 +2235,8 @@ def hod_feedback(request):
 
 # logout
 
+from hod.models import announcement
+
 
 def hod_announcement(request):
     current_user = request.user
@@ -2242,7 +2244,16 @@ def hod_announcement(request):
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {"name": name}
-
+    if request.method == "POST":
+        Announcement_Text = request.POST.get("announcement_text")
+        announcement.objects.create(
+            announcement_text=Announcement_Text,
+        )
+        return render(
+            request,
+            "hod_announcement.html",
+            {"context": context, "data_for_self_profile": staff_details_1},
+        )
     return render(
         request,
         "hod_announcement.html",

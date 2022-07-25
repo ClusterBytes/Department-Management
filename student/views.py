@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from hod.models import (
     Internal_mark,
+    announcement,
     attendance,
     attendance_record,
     batch,
@@ -25,6 +26,8 @@ from django.db.models import Sum, Max
 # %matplotlib inline
 # import matplotlib.pyplot as plt
 import numpy as np
+
+from hod.models import announcement
 
 
 def student_index(request):
@@ -50,7 +53,7 @@ def student_index(request):
     #     # request.session['notif'] = notif
 
     # except:
-
+    announcements = announcement.objects.all().order_by("-id")[:3]
     notif = {"data1": "KTU site cannot reach"}
     current_user = request.user
     user_id = current_user.username
@@ -152,6 +155,7 @@ def student_index(request):
             "cgpa": cgpa,
             "notif": notif,
             "data": data,
+            "announcements": announcements,
             "sem": sem,
             "predicted_sem": predicted_sem,
         },
