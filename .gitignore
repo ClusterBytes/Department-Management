@@ -4,5 +4,5 @@ __pycache__
 .vs
 .idea
 Venv/
-
+venv/
 .vscode/*
