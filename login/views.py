@@ -26,11 +26,9 @@ def login_page(request):
                 is_hod=True,
                 is_faculty=False,
                 is_student=False,
-                request=request,
-                is_student=False,
                 is_parent=False
             )
-
+        ):
             login(request, user)
             # Redirect to a success page.
             return redirect("hod_index")
