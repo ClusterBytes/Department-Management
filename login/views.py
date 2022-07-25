@@ -7,7 +7,7 @@ import student
 from django.contrib.auth import login
 
 
-# Create your views here.
+# Create Your Views Here.
 
 
 def login_page(request):
@@ -100,6 +100,33 @@ def login_page(request):
             login(request, user)
             # Redirect to a success page.
             return redirect("student_index")
+        elif (
+            AuthenticationBackend.authenticate(
+                self=None,
+                request=request,
+                username=username1,
+                password=password1,
+                is_hod=False,
+                is_faculty=False,
+                is_student=False,
+                is_parent=True
+            )
+            is not None
+        ):
+            user = AuthenticationBackend.authenticate(
+                self=None,
+                request=request,
+                username=username1,
+                password=password1,
+                is_hod=False,
+                is_faculty=False,
+                is_student=False,
+                is_parent=True
+            )
+
+            login(request, user)
+            # Redirect to a success page.
+            return redirect("parent_index")
         else:
             messages.error(request, "Invalid username or password")
             return redirect("login_page")

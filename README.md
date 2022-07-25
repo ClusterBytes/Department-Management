@@ -17,7 +17,7 @@ A simple and minimal system for managing common activities in a College Departme
 ## install requirements
 
 - open the project root directory and run
-- pip3 install requirementv2.txt
+- pip3 install -r requirementv2.txt
 
 ## set up local postgres database and configure
 
