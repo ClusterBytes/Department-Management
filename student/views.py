@@ -321,9 +321,6 @@ def student_profile(request):
             student_data1.save()
 
             messages.error(request, "Successfully updated")
-            # return render(request, 'parent_profile.html',
-            #              {'student_data': student_data, 'scheme_data': scheme_data, 'batch_data': batch_data,
-            #               'date_dob': date_dob, 'context': context})
             return redirect(student_profile)
 
     if "change_password" in request.POST:
@@ -459,7 +456,7 @@ def view_leave_request(request):
     name = student_data.first_name + " " + student_data.last_name
     context = {"name": name}
     leave_requests = leave_request.objects.filter(student_id=student_data.id)
-    # print(leave_requests)
+    
     for i in leave_requests:
         print(i.request)
 
