@@ -1,3 +1,7 @@
+from atexit import register
+
+from numpy import s_
+from parent.models import parent_profile
 from ast import For
 import code
 from datetime import date, datetime
@@ -8,6 +12,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.db.models import Sum, Max
+from parent.models import parent_profile
+from student.models import feedback
 
 import login
 from hod.models import (
@@ -19,6 +25,7 @@ from hod.models import (
     semester_result,
     subject,
     subject_to_staff,
+    announcement
 )
 from login.models import MyUser
 from staff.models import profile
@@ -330,7 +337,8 @@ def add_student(request):
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {"name": name}
 
-    batch_data_class = batch.objects.all()  # for display the existing batch details
+    # for display the existing batch details
+    batch_data_class = batch.objects.all()
     # batch_data_year = batch.objects.all().distinct('date_of_join')
     scheme_data = scheme.objects.all()
 
@@ -473,15 +481,22 @@ def view_student(request):
     context = {'name': name}
 
     batch_id = request.session['batch_id']
-    
+
     data = profile_student.objects.filter(batch=batch_id)
 
 
     batch_data = batch.objects.get(id=batch_id)
     scheme_data = scheme.objects.get(id=batch_data.scheme)
     return render(request, 'student_list.html', {"student_data": data, "scheme_data":scheme_data, 'batch_data': batch_data, "context": context})
+<<<<<<< HEAD
+'''
+
+
+=======
 """
 
+
+# batch details
 
 # batch details
 
@@ -639,7 +654,7 @@ def edit_batch(request, b_id):
         tutor = request.POST.get("tutor")
         # scheme_input = request.POST.get('scheme')
 
-        """ 
+        """
         if class_name == '0':
             messages.error(request, 'Please select class')
         elif semester == '0':
@@ -779,6 +794,7 @@ def create_subject(request):
         subject_code_input = request.POST.get("subject_code")
         subject_name_input = request.POST.get("subject_name")
         subject_credit = request.POST.get("subject_credit")
+        subject_sem = request.POST.get("subject_sem")
         scheme_id = request.POST.get("scheme")
         scheme_id_int = int(scheme_id)
 
@@ -795,6 +811,7 @@ def create_subject(request):
                 subject_name=subject_name,
                 credit=subject_credit,
                 scheme=scheme_id_int,
+                semester=subject_sem,
             )
             messages.error(
                 request, "The Subject " + subject_name + " successfully added"
@@ -1219,7 +1236,8 @@ def view_student_details(request, student_id):
     scheme_data = scheme.objects.get(id=scheme_id)
     assign_subject_data = subject_to_staff.objects.filter(batch_id=batch_id)
     subject_data = subject.objects.all()
-    date_dob = str(date_of_birth)  # dob can only display in html only as string type
+    # dob can only display in html only as string type
+    date_dob = str(date_of_birth)
     internal_mark_data = Internal_mark.objects.filter(student_id=student_id)
     for i in internal_mark_data:
         print(i.exam_type, i.mark)
@@ -1980,7 +1998,257 @@ def hod_my_subject_view_internal_result(request, batch_id, subject_id):
     )
 
 
+def add_parent(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    batch_data_class = batch.objects.all()
+    scheme_data = scheme.objects.all()
+    data = profile_student.objects.all()
+    context = {"name": name}
+    if request.method == "POST":
+        username = request.POST.get("username")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        student_id_str = request.POST.get("student_id")
+        student_id_int = int(student_id_str)
+        full_name = first_name + " " + last_name
+        password1 = request.POST.get("password_1")
+        password2 = request.POST.get("password_2")
+        email = request.POST.get("email")
+        phone_number = request.POST.get("phone_number")
+        if student_id_int == 0:
+            messages.error(request, "Please select Student")
+        else:
+
+            if password1 != password2:
+                messages.error(request, "Password mismatch")
+            else:
+
+                user = MyUser.objects.filter(username=username)
+                if user:
+                    messages.error(request, "User already exist")
+                else:
+                    # insert only the year in student profile (column : year_of_join)
+                    password = make_password(password1)
+                    MyUser.objects.create(
+                        username=username,
+                        first_name=first_name,
+                        last_name=last_name,
+                        password=password,
+                        is_faculty=False,
+                        is_active=True,
+                        is_student=False,
+                        is_hod=False,
+                        is_parent=True,
+                    )
+
+                    parent_profile.objects.create(
+                        parent_id=username,
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        phone_no=phone_number,
+                        register_no_id=student_id_int,
+                    )
+
+                    messages.error(
+                        request, "parent " + full_name + " successfully added"
+                    )
+
+    return render(
+        request,
+        "add_parent.html",
+        {
+            "batch_class": batch_data_class,
+            "data": data,
+            "scheme_data": scheme_data,
+            "context": context,
+            "data_for_self_profile": staff_details_1,
+        },
+    )
+
+
+def view_parent(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {"name": name}
+    batch_data = batch.objects.all()
+    scheme_data = scheme.objects.all()
+
+    if request.method == "POST":
+
+        batch_id = request.POST.get("batch_select")
+        batch_id_int = int(batch_id)
+
+        if batch_id == "0":
+
+            messages.error(request, "Please select Batch")
+
+        else:
+
+            batch_id = batch_id_int
+            student_data = profile_student.objects.filter(batch=batch_id)
+            batch_data1 = batch.objects.get(id=batch_id)
+            scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
+
+            data_list = []
+            for i in student_data:
+                data_dict = {}
+                parent_data = parent_profile.objects.filter(register_no_id=i.id)
+
+                for j in parent_data:
+
+                    data_dict["student_name"] = i.first_name + " " + i.last_name
+                    data_dict["parent_name"] = j.first_name + " " + j.last_name
+                    data_dict["email"] = j.email
+                    data_dict["phone_number"] = j.phone_no
+
+                if len(data_dict) != 0:
+                    data_list.append(data_dict)
+
+            batch_data = batch.objects.all()
+            scheme_data = scheme.objects.all()
+
+            return render(
+                request,
+                "view_parent.html",
+                {
+                    "data": data_list,
+                    "scheme_data1": scheme_data1,
+                    "batch_data1": batch_data1,
+                    "context": context,
+                    "scheme_data": scheme_data,
+                    "batch": batch_data,
+                    "data_for_self_profile": staff_details_1,
+                },
+            )
+
+    return render(
+        request,
+        "view_parent.html",
+        {
+            "batch": batch_data,
+            "scheme_data": scheme_data,
+            "context": context,
+            "data_for_self_profile": staff_details_1,
+        },
+    )
+
+
+def hod_feedback(request):
+
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {"name": name}
+
+    batch_data = batch.objects.all()
+    scheme_data = scheme.objects.all()
+    sub_data = subject.objects.all()
+
+    if request.method == "POST":
+        batch_id = request.POST.get("batch_select")
+        # batch_id_int = batch_id
+        # batch_id = 1
+        if batch_id == 0:
+            messages.error(request, "Please select Batch")
+
+        # batch_data = batch.objects.all()
+        # for i in batch_data:
+        #     print("SDS", i.semester)
+        scheme_data = scheme.objects.all()
+        sub_data = subject.objects.all()
+        # for i in sub_data:
+        #     print("ASD", i.semester)
+        # cdbatch_id = batch_id_int
+        batch_data1 = batch.objects.get(id=batch_id)
+        scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
+        # print("bdd",batch_data1.scheme)
+
+        sub_id = request.POST.get("subject_select")
+        # sub_id_int = int(sub_id)
+        subjectDetails = subject_to_staff.objects.filter(
+            batch_id=batch_id, subject_id=sub_id
+        )
+        feedback_list = []
+        for i in subjectDetails:
+
+            feedbacks = feedback.objects.filter(subject_to_staff=i.id)
+            for j in feedbacks:
+                feedback_object = {}
+                print(j.feedback_text)
+                feedback_object["feedback_text"] = j.feedback_text
+                student_details = profile_student.objects.get(id=j.student_id)
+                feedback_object["student_name"] = (
+                    student_details.first_name + " " + student_details.last_name
+                )
+                feedback_list.append(feedback_object)
+
+        # sub_id = 1
+
+        if sub_id == 0:
+            messages.error(request, "Please select Subject")
+
+        # sub_
+        # for i in scheme_data1:
+        sub_data = subject.objects.all()
+        # sub_data1 = subject.objects.filter(semester=batch_data.semester)
+        # print(sub_data.subject_name)
+        # for i in sub_data1:
+        #     print("dfff", i.subject_name)
+
+        return render(
+            request,
+            "hod_feedback.html",
+            {
+                #'data': data_list,
+                # "batch_data1": batch_data1,
+                "context": context,
+                "scheme_data": scheme_data,
+                "batch_data": batch_data,
+                "sub_data": sub_data,
+                "feedback_list": feedback_list,
+                "data_for_self_profile": staff_details_1,
+            },
+        )
+
+    return render(
+        request,
+        "hod_feedback.html",
+        {
+            #'batch_data1':batch_data1,
+            #'scheme_data1':scheme_data1,
+            "context": context,
+            "batch_data": batch_data,
+            "scheme_data": scheme_data,
+            "sub_data": sub_data,
+            "data_for_self_profile": staff_details_1,
+        },
+    )
+
+
 # logout
+
+
+def hod_announcement(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {"name": name}
+
+    return render(
+        request,
+        "hod_announcement.html",
+        {"context": context, "data_for_self_profile": staff_details_1},
+    )
+
+
 def log_out(request):
     logout(request)
 

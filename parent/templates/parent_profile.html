@@ -1,0 +1,1692 @@
+
+{% extends 'parent_base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Profile</h1>
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-6" >
+        {% for message in messages %}
+  
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    
+                    </div>
+            
+          {% endfor %}
+          
+        
+        <div class="card">
+          <div class="card-body profile-card pt-3 d-flex flex-column align-items-center ">
+
+            <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+            <h2>{{context.name}}</h2>
+          <!-- <h3>Web Designer</h3>
+            <div class="social-links mt-2">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>>
+          -->
+         
+          </div>
+          
+          
+        </div>
+
+      </div>
+
+      <div class="col-xl-12">
+
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+              </li>
+
+              <!--<li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+              </li>-->
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#academics">Academics</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+              </li>
+              
+            </ul>
+            <div class="tab-content pt-2">
+
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                <!--<h5 class="card-title">About</h5>
+                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                -->
+                <h5 class="card-title">Profile Details</h5>
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="">
+                      <button class="accordion-button"   aria-expanded="true" aria-controls="">
+                        <strong>Basic Details </strong>
+                      </button>
+                    </h2>
+                    <div id="" class="" aria-labelledby="" data-bs-parent="">
+                      <div class="accordion-body">
+                        {% for student_data in student_data  %}
+
+                        <div class="row">
+                          <div class="col-lg-6">
+                      
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title"></h5>
+                      
+                                <!-- Default Table -->
+                                <table class="table table-bordered">
+                                  
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Gender
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.sex}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Date of Birth
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.date_of_birth}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          Phone No
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.phone_no}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <b>
+                                          E-mail id
+                                        </b>
+                                        </td>
+                                      <td>{{student_data.email}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td><b>
+                                        Aadhaar No
+                                      </b>
+                                      </td>
+                                      <td>{{student_data.aadhar_no}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <!-- End Default Table Example -->
+                              </div>
+                            </div>
+                      
+                          </div>
+                        
+
+
+
+
+                        <div class="col-lg-6">
+
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+                    
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+                                
+                                <tbody>
+                                  
+                                  <tr>
+                                    <td><b>Caste</b></td>
+                                    <td>{{student_data.caste}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Religion</b></td>
+                                    <td>{{student_data.religion}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Nationality</b></td>
+                                    <td>{{student_data.nationality}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Native Place</b></td>
+                                    <td>{{student_data.native_place}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Blood Group</b></td>
+                                    <td>{{student_data.blood_group}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+                    
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <strong style="color:#211e6b">Admission Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div class="col-lg-6">
+                    
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+                    
+                              <!-- Default Table -->
+                              <table class="table table-bordered">
+                                
+                                <tbody>
+                                  <tr>
+                                    <td><b>Admission No</b></td>
+                                    <td>{{student_data.register_no}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>University No</b></td>
+                                    <td>{{student_data.university_no}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Class</b></td>
+                                    <td>{{batch_data.class_name}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Roll No</b></td>
+                                    <td>{{student_data.roll_no}}</td>
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                              <!-- End Default Table Example -->
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                    
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+                    
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+                                
+                                <tbody>
+                                  
+                                  <tr>
+                                    <td>
+                                      <b>Semester</b>
+                                    </td>
+                                    <td>{{batch_data.semester}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      
+                                       <b> Scheme
+                                      </b>
+                                      </td>
+                                    <td>
+                                      {{scheme_data.scheme}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      
+                                        <b>Date of Join
+                                      </b>
+                                      </td>
+                                    <td>{{batch_data.date_of_join}}</td>
+                                  </tr>
+                                  
+                                  <tr>
+                                    <td>
+                                      
+                                      <b>Staff Adviser</td>
+                                    <td>#</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+                    
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      </div>
+                      </div>
+              
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <strong style="color:#211e6b">Contact Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <section class="section contact">
+                      
+                              
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h3>Communication Address</h3>
+                                    <p>{{student_data.address}}</p>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h3>Permanent Address</h3>
+                                    <p>{{student_data.address}}</p>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-telephone"></i>
+                                    <h3>Mobile</h3>
+                                    <p>+91 {{student_data.phone_no}}</p>
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="info-box card">
+                                    <i class="bi bi-envelope"></i>
+                                    <h3>Email</h3>
+                                    <p>{{student_data.email}}</p>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                              
+
+                            
+                    </section>                   
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      <strong style="color:#211e6b">Bank Account Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    #
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFheadingFive" aria-expanded="false" aria-controls="collapseFheadingFive">
+                      <strong style="color:#211e6b">Qualification Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseFheadingFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div class="col-lg-6">
+                    
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+                    
+                              <!-- Default Table -->
+                              <table class="table table-bordered">
+                                
+                                <tbody>
+                                  <tr>
+                                    <td><b>Qualification</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Board / University</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Qualified Year</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Total Marks</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Percentage</b></td>
+                                    <td>#</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td><b>Entrance Type</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                              <!-- End Default Table Example -->
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                    
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title"></h5>
+                    
+                              <!-- Table with stripped rows -->
+                              <table class="table table-bordered">
+                                
+                                <tbody>
+                                  
+                                  <tr>
+                                    <td><b>Physics Marks</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Chemistry Marks</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Maths Mark</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Entrance Rank</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Entrance Score</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Qualification Exam Certificates</b></td>
+                                    <td>#</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- End Table with stripped rows -->
+                    
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingSix">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFheadingSix" aria-expanded="false" aria-controls="collapseFheadingSix">
+                      <strong style="color:#211e6b">Guardian Details</strong>
+                    </button>
+                  </h2>
+                  <div id="collapseFheadingSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                    </div>
+                  </div>
+                
+              </div><!-- End Default Accordion Example -->
+                
+
+                {% endfor %}
+                
+              </div>
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                <!-- Profile Edit Form -->
+                <form method="post" action="">
+                {% csrf_token %}
+
+                {% for student_data in student_data  %}
+                  <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                    <div class="col-md-8 col-lg-9">
+                      <img src="assets/img/profile-img.jpg" alt="Profile">
+                      <div class="pt-2">
+                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label" >First Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="first_name" type="text" class="form-control" id="fullName" value="{{ student_data.first_name }}" required>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label" >Last Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="last_name" type="text" class="form-control" id="fullName" value="{{ student_data.last_name }}" >
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Gender</label>
+                    <div class="col-md-8 col-lg-9">
+                      <select name="gender" class="form-control" required>
+
+                          {% if student_data.sex == 'Male' %}
+
+                              <option value="Male" selected>Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Others">Others</option>
+                              <option value="0">Select</option>
+
+                          {% elif student_data.sex == 'Female' %}
+
+                              <option value="Male" >Male</option>
+                              <option value="Female" selected>Female</option>
+                              <option value="Others">Others</option>
+                              <option value="0">Select</option>
+
+                          {% elif student_data.sex == 'Others' %}
+
+                              <option value="Male" >Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Others" selected>Others</option>
+                              <option value="0">Select</option>
+
+                           {% else %}
+                              <option value="0">Select</option>
+                              <option value="Male" >Male</option>
+                              <option value="Female">Female</option>
+                              <option value="Others" >Others</option>
+                              <option value="0">Select</option>
+                              
+                          {% endif %}
+
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Date of Birth</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="date_of_birth" type="date" class="form-control" id="Job" value="{{ date_dob }}" required>
+                    </div>
+                  </div>
+
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Phone No</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="phone_no" type="number" class="form-control" id="Country" value="{{ student_data.phone_no }}" required>
+                    </div>
+                  </div>
+
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Email id</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="email" type="email" class="form-control"  value="{{ student_data.email }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="address" type="text" class="form-control"  value="{{ student_data.address }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Aadhaar No</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="aadhaar_no" type="number" class="form-control"  value="{{ student_data.aadhar_no }}" required>
+                    </div>
+                  </div>
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Caste</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="caste" type="text" class="form-control"  value="{{ student_data.caste}}" required >
+                    </div>
+                  </div>
+                <div class="row mb-3">
+                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Religion</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="religion" type="text" class="form-control"  value="{{ student_data.religion }}" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Nationality</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="nationality" type="text" class="form-control"  value="{{ student_data.nationality }}" required>
+                    </div>
+                  </div>
+
+                   <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Native Place</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="native_place" type="text" class="form-control"  value="{{ student_data.native_place }}" required>
+                    </div>
+                  </div>
+
+                 <div class="row mb-3">
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Blood group</label>
+                    <div class="col-md-8 col-lg-9">
+                      <select name="blood_group" class="form-control" required>
+
+
+                        {% if student_data.blood_group == "A+" %}
+                        <option value="A+" selected>A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="0">Select</option>
+
+                        {% elif student_data.blood_group == "A-" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" selected>A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="0">Select</option>
+
+                        {% elif student_data.blood_group == "B+" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" selected>B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="0">Select</option>
+
+                        {% elif student_data.blood_group == "B-" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" >B+</option>
+                        <option value="B-" selected>B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="0">Select</option>
+
+                        {% elif student_data.blood_group == "AB+" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" >B+</option>
+                        <option value="B-" >B-</option>
+                        <option value="AB+" selected>AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="0">Select</option>
+
+                        {% elif student_data.blood_group == "AB-" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" >B+</option>
+                        <option value="B-" >B-</option>
+                        <option value="AB+" >AB+</option>
+                        <option value="AB-" selected>AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        {% elif student_data.blood_group == "O+" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" >B+</option>
+                        <option value="B-" >B-</option>
+                        <option value="AB+" >AB+</option>
+                        <option value="AB-" >AB-</option>
+                        <option value="O+" selected>O+</option>
+                        <option value="O-">O-</option>
+                        <option value="0">Select</option>
+
+                        {% elif student_data.blood_group == "O-" %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" >B+</option>
+                        <option value="B-" >B-</option>
+                        <option value="AB+" >AB+</option>
+                        <option value="AB-" >AB-</option>
+                        <option value="O+" >O+</option>
+                        <option value="O-" selected>O-</option>
+                        <option value="0">Select</option>
+
+                        {% else %}
+                        <option value="A+" >A+</option>
+                        <option value="A-" >A-</option>
+                        <option value="B+" >B+</option>
+                        <option value="B-" >B-</option>
+                        <option value="AB+" >AB+</option>
+                        <option value="AB-" >AB-</option>
+                        <option value="O+" >O+</option>
+                        <option value="O-">O-</option>
+                        <option value="0">Select</option>
+
+                        
+                        {% endif %}
+
+                            
+                    
+                        
+
+                    </select>                    </div>
+                  </div>
+
+                 {% endfor %}
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary" name="edit_profile" >Save Changes</button>
+                  </div>
+                </form><!-- End Profile Edit Form -->
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-settings">
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <!-- Change Password Form -->
+                <form method="post">
+                  {% csrf_token %}
+
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="current_password" type="password" class="form-control" id="currentPassword">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="new_password" type="password" class="form-control" id="newPassword" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="renew_password" type="password" class="form-control" id="renewPassword" required> 
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary" name="change_password" >Change Password</button>
+                  </div>
+                </form><!-- End Change Password Form -->
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="academics">
+                <!-- Academics -->
+                
+                          <!--<h5 class="card-title">Default Accordion</h5>-->
+            
+                          <!-- Default Accordion -->
+                          <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                  <strong>Semester 1</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                
+                                <div class="table-responsive">
+                                  <table class="datatable" id="table">
+                                    
+                                    <thead>
+                                      <th>#</th>
+                                      <th>Code</th>
+                                      <th>Subject</th>
+                                      <th>Assignment 1</th>
+                                      <th>Assignment 2</th>
+                                      <th>Series 1</th>
+                                      <th>Series 2</th>
+                                      <th>Attendance(%)</th>
+                                      <th>Total Mark</th>
+                                      <th>University Result</th>
+                                      <th>No.of Chances</th>
+                                      <th>Credit</th>
+
+                                    </thead>
+                                  
+                                   
+                                      <tbody>
+                                        {% for j in assign_subject_data %}
+                                {% if  j.semester == 1 %}
+                                <tr>
+                                  
+                                  
+                                  <td>{{ forloop.counter }}</td>
+                                  {% for i in subject_data %}
+                                  {% if j.subject_id == i.id %}
+
+                                  <td>{{i.code}}</td>
+                                  <td>{{i.subject_name}}</td>
+
+                                  
+
+                                  <td>
+                                    {% for k in internal_mark_data %}
+                                  {% if k.semester == 1 %}
+                                  {% if k.subject_id == i.id %}
+                                    {% if k.exam_type == 'Assignment 1' %}
+                                      {{k.mark}}
+                                   
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                  </td>
+                                  
+
+                                  <td>{% for k in internal_mark_data %}
+                                  {% if k.semester == 1 %}
+                                  {% if k.subject_id == i.id %}
+
+                                  {% if k.exam_type == 'Assignment 2' %}
+                                      {{k.mark}}
+                                   
+                                    {% endif %}
+                                  {% endif %}
+                                  {% endif %}
+                                  {% endfor %}</td>
+
+                                  <td>{% for k in internal_mark_data %}
+                                    {% if k.semester == 1 %}
+                                    {% if k.subject_id == i.id %}
+
+                                    {% if k.exam_type == 'Internal 1' %}
+                                        {{k.mark}}
+                                    
+                                      {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}</td>
+
+                                 <td>{% for k in internal_mark_data %}
+                                  {% if k.semester == 1 %}
+                                  {% if k.subject_id == i.id %}
+
+                                  {% if k.exam_type == 'Internal 2' %}
+                                      {{k.mark}}
+                                   
+                                    {% endif %}
+                                  {% endif %}
+                                  {% endif %}
+                                  {% endfor %}</td>
+                                  <td>
+                                    {% for att in attendance_list %}
+                                    {% if att.2 == 1 %}
+                                    {% if att.0 == i.id %}
+                                      {{att.3}} %
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                  </td>
+                                  <td>
+                                  {% for w in total_mark_list %}
+                                    {% if j.subject_id == w.0 %}
+                                      {{w.3}}
+                                    
+                                    {% endif %}
+                                  {% endfor %}
+                                  </td>
+
+                                  <td>
+                                    {% for k in sem_result_list %}
+                                    {% if k.0 == j.subject_id %}
+                                    
+                                    {% if k.3 == 10 %}
+                                          O
+                                        {% elif k.3 == 9 %}
+                                          A+
+                                        {% elif k.3 == 8.5 %}
+                                          A
+                                        {% elif k.3 == 8 %}
+                                          B+
+                                        {% elif k.3 == 7 %}
+                                          B
+                                        {% elif k.3 == 6 %}
+                                          C
+                                        {% elif k.3 == 5 %}
+                                          P
+                                        {% elif k.3 < 5 %}
+                                          F
+                                        {% endif %}
+                                    {% endif %}
+                                    {% endfor %}</td>
+                                  <td>{% for k in sem_result_list %}
+                                    {% if k.0 == j.subject_id %}
+                                    {{k.4}}
+                                    {% endif %}
+                                    {% endfor %}</td>
+                                  
+                                  
+                                  
+                                  <td>{{i.credit}}</td>
+                                  {% endif %}
+                                  {% endfor %}
+                                  
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                                         
+                                        
+                                        
+                                        
+                                      </tbody>
+                                      
+                                    
+
+                                </table>
+                                </div>
+                                </div>
+
+                                </div>
+                              </div>
+                            </div>
+                            
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  <strong>Semester 2</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <br>
+                                  <div class="table-responsive">
+                                    <table class="datatable" id="table">
+                                        
+                                      <thead>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Subject</th>
+                                        <th>Assignment 1</th>
+                                        <th>Assignment 2</th>
+                                        <th>Series 1</th>
+                                        <th>Series 2</th>
+                                        <th>Attendance(%)</th>
+                                        <th>Total Mark</th>
+                                        <th>University Result</th>
+                                        <th>No.of Chances</th>
+                                        <th>Credit</th>
+  
+                                      </thead>
+                                    
+                                     
+                                        <tbody>
+                                          {% for j in assign_subject_data %}
+                                  {% if  j.semester == 2 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+
+                                    
+
+                                    <td>
+                                      {% for k in internal_mark_data %}
+                                    {% if k.semester == 2 %}
+                                    {% if k.subject_id == i.id %}
+                                      {% if k.exam_type == 'Assignment 1' %}
+                                        {{k.mark}}
+                                     
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                    
+
+                                    <td>{% for k in internal_mark_data %}
+                                    {% if k.semester == 2 %}
+                                    {% if k.subject_id == i.id %}
+
+                                    {% if k.exam_type == 'Assignment 2' %}
+                                        {{k.mark}}
+                                     
+                                      {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}</td>
+
+                                    <td>{% for k in internal_mark_data %}
+                                      {% if k.semester == 2 %}
+                                      {% if k.subject_id == i.id %}
+  
+                                      {% if k.exam_type == 'Internal 1' %}
+                                          {{k.mark}}
+                                      
+                                        {% endif %}
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endfor %}</td>
+
+                                   <td>{% for k in internal_mark_data %}
+                                    {% if k.semester == 2 %}
+                                    {% if k.subject_id == i.id %}
+
+                                    {% if k.exam_type == 'Internal 2' %}
+                                        {{k.mark}}
+                                     
+                                      {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}</td>
+                                    <td>
+                                      {% for att in attendance_list %}
+                                      {% if att.2 == 2 %}
+                                      {% if att.0 == i.id %}
+                                        {{att.3}} %
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endfor %}
+                                    </td>
+                                    <td>
+                                    {% for w in total_mark_list %}
+                                      {% if j.subject_id == w.0 %}
+                                        {{w.3}}
+                                      
+                                      {% endif %}
+                                    {% endfor %}
+                                    </td>
+
+                                    <td>{% for k in sem_result_list %}
+                                      {% if k.0 == j.subject_id %}
+                                      {{k.3}}
+                                      {% endif %}
+                                      {% endfor %}</td>
+                                    <td>{% for k in sem_result_list %}
+                                      {% if k.0 == j.subject_id %}
+                                      {{k.4}}
+                                      {% endif %}
+                                      {% endfor %}</td>
+                                    
+                                    
+                                    
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+                                           
+                                          
+                                          
+                                          
+                                        </tbody>
+                                        
+                                      
+
+                                  </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  <strong>Semester 3</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <strong>Grade card</strong> 
+                                  <div class="table-responsive">
+                                    <table class="datatable" id="table">
+                                      
+                                      <thead>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Subject</th>
+                                        <th>Assignment 1</th>
+                                        <th>Assignment 2</th>
+                                        <th>Series 1</th>
+                                        <th>Series 2</th>
+                                        <th>Attendance(%)</th>
+                                        <th>Total Mark</th>
+                                        <th>University Result</th>
+                                        <th>No.of CHANCES</th>
+                                        <th>Credit</th>
+  
+                                      </thead>
+                                    
+                                     
+                                        <tbody>
+                                          {% for j in assign_subject_data %}
+                                  {% if  j.semester == 3 %}
+                                  <tr>
+                                    
+                                    
+                                    <td>{{ forloop.counter }}</td>
+                                    {% for i in subject_data %}
+                                    {% if j.subject_id == i.id %}
+                                    <td>{{i.code}}</td>
+                                    <td>{{i.subject_name}}</td>
+
+                                    {% for k in internal_mark_data %}
+                                    {% if k.semester == 3 %}
+                                    {% if k.subject_id == i.id %}
+
+                                    <td>{% if k.exam_type == 'Assignment 1' %}
+                                      {{k.mark}}
+                                      {% else %}
+                                        Not entered
+                                      {% endif %}</td>
+                                    <td>{% if k.exam_type == 'Assignment 2' %}
+                                      {{k.mark}}
+                                      {% else %}
+                                        Not entered
+                                      {% endif %}</td>
+                                    <td>{% if k.exam_type == 'Internal 1' %}
+                                      {{k.mark}}
+                                      {% else %}
+                                        Not entered
+                                      {% endif %}</td>
+                                    <td>{% if k.exam_type == 'Internal 2' %}
+                                      {{k.mark}}
+                                      {% else %}
+                                        Not entered
+                                      {% endif %}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    
+                                    {% endif %}
+                                    
+                                    {% endif %}
+                                    
+                                    
+                                    {% endfor %}
+                                    
+                                    <td>{{i.credit}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                  </tr>
+                                  {% endif %}
+                              {% endfor %}
+                                           
+                                          
+                                          
+                                          
+                                        </tbody>
+                                          
+                                        
+  
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                  <strong>Semester 4</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <table class="datatable">
+                                    <thead>
+                                      <th>#</th>
+                                      <th>Code</th>
+                                      <th>Subject</th>
+                                      <th>Assignment 1</th>
+                                      <th>Assignment 2</th>
+                                      <th>Series 1</th>
+                                      <th>Series 2</th>
+                                      <th>Attendance(%)</th>
+                                      <th>Total Mark</th>
+                                      <th>University Result</th>
+                                      <th>No.of CHANCES</th>
+                                      <th>Credit</th>
+
+                                    </thead>
+                                  
+                                   
+                                      <tbody>
+                                        {% for j in assign_subject_data %}
+                                {% if  j.semester == 4 %}
+                                <tr>
+                                  
+                                  
+                                  <td>{{ forloop.counter }}</td>
+                                  {% for i in subject_data %}
+                                  {% if j.subject_id == i.id %}
+                                  <td>{{i.code}}</td>
+                                  <td>{{i.subject_name}}</td>
+
+                                  {% for k in internal_mark_data %}
+                                  {% if k.semester == 4 %}
+                                  {% if k.subject_id == i.id %}
+
+                                  <td>{% if k.exam_type == 'Assignment 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Assignment 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  
+                                  {% endif %}
+                                  
+                                  {% endif %}
+                                  
+                                  
+                                  {% endfor %}
+                                  
+                                  <td>{{i.credit}}</td>
+                                  {% endif %}
+                                  {% endfor %}
+                                  
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                                         
+                                        
+                                        
+                                        
+                                      </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                  <strong>Semester 5</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <table class="datatable">
+                                    <thead>
+                                      <th>#</th>
+                                      <th>Code</th>
+                                      <th>Subject</th>
+                                      <th>Assignment 1</th>
+                                      <th>Assignment 2</th>
+                                      <th>Series 1</th>
+                                      <th>Series 2</th>
+                                      <th>Attendance(%)</th>
+                                      <th>Total Mark</th>
+                                      <th>University Result</th>
+                                      <th>No.of CHANCES</th>
+                                      <th>Credit</th>
+
+                                    </thead>
+                                  
+                                   
+                                      <tbody>
+                                        {% for j in assign_subject_data %}
+                                {% if  j.semester == 5 %}
+                                <tr>
+                                  
+                                  
+                                  <td>{{ forloop.counter }}</td>
+                                  {% for i in subject_data %}
+                                  {% if j.subject_id == i.id %}
+                                  <td>{{i.code}}</td>
+                                  <td>{{i.subject_name}}</td>
+
+                                  {% for k in internal_mark_data %}
+                                  {% if k.semester == 5 %}
+                                  {% if k.subject_id == i.id %}
+
+                                  <td>{% if k.exam_type == 'Assignment 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Assignment 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  
+                                  {% endif %}
+                                  
+                                  {% endif %}
+                                  
+                                  
+                                  {% endfor %}
+                                  
+                                  <td>{{i.credit}}</td>
+                                  {% endif %}
+                                  {% endfor %}
+                                  
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                                         
+                                        
+                                        
+                                        
+                                      </tbody>
+
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingSix">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                  <strong>Semester 6</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <table class="datatable" >
+                                    <thead>
+                                      <th>#</th>
+                                      <th>Code</th>
+                                      <th>Subject</th>
+                                      <th>Assignment 1</th>
+                                      <th>Assignment 2</th>
+                                      <th>Series 1</th>
+                                      <th>Series 2</th>
+                                      <th>Attendance(%)</th>
+                                      <th>Total Mark</th>
+                                      <th>University Result</th>
+                                      <th>No.of CHANCES</th>
+                                      <th>Credit</th>
+
+                                    </thead>
+                                  
+                                   
+                                      <tbody>
+                                        {% for j in assign_subject_data %}
+                                {% if  j.semester == 6 %}
+                                <tr>
+                                  
+                                  
+                                  <td>{{ forloop.counter }}</td>
+                                  {% for i in subject_data %}
+                                  {% if j.subject_id == i.id %}
+                                  <td>{{i.code}}</td>
+                                  <td>{{i.subject_name}}</td>
+
+                                  {% for k in internal_mark_data %}
+                                  {% if k.semester == 6 %}
+                                  {% if k.subject_id == i.id %}
+
+                                  <td>{% if k.exam_type == 'Assignment 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Assignment 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  
+                                  {% endif %}
+                                  
+                                  {% endif %}
+                                  
+                                  
+                                  {% endfor %}
+                                  
+                                  <td>{{i.credit}}</td>
+                                  {% endif %}
+                                  {% endfor %}
+                                  
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                                         
+                                        
+                                        
+                                        
+                                      </tbody>
+
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingSeven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                  <strong>Semester 7</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <table class="datatable" >
+                                    <thead>
+                                      <th>#</th>
+                                      <th>Code</th>
+                                      <th>Subject</th>
+                                      <th>Assignment 1</th>
+                                      <th>Assignment 2</th>
+                                      <th>Series 1</th>
+                                      <th>Series 2</th>
+                                      <th>Attendance(%)</th>
+                                      <th>Total Mark</th>
+                                      <th>University Result</th>
+                                      <th>No.of CHANCES</th>
+                                      <th>Credit</th>
+
+                                    </thead>
+                                  
+                                   
+                                      <tbody>
+                                        {% for j in assign_subject_data %}
+                                {% if  j.semester == 7 %}
+                                <tr>
+                                  
+                                  
+                                  <td>{{ forloop.counter }}</td>
+                                  {% for i in subject_data %}
+                                  {% if j.subject_id == i.id %}
+                                  <td>{{i.code}}</td>
+                                  <td>{{i.subject_name}}</td>
+
+                                 
+                                  <td>
+                                    {% for k in internal_mark_data %}
+                                  {% if k.semester == 7 %}
+                                  {% if k.subject_id == i.id %}
+                                    {% if k.exam_type == 'Assignment 1' %}
+                                    {{k.mark}}
+                                    
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                  
+                                  </td>
+                                  <td>
+                                    {% for k in internal_mark_data %}
+                                    {% if k.semester == 7 %}
+                                    {% if k.subject_id == i.id %}
+                                      {% if k.exam_type == 'Assignment 2' %}
+                                      {{k.mark}}
+                                      
+                                        
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endfor %}</td>
+
+
+
+
+
+                                  <td>{% for k in internal_mark_data %}
+                                    {% if k.semester == 7 %}
+                                    {% if k.subject_id == i.id %}
+                                      {% if k.exam_type == 'Internal 1' %}
+                                      {{k.mark}}
+                                     
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endfor %}</td>
+                                  <td>{% for k in internal_mark_data %}
+                                    {% if k.semester == 7 %}
+                                    {% if k.subject_id == i.id %}
+                                      {% if k.exam_type == 'Internal 2' %}
+                                      {{k.mark}}
+                                      
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endif %}
+                                      {% endfor %}</td>
+                                  <td>None</td>
+                                  <td>None</td>
+                                  <td>None</td>
+                                  <td>None</td>
+                                  
+                                 
+                                  
+                                  <td>{{i.credit}}</td>
+                                  {% endif %}
+                                  {% endfor %}
+                                  
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                                         
+                                        
+                                        
+                                        
+                                      </tbody>
+
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingEight">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                  <strong>Semester 8</strong>
+                                </button>
+                              </h2>
+                              <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <table class="datatable" >
+                                    <thead>
+                                      <th>#</th>
+                                      <th>Code</th>
+                                      <th>Subject</th>
+                                      <th>Assignment 1</th>
+                                      <th>Assignment 2</th>
+                                      <th>Series 1</th>
+                                      <th>Series 2</th>
+                                      <th>Attendance(%)</th>
+                                      <th>Total Mark</th>
+                                      <th>University Result</th>
+                                      <th>No.of CHANCES</th>
+                                      <th>Credit</th>
+
+                                    </thead>
+                                  
+                                   
+                                      <tbody>
+                                        {% for j in assign_subject_data %}
+                                {% if  j.semester == 8 %}
+                                <tr>
+                                  
+                                  
+                                  <td>{{ forloop.counter }}</td>
+                                  {% for i in subject_data %}
+                                  {% if j.subject_id == i.id %}
+                                  <td>{{i.code}}</td>
+                                  <td>{{i.subject_name}}</td>
+
+                                  {% for k in internal_mark_data %}
+                                  {% if k.semester == 8 %}
+                                  {% if k.subject_id == i.id %}
+
+                                  <td>
+                                    {% if k.exam_type == 'Assignment 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Assignment 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 1' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td>{% if k.exam_type == 'Internal 2' %}
+                                    {{k.mark}}
+                                    {% else %}
+                                      Not entered
+                                    {% endif %}</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  
+                                  {% endif %}
+                                  
+                                  {% endif %}
+                                  
+                                  
+                                  {% endfor %}
+                                  
+                                  <td>{{i.credit}}</td>
+                                  {% endif %}
+                                  {% endfor %}
+                                  
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                                         
+                                        
+                                        
+                                        
+                                      </tbody>
+
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                            
+
+
+                          </div><!-- End Default Accordion Example -->
+            
+                        
+            
+                
+              </div>
+
+            </div><!-- End Bordered Tabs -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+<script>
+  $(document).ready( function () {
+    $('table').dataTable({searching: false, paging: false, info: false});
+  })
+</script>
+{% endblock %}

@@ -1,6 +1,8 @@
 import email
 from django.db import models
 
+from hod.models import subject_to_staff
+
 
 # Create your models here.
 class profile_student(models.Model):
@@ -72,3 +74,13 @@ class parents(models.Model):
     mothers_email_id = models.EmailField(null=True)
     fathers_number = models.BigIntegerField(null=True)
     mothers_number = models.BigIntegerField(null=True)
+
+
+class feedback(models.Model):
+    student = models.ForeignKey(profile_student, on_delete=models.CASCADE)
+    subject_to_staff = models.ForeignKey(subject_to_staff, on_delete=models.CASCADE)
+    feedback_text = models.CharField(max_length=256, null=True)
+
+    def __str__(self):
+        name = self.id
+        return name
