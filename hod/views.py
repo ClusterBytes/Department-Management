@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.db.models import Sum, Max
 from parent.models import parent_profile
+from student.models import feedback
 
 import login
 from hod.models import (
@@ -24,6 +25,7 @@ from hod.models import (
     semester_result,
     subject,
     subject_to_staff,
+    announcement,
 )
 from login.models import MyUser
 from staff.models import profile
@@ -33,7 +35,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.csrf import csrf_exempt
 import hod
 from django.contrib.auth.decorators import login_required
-from autoscraper import AutoScraper
+
+# from autoscraper import AutoScraper
 
 
 # Create your views here.
@@ -43,30 +46,30 @@ from autoscraper import AutoScraper
 
 @login_required
 def hod_index(request):
-    url = "https://ktu.edu.in/eu/core/announcements.htm"
+    # url = "https://ktu.edu.in/eu/core/announcements.htm"
 
-    try:
-        # url = 'https://ktu.edu.in/home.htm'
+    # try:
+    #     # url = 'https://ktu.edu.in/home.htm'
 
-        wanted_list = [
-            "ANNOUNCEMENTS",
-            "Dec 24, 2021",
-            "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
-        ]
-        scraper = AutoScraper()
-        result = scraper.build(url, wanted_list)
-        data1 = result[0]
-        data2 = result[1]
-        data3 = result[2]
+    #     wanted_list = [
+    #         "ANNOUNCEMENTS",
+    #         "Dec 24, 2021",
+    #         "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
+    #     ]
+    #     scraper = AutoScraper()
+    #     result = scraper.build(url, wanted_list)
+    #     data1 = result[0]
+    #     data2 = result[1]
+    #     data3 = result[2]
 
-        notif = {"data1": data1, "data2": data2, "data3": data3}
-        # request.session['notif'] = notif
+    #     notif = {"data1": data1, "data2": data2, "data3": data3}
+    #     # request.session['notif'] = notif
 
-    except:
+    # except:
 
-        notif = {"data1": "KTU site cannot reach"}
-        request.session["notif"] = notif
-
+    #     notif = {"data1": "KTU site cannot reach"}
+    #     request.session["notif"] = notif
+    notif = {"data1": "KTU site cannot reach"}
     current_user = request.user
     print(current_user.id)
     # print( request.session['user'])
@@ -156,8 +159,7 @@ def add_staff(request):
                     Last_name=last_name,
                     Date_of_Joining=date_of_joining,
                 )
-                messages.error(request, "Faculty " +
-                               full_name + " successfully added")
+                messages.error(request, "Faculty " + full_name + " successfully added")
 
     return render(
         request,
@@ -341,11 +343,11 @@ def add_student(request):
     # batch_data_year = batch.objects.all().distinct('date_of_join')
     scheme_data = scheme.objects.all()
 
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        batch_id_str = request.POST.get('batch_id')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        batch_id_str = request.POST.get("batch_id")
         batch_id_int = int(batch_id_str)
 
         full_name = first_name + " " + last_name
@@ -429,7 +431,7 @@ def view_student(request):
 
     if request.method == "POST":
 
-        batch_id = request.POST.get('batch_select')
+        batch_id = request.POST.get("batch_select")
         # print(batch_id)
         batch_id_int = int(batch_id)
 
@@ -793,6 +795,7 @@ def create_subject(request):
         subject_code_input = request.POST.get("subject_code")
         subject_name_input = request.POST.get("subject_name")
         subject_credit = request.POST.get("subject_credit")
+        subject_sem = request.POST.get("subject_sem")
         scheme_id = request.POST.get("scheme")
         scheme_id_int = int(scheme_id)
 
@@ -809,6 +812,7 @@ def create_subject(request):
                 subject_name=subject_name,
                 credit=subject_credit,
                 scheme=scheme_id_int,
+                semester=subject_sem,
             )
             messages.error(
                 request, "The Subject " + subject_name + " successfully added"
@@ -845,8 +849,7 @@ def create_subject(request):
 def check_subject_exist(request):
     subject_code = request.POST.get("subject_code")
     scheme_id = request.POST.get("scheme_id")
-    subject_exist = subject.objects.filter(
-        code=subject_code, scheme=scheme_id).exists()
+    subject_exist = subject.objects.filter(code=subject_code, scheme=scheme_id).exists()
     if subject_exist:
         return HttpResponse(True)
     else:
@@ -1134,8 +1137,7 @@ def subject_wise_report(request, subject_id, batch_id):
     fullname = staff_details.First_name + " " + staff_details.Last_name
     context = {"name": fullname}
 
-    student_data = profile_student.objects.filter(
-        batch=batch_id).order_by("roll_no")
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
     subject_data = subject.objects.filter(id=subject_id)
     batch_data = batch.objects.filter(id=batch_id)
 
@@ -1251,8 +1253,7 @@ def view_student_details(request, student_id):
         ).aggregate(Sum("mark"))
         total_internal = sum_of_mark["mark__sum"]
         st_data = profile_student.objects.get(id=id)
-        mark_tupple = (i.subject_id, st_data.register_no,
-                       i.semester, total_internal)
+        mark_tupple = (i.subject_id, st_data.register_no, i.semester, total_internal)
         # x print(mark_tupple)
         total_mark_list.append(mark_tupple)
 
@@ -1279,8 +1280,7 @@ def view_student_details(request, student_id):
                     if j.present == True:
                         id1 = j.attendance_record_id
                         # print('id',id1, type(id1))
-                        no_of_hours_taken = attendance_record.objects.get(
-                            id=id1)
+                        no_of_hours_taken = attendance_record.objects.get(id=id1)
 
                         hour = hour + no_of_hours_taken.no_of_hours
             percentage_attendance = round((hour / total_hour) * 100, 2)
@@ -1429,8 +1429,7 @@ def hod_subject_wise_report(
     fullname = staff_details_1.First_name + " " + staff_details_1.Last_name
     context = {"name": fullname}
 
-    student_data = profile_student.objects.filter(
-        batch=batch_id).order_by("roll_no")
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
     subject_data = subject.objects.filter(id=subject_id)
     batch_data = batch.objects.filter(id=batch_id)
 
@@ -1634,8 +1633,7 @@ def hod_my_subject_add_attendance(request, batch_id, subject_id):
     # batch_id = request.session['batch_id']
     # subject_id = request.session['subject_id']
 
-    student_data = profile_student.objects.filter(
-        batch=batch_id).order_by("roll_no")
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
     subject_data = subject.objects.filter(id=subject_id)
     batch_data = batch.objects.filter(id=batch_id)
 
@@ -1733,8 +1731,7 @@ def hod_my_subject_view_attendance(request, record_id, batch_id, subject_id):
     for i in attendance_data:
         print(i.present, type(i.present))
     attendance_record_data = attendance_record.objects.filter(id=record_id)
-    student_data = profile_student.objects.filter(
-        batch=batch_id).order_by("roll_no")
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
     subject_data = subject.objects.filter(id=subject_id)
     batch_data = batch.objects.filter(id=batch_id)
 
@@ -1774,8 +1771,7 @@ def hod_my_subject_add_internal(request, batch_id, subject_id):
     # batch_id = request.session['batch_id']
     # subject_id = request.session['subject_id']
 
-    student_data = profile_student.objects.filter(
-        batch=batch_id).order_by("roll_no")
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
     subject_data = subject.objects.filter(id=subject_id)
     batch_data = batch.objects.filter(id=batch_id)
 
@@ -1924,8 +1920,7 @@ def hod_my_subject_view_internal_result(request, batch_id, subject_id):
     # batch_id = request.session['batch_id']
     # subject_id = request.session['subject_id']
 
-    student_data = profile_student.objects.filter(
-        batch=batch_id).order_by("roll_no")
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
     subject_data = subject.objects.filter(id=subject_id)
     batch_data = batch.objects.filter(id=batch_id)
 
@@ -2047,7 +2042,7 @@ def add_parent(request):
                         is_active=True,
                         is_student=False,
                         is_hod=False,
-                        is_parent=True
+                        is_parent=True,
                     )
 
                     parent_profile.objects.create(
@@ -2056,24 +2051,23 @@ def add_parent(request):
                         last_name=last_name,
                         email=email,
                         phone_no=phone_number,
-                        register_no_id=student_id_int
-
+                        register_no_id=student_id_int,
                     )
 
                     messages.error(
-                        request,
-                        "parent "
-                        + full_name
-                        + " successfully added"
+                        request, "parent " + full_name + " successfully added"
                     )
 
     return render(
         request,
         "add_parent.html",
-        {"batch_class": batch_data_class,
-         "data": data,
-         "scheme_data": scheme_data, "context": context,
-            "data_for_self_profile": staff_details_1},
+        {
+            "batch_class": batch_data_class,
+            "data": data,
+            "scheme_data": scheme_data,
+            "context": context,
+            "data_for_self_profile": staff_details_1,
+        },
     )
 
 
@@ -2082,40 +2076,39 @@ def view_parent(request):
     staff_id = current_user.username
     staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
     name = staff_details_1.First_name + " " + staff_details_1.Last_name
-    context = {'name': name}
+    context = {"name": name}
     batch_data = batch.objects.all()
     scheme_data = scheme.objects.all()
-    
+
     if request.method == "POST":
-        
-        batch_id = request.POST.get('batch_select')
+
+        batch_id = request.POST.get("batch_select")
         batch_id_int = int(batch_id)
-        
+
         if batch_id == "0":
-            
+
             messages.error(request, "Please select Batch")
-        
+
         else:
-            
+
             batch_id = batch_id_int
             student_data = profile_student.objects.filter(batch=batch_id)
             batch_data1 = batch.objects.get(id=batch_id)
             scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
-            
+
             data_list = []
             for i in student_data:
                 data_dict = {}
-                parent_data = parent_profile.objects.filter(
-                    register_no_id=i.id)
-                
+                parent_data = parent_profile.objects.filter(register_no_id=i.id)
+
                 for j in parent_data:
-                    
-                    data_dict["student_name"] = i.first_name+' '+i.last_name
-                    data_dict["parent_name"] = j.first_name+' '+j.last_name
-                    data_dict['email'] = j.email
-                    data_dict['phone_number'] = j.phone_no
-                
-                if(len(data_dict) != 0):
+
+                    data_dict["student_name"] = i.first_name + " " + i.last_name
+                    data_dict["parent_name"] = j.first_name + " " + j.last_name
+                    data_dict["email"] = j.email
+                    data_dict["phone_number"] = j.phone_no
+
+                if len(data_dict) != 0:
                     data_list.append(data_dict)
 
             batch_data = batch.objects.all()
@@ -2125,8 +2118,7 @@ def view_parent(request):
                 request,
                 "view_parent.html",
                 {
-                    
-                    'data': data_list,
+                    "data": data_list,
                     "scheme_data1": scheme_data1,
                     "batch_data1": batch_data1,
                     "context": context,
@@ -2135,17 +2127,140 @@ def view_parent(request):
                     "data_for_self_profile": staff_details_1,
                 },
             )
-           
-    return render(request, 'view_parent.html', 
-        {  
-            'batch': batch_data,
-            'scheme_data': scheme_data,
-            'context': context,
-            "data_for_self_profile": staff_details_1
-        })
 
-   
+    return render(
+        request,
+        "view_parent.html",
+        {
+            "batch": batch_data,
+            "scheme_data": scheme_data,
+            "context": context,
+            "data_for_self_profile": staff_details_1,
+        },
+    )
+
+
+def hod_feedback(request):
+
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {"name": name}
+
+    batch_data = batch.objects.all()
+    scheme_data = scheme.objects.all()
+    sub_data = subject.objects.all()
+
+    if request.method == "POST":
+        batch_id = request.POST.get("batch_select")
+        # batch_id_int = batch_id
+        # batch_id = 1
+        if batch_id == 0:
+            messages.error(request, "Please select Batch")
+
+        # batch_data = batch.objects.all()
+        # for i in batch_data:
+        #     print("SDS", i.semester)
+        scheme_data = scheme.objects.all()
+        sub_data = subject.objects.all()
+        # for i in sub_data:
+        #     print("ASD", i.semester)
+        # cdbatch_id = batch_id_int
+        batch_data1 = batch.objects.get(id=batch_id)
+        scheme_data1 = scheme.objects.get(id=batch_data1.scheme)
+        # print("bdd",batch_data1.scheme)
+
+        sub_id = request.POST.get("subject_select")
+        # sub_id_int = int(sub_id)
+        subjectDetails = subject_to_staff.objects.filter(
+            batch_id=batch_id, subject_id=sub_id
+        )
+        feedback_list = []
+        for i in subjectDetails:
+
+            feedbacks = feedback.objects.filter(subject_to_staff=i.id)
+            for j in feedbacks:
+                feedback_object = {}
+                print(j.feedback_text)
+                feedback_object["feedback_text"] = j.feedback_text
+                student_details = profile_student.objects.get(id=j.student_id)
+                feedback_object["student_name"] = (
+                    student_details.first_name + " " + student_details.last_name
+                )
+                feedback_list.append(feedback_object)
+
+        # sub_id = 1
+
+        if sub_id == 0:
+            messages.error(request, "Please select Subject")
+
+        # sub_
+        # for i in scheme_data1:
+        sub_data = subject.objects.all()
+        # sub_data1 = subject.objects.filter(semester=batch_data.semester)
+        # print(sub_data.subject_name)
+        # for i in sub_data1:
+        #     print("dfff", i.subject_name)
+
+        return render(
+            request,
+            "hod_feedback.html",
+            {
+                #'data': data_list,
+                # "batch_data1": batch_data1,
+                "context": context,
+                "scheme_data": scheme_data,
+                "batch_data": batch_data,
+                "sub_data": sub_data,
+                "feedback_list": feedback_list,
+                "data_for_self_profile": staff_details_1,
+            },
+        )
+
+    return render(
+        request,
+        "hod_feedback.html",
+        {
+            #'batch_data1':batch_data1,
+            #'scheme_data1':scheme_data1,
+            "context": context,
+            "batch_data": batch_data,
+            "scheme_data": scheme_data,
+            "sub_data": sub_data,
+            "data_for_self_profile": staff_details_1,
+        },
+    )
+
+
 # logout
+
+from hod.models import announcement
+
+
+def hod_announcement(request):
+    current_user = request.user
+    staff_id = current_user.username
+    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+    name = staff_details_1.First_name + " " + staff_details_1.Last_name
+    context = {"name": name}
+    if request.method == "POST":
+        Announcement_Text = request.POST.get("announcement_text")
+        announcement.objects.create(
+            announcement_text=Announcement_Text,
+        )
+        return render(
+            request,
+            "hod_announcement.html",
+            {"context": context, "data_for_self_profile": staff_details_1},
+        )
+    return render(
+        request,
+        "hod_announcement.html",
+        {"context": context, "data_for_self_profile": staff_details_1},
+    )
+
+
 def log_out(request):
     logout(request)
 

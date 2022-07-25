@@ -3,4 +3,9 @@ requirements.txt
 __pycache__
 .vs
 .idea
+<<<<<<< HEAD
+Venv/
+venv/
+=======
 .vscode/*
+>>>>>>> 93663bc69e44fe423047dcd8eec0441aa5bbfa25

@@ -10,6 +10,7 @@ from django.db.models import Sum, Max
 
 from psycopg2 import Date
 from pyparsing import line
+
 from pytest import mark
 import urllib3
 import login
@@ -29,7 +30,7 @@ from hod.models import (
 )
 from staff.models import profile
 from login.models import MyUser
-from student.models import profile_student
+from student.models import profile_student, feedback
 
 
 def staff_index(request):
@@ -684,8 +685,11 @@ def update_class_of_tutor(request, batch_id):
     subject_data = subject.objects.all()
     assign_subject_data = subject_to_staff.objects.filter(batch_id=batch_id)
     sem_result = semester_result.objects.filter(batch_id=batch_id)
-
+    leave_requests = leave_request.objects.filter(batch_id=batch_id)
     subject_in_sem = subject_to_staff.objects.filter(batch_id=batch_id)
+    for i in leave_requests:
+        print(i.id)
+
     # all_subject = subject.objects.all()
 
     if "update_semester" in request.POST:
@@ -704,6 +708,7 @@ def update_class_of_tutor(request, batch_id):
             "context": context,
             "staff_data": staff_data,
             "batch_data": batch_data,
+            "leave_requests": leave_requests,
             "scheme_data": scheme_data,
             "date": join_date,
             "student_data": student_data,
@@ -716,6 +721,18 @@ def update_class_of_tutor(request, batch_id):
 
 
 # Subject Wise mark and attendance report
+
+from tutor.models import leave_request
+from django.utils import timezone
+
+
+def approve_request(request, r_id, batch_id):
+    print("student", r_id)
+    t = leave_request.objects.get(id=r_id)
+    t.status = "approved"
+    t.approved_date = timezone.now()
+    t.save()
+    return redirect(update_class_of_tutor, batch_id)
 
 
 def tutor_subject_wise_report(
@@ -1513,6 +1530,201 @@ def performance_analysis(request, batch_id):
             "student_data": student_data,
             "data": data,
             "sub_name": sub_name,
+        },
+    )
+
+    # Feedback
+
+
+def add_feedback(request, batch_id, subject_id):
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details = profile.objects.get(Faculty_unique_id=user_id)
+    fullname = staff_details.First_name + " " + staff_details.Last_name
+    context = {"name": fullname}
+
+    # batch_id = request.session['batch_id']
+    # subject_id = request.session['subject_id']
+
+    student_data = profile_student.objects.filter(batch=batch_id).order_by("roll_no")
+    subject_data = subject.objects.filter(id=subject_id)
+    batch_data = batch.objects.filter(id=batch_id)
+
+    staff_id = staff_details.id
+    check_subject_exist = subject_to_staff.objects.filter(
+        batch_id=batch_id, staff_id=staff_id, subject_id=subject_id
+    )
+    internal_mark = Internal_mark.objects.filter()
+
+    for i in check_subject_exist:
+        sem = i.semester
+
+    if "internal" in request.POST:
+        for i in student_data:
+            x = i.roll_no
+            mark = request.POST.getlist(str(x))
+            print(mark)
+
+            exist_ass1 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Assignment 1",
+            ).count()
+            exist_ass2 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Assignment 2",
+            ).count()
+            exist_internal1 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Internal 1",
+            ).count()
+            exist_internal2 = Internal_mark.objects.filter(
+                student_id=i.id,
+                subject_id=subject_id,
+                semester=sem,
+                exam_type="Internal 2",
+            ).count()
+            print(exist_ass1, exist_ass2, exist_internal1, exist_internal2)
+            if exist_ass1 > 0:
+                update_ass1 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Assignment 1",
+                )
+                update_ass1.mark = mark[0]
+                update_ass1.save()
+
+            if exist_ass2 > 0:
+                update_ass2 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Assignment 2",
+                )
+                update_ass2.mark = mark[1]
+                update_ass2.save()
+
+            if exist_internal1 > 0:
+                update_internal1 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Internal 1",
+                )
+                update_internal1.mark = mark[2]
+                update_internal1.save()
+
+            if exist_internal2 > 0:
+                update_internal2 = Internal_mark.objects.get(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    exam_type="Internal 2",
+                )
+                update_internal2.mark = mark[3]
+                update_internal2.save()
+
+            if (
+                exist_ass1 == 0
+                and exist_ass2 == 0
+                and exist_internal1 == 0
+                and exist_internal2 == 0
+            ):
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[0],
+                    exam_type="Assignment 1",
+                )
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[1],
+                    exam_type="Assignment 2",
+                )
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[2],
+                    exam_type="Internal 1",
+                )
+                Internal_mark.objects.create(
+                    student_id=i.id,
+                    subject_id=subject_id,
+                    semester=sem,
+                    mark=mark[3],
+                    exam_type="Internal 2",
+                )
+
+        return redirect("update_class", batch_id, subject_id)
+
+    return render(
+        request,
+        "internal.html",
+        {
+            "context": context,
+            "student_data": student_data,
+            "subject_data": subject_data,
+            "batch_data": batch_data,
+            "check_subject_exist": check_subject_exist,
+            "internal_mark": internal_mark,
+        },
+    )
+
+
+def staff_feedback(request):
+
+    current_user = request.user
+    user_id = current_user.username
+
+    staff_details = profile.objects.get(Faculty_unique_id=user_id)
+    print(staff_details.id)
+    fullname = staff_details.First_name + " " + staff_details.Last_name
+    context = {"name": fullname}
+
+    # staff_data = profile.objects.all()
+    # subject_data = subject.objects.all()
+    # subject_staff_data = subject_to_staff.objects.all()
+
+    staff_data = subject_to_staff.objects.filter(staff_id=staff_details.id)
+    for i in staff_data:
+        print("id", i.staff_id)
+        staff_id = i.id
+        sub = i.subject_id
+        sub_took = subject.objects.filter(id=sub)
+        for j in sub_took:
+            print("sub", j.id)
+            feedback1 = feedback.objects.filter(subject_to_staff_id=i.id)
+            feedback_list = []
+            for k in feedback1:
+                print("fed", k.feedback_text)
+                feedback_data = {}
+                feedback_data["feedback_text"] = k.feedback_text
+
+                student_data = profile_student.objects.filter(id=k.student_id)
+                for l in student_data:
+                    name = l.first_name + l.last_name
+                    print("stu", name)
+                    feedback_data["student_name"] = name
+                    feedback_list.append(feedback_data)
+
+    return render(
+        request,
+        "staff_feedback.html",
+        {
+            "feedback_list": feedback_list,
+            "context": context,
+            "staff_details": staff_details,
         },
     )
 

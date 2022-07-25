@@ -1,5 +1,10 @@
 from email.policy import default
+
+# from tkinter import CASCADE
 from django.db import models
+from django.utils import timezone
+
+# from student.models import profile_student
 
 
 # Create your models here.
@@ -30,6 +35,7 @@ class subject(models.Model):
     subject_name = models.CharField(max_length=255, null=False)
     credit = models.BigIntegerField(null=False)
     scheme = models.BigIntegerField(null=False)
+    semester = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         name = self.code + "-" + self.subject_name
@@ -90,3 +96,8 @@ class attendance(models.Model):
     batch_id = models.BigIntegerField(unique=False, null=False)
     present = models.BooleanField(null=False)
     semester = models.BigIntegerField(null=False)
+
+
+class announcement(models.Model):
+    announcement_text = models.CharField(max_length=500)
+    date = models.DateTimeField(default=timezone.now)

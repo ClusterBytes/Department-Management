@@ -7,7 +7,7 @@ import student
 from django.contrib.auth import login
 
 
-# Create your views here.
+# Create Your Views Here.
 
 
 def login_page(request):
@@ -26,9 +26,22 @@ def login_page(request):
                 is_hod=True,
                 is_faculty=False,
                 is_student=False,
-                is_parent=False
+                is_parent=False,
+                #is_parent=False
             )
         ):
+            user = AuthenticationBackend.authenticate(
+                self=None,
+                request=request,
+                username=username1,
+                password=password1,
+                is_hod=True,
+                is_faculty=False,
+                is_student=False,
+                is_parent=False,
+                #is_parent=False
+            )
+
             login(request, user)
             # Redirect to a success page.
             return redirect("hod_index")
@@ -41,7 +54,7 @@ def login_page(request):
                 is_hod=False,
                 is_faculty=True,
                 is_student=False,
-                is_parent=False
+                is_parent=False,
             )
             is not None
         ):
@@ -53,7 +66,7 @@ def login_page(request):
                 is_hod=False,
                 is_faculty=True,
                 is_student=False,
-                is_parent=False
+                is_parent=False,
             )
             login(request, user)
             # Redirect to a success page.

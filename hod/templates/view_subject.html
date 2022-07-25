@@ -155,6 +155,7 @@
             <th>SUBJECT CODE</th>
             <th>SUBJECT NAME</th>
             <th>SUBJECT CREDIT</th>
+            <th>SEMESTER</th>
             <th>SCHEME</th>
             <th>FACULTY</th>
             
@@ -172,6 +173,7 @@
             <td>{{ i.code }}</td>
             <td>{{ i.subject_name }}</td>
             <td>{{ i.credit }}</td>
+            <td>{{ i.semester}}</td>
             <td>
               {% for j in scheme_data  %}
                 {% if i.scheme == j.id %}

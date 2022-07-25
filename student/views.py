@@ -1,12 +1,14 @@
 from atexit import register
+from re import sub
 
 # import matplotlib as matplotlib
-from autoscraper import AutoScraper
+# from autoscraper import AutoScraper
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib import messages
 from hod.models import (
     Internal_mark,
+    announcement,
     attendance,
     attendance_record,
     batch,
@@ -15,7 +17,7 @@ from hod.models import (
     subject,
     subject_to_staff,
 )
-from student.models import profile_student
+from student.models import profile_student, feedback
 from login.models import MyUser
 import login
 
@@ -25,32 +27,34 @@ from django.db.models import Sum, Max
 # import matplotlib.pyplot as plt
 import numpy as np
 
+from hod.models import announcement
+
 
 def student_index(request):
     # Create your views here.
 
-    url = "https://ktu.edu.in/eu/core/announcements.htm"
+    # url = "https://ktu.edu.in/eu/core/announcements.htm"
 
-    try:
-        # url = 'https://ktu.edu.in/home.htm'
+    # try:
+    #     # url = 'https://ktu.edu.in/home.htm'
 
-        wanted_list = [
-            "ANNOUNCEMENTS",
-            "Dec 24, 2021",
-            "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
-        ]
-        scraper = AutoScraper()
-        result = scraper.build(url, wanted_list)
-        data1 = result[0]
-        data2 = result[1]
-        data3 = result[2]
+    #     wanted_list = [
+    #         "ANNOUNCEMENTS",
+    #         "Dec 24, 2021",
+    #         "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
+    #     ]
+    #     scraper = AutoScraper()
+    #     result = scraper.build(url, wanted_list)
+    #     data1 = result[0]
+    #     data2 = result[1]
+    #     data3 = result[2]
 
-        notif = {"data1": data1, "data2": data2, "data3": data3}
-        # request.session['notif'] = notif
+    #     notif = {"data1": data1, "data2": data2, "data3": data3}
+    #     # request.session['notif'] = notif
 
-    except:
-
-        notif = {"data1": "KTU site cannot reach"}
+    # except:
+    announcements = announcement.objects.all().order_by("-id")[:3]
+    notif = {"data1": "KTU site cannot reach"}
     current_user = request.user
     user_id = current_user.username
 
@@ -151,6 +155,7 @@ def student_index(request):
             "cgpa": cgpa,
             "notif": notif,
             "data": data,
+            "announcements": announcements,
             "sem": sem,
             "predicted_sem": predicted_sem,
         },
@@ -339,7 +344,7 @@ def student_profile(request):
             messages.error(request, "Successfully changed password")
             return render(
                 request,
-                "parent_profile.html",
+                "student_profile.html",
                 {
                     "student_data": student_data,
                     "scheme_data": scheme_data,
@@ -351,7 +356,7 @@ def student_profile(request):
 
     return render(
         request,
-        "parent_profile.html",
+        "student_profile.html",
         {
             "student_data": student_data,
             "scheme_data": scheme_data,
@@ -372,3 +377,98 @@ def student_profile(request):
 def log_out(request):
     logout(request)
     return redirect(login.views.login)
+
+
+def send_feedback(request):
+    current_user = request.user
+    user_id = current_user.username
+    # print("logged in", current_user, user_id)
+    # student_details = profile_student.objects.get(register_no=user_id)
+    student_data = profile_student.objects.get(register_no=user_id)
+    name = student_data.first_name + " " + student_data.last_name
+    # id = request.session['student_id']
+    context = {"name": name}
+    batch = student_data.batch
+    student_id = student_data.id
+    subject_data = subject_to_staff.objects.filter(batch_id=batch)
+    subject_list = []
+    for i in subject_data:
+        subject_id = i.subject_id
+        subjects = subject.objects.filter(id=subject_id)
+        subject_list.append(subjects)
+
+    if request.method == "POST":
+        selected_subject = request.POST.get("subject_select")
+        feedback_text = request.POST.get("feedback_text")
+        subject_staff = subject_to_staff.objects.get(
+            batch_id=batch, subject_id=selected_subject
+        )
+        print("subject feedback", subject_staff.id, feedback_text)
+        feedback.objects.create(
+            student_id=student_id,
+            subject_to_staff_id=subject_staff.id,
+            feedback_text=feedback_text,
+        )
+
+    return render(
+        request,
+        "feedback.html",
+        {
+            "context": context,
+            "subjects": subject_list,
+            "student_data": student_data,
+        },
+    )
+
+
+from tutor.models import leave_request
+
+
+def send_leave_request(request):
+    current_user = request.user
+    user_id = current_user.username
+
+    student_data = profile_student.objects.get(register_no=user_id)
+    name = student_data.first_name + " " + student_data.last_name
+    context = {"name": name}
+    student_id = student_data.id
+    batch_id = student_data.batch
+    print(student_data.batch)
+    if request.method == "POST":
+        request_letter = request.POST.get("leave_request")
+        leave_request.objects.create(
+            student_id=student_id,
+            batch_id=batch_id,
+            request=request_letter,
+        )
+
+    return render(
+        request,
+        "send_leave_request.html",
+        {
+            "context": context,
+            "student_data": student_data,
+        },
+    )
+
+
+def view_leave_request(request):
+    current_user = request.user
+    user_id = current_user.username
+    student_data = profile_student.objects.get(register_no=user_id)
+    name = student_data.first_name + " " + student_data.last_name
+    context = {"name": name}
+    leave_requests = leave_request.objects.filter(student_id=student_data.id)
+    # print(leave_requests)
+    for i in leave_requests:
+        print(i.request)
+
+    return render(
+        request,
+        "view_leave_request.html",
+        {
+            "context": context,
+            "student_data": student_data,
+            "leave_requests": leave_requests,
+        },
+    )

@@ -233,7 +233,7 @@
         </ul>
       </li> <!-- Manage students -->
 
-        <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#manage-parent" data-bs-toggle="collapse" href="#">
           <i class="bi bi-people-fill"></i><span>Manage parents</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -250,7 +250,7 @@
           </li>
 
         </ul>
-      </li> 
+      </li> <!--Manage Parent-->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#manage-subject" data-bs-toggle="collapse" href="#">
@@ -290,6 +290,33 @@
           </li>
         </ul>
       </li> <!-- Manage batch -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#feedback" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people-fill"></i><span>Feedback</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="feedback" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'hod_feedback' %}">
+              <i class="bi bi-circle"></i><span>View Feedback</span>
+            </a>
+          </li>
+        </ul>
+      </li> <!--Feedback-->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#annoucement" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people-fill"></i><span>Announcement</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="annoucement" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'hod_announcement' %}">
+              <i class="bi bi-circle"></i><span>Send Announcement</span>
+            </a>
+          </li>
+        </ul>
+      </li> <!--Annoucement-->
 
       
 
