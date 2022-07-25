@@ -3021,13 +3021,75 @@
                   </div>
                 </div>
               </div>
-              
-
-
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <strong>Requests</strong>
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                          <div class="accordion-body">
+                            <table class="datatable">
+                              <br>
+                                <thead>
+                                  <tr>
+                                    <th>Roll no</th>
+                                    <th>  
+                                      Name                                            
+                                    </th>  
+                                    <th>  
+                                     Date                                           
+                                    </th>  
+                                    <th>  
+                                      Letter                                            
+                                    </th>  
+                                    <th>  
+                                      Approve                                            
+                                    </th>
+                                       
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  {% for i in student_data %}
+                                  {% for j in leave_requests %}
+                                  {% if i.id == j.student_id %}
+                                  <tr>
+                                    <td>{{i.university_no}}</td>
+                                    <td>{{i.first_name }} {{i.last_name}}</td>
+                                  
+                                    <td>{{j.requested_date}}</td>
+                                    <td>{{j.request}}</td>
+                                  
+                                    <td>
+                                      <div class="form-check">
+                                        {% if j.status == "pending" %}
+                                        <a href="{% url 'approve_request' r_id=j.id batch_id=j.batch_id %}"> <button
+                                            class="btn btn-primary w-20" type="submit" id="approved">Approve now </button>&nbsp;
+                                        </a>
+                                        {% else %}
+                                        <button class="btn btn-primary w-20" type="submit" id="approved">Approved</button>
+                                        {% endif %}
+                                      </div>
+                                    </td>
+                                  
+                                    
+                                  </tr>
+                                  {% endif %} 
+                                  {% endfor %}
+                                  {% endfor %}
+                                </tbody>
+                            </table>     
+                          </div>
+                      </div>      
+                    </div><!-- End Default Accordion Example -->
+                  </div>
+                </div>
+              </div>
             </div><!-- End Default Accordion Example -->
-
           <br>
-
 </div>
 </div>
  </div>

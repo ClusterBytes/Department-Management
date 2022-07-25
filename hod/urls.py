@@ -30,7 +30,7 @@ from hod.views import (
 )
 from hod.views import view_scheme, create_subject, view_subject, edit_subject
 from hod.views import check_subject_exist, check_user_exist, batch_details
-from hod.views import add_parent,view_parent,hod_feedback
+from hod.views import add_parent,view_parent,hod_feedback,hod_announcement
 
 
 
@@ -70,5 +70,6 @@ urlpatterns = [
     path('hod_my_subject_view_attendance/<int:record_id>/<int:batch_id>/<int:subject_id>/', hod_my_subject_view_attendance, name='hod_my_subject_view_attendance'),
     path('add_parent/', add_parent, name='add_parent'),
     path('view_parent/', view_parent, name='view_parent'),
-    path('hod_feedback/', hod_feedback, name='hod_feedback')
+    path('hod_feedback/', hod_feedback, name='hod_feedback'),
+    path('hod_announcement/', hod_announcement, name='hod_announcement')
 ]

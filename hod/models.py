@@ -1,6 +1,7 @@
 from email.policy import default
 #from tkinter import CASCADE
 from django.db import models
+from django.utils import timezone
 
 #from student.models import profile_student
 
@@ -98,3 +99,4 @@ class attendance(models.Model):
 
 class announcement(models.Model):
     annoucement_text = models.CharField(max_length = 500)
+    date = models.DateTimeField(default=timezone.now)

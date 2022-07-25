@@ -25,6 +25,7 @@ from hod.models import (
     semester_result,
     subject,
     subject_to_staff,
+    announcement
 )
 from login.models import MyUser
 from staff.models import profile
