@@ -25,7 +25,7 @@ from hod.models import (
     semester_result,
     subject,
     subject_to_staff,
-    announcement
+    announcement,
 )
 from login.models import MyUser
 from staff.models import profile
@@ -35,7 +35,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.csrf import csrf_exempt
 import hod
 from django.contrib.auth.decorators import login_required
-from autoscraper import AutoScraper
+
+# from autoscraper import AutoScraper
 
 
 # Create your views here.
@@ -45,30 +46,30 @@ from autoscraper import AutoScraper
 
 @login_required
 def hod_index(request):
-    url = "https://ktu.edu.in/eu/core/announcements.htm"
+    # url = "https://ktu.edu.in/eu/core/announcements.htm"
 
-    try:
-        # url = 'https://ktu.edu.in/home.htm'
+    # try:
+    #     # url = 'https://ktu.edu.in/home.htm'
 
-        wanted_list = [
-            "ANNOUNCEMENTS",
-            "Dec 24, 2021",
-            "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
-        ]
-        scraper = AutoScraper()
-        result = scraper.build(url, wanted_list)
-        data1 = result[0]
-        data2 = result[1]
-        data3 = result[2]
+    #     wanted_list = [
+    #         "ANNOUNCEMENTS",
+    #         "Dec 24, 2021",
+    #         "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
+    #     ]
+    #     scraper = AutoScraper()
+    #     result = scraper.build(url, wanted_list)
+    #     data1 = result[0]
+    #     data2 = result[1]
+    #     data3 = result[2]
 
-        notif = {"data1": data1, "data2": data2, "data3": data3}
-        # request.session['notif'] = notif
+    #     notif = {"data1": data1, "data2": data2, "data3": data3}
+    #     # request.session['notif'] = notif
 
-    except:
+    # except:
 
-        notif = {"data1": "KTU site cannot reach"}
-        request.session["notif"] = notif
-
+    #     notif = {"data1": "KTU site cannot reach"}
+    #     request.session["notif"] = notif
+    notif = {"data1": "KTU site cannot reach"}
     current_user = request.user
     print(current_user.id)
     # print( request.session['user'])
