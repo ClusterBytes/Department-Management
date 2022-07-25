@@ -24,7 +24,7 @@ import login
 
 from django.db.models import Sum, Max
 
-#%matplotlib inline
+# %matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -35,28 +35,28 @@ def parent_index(request):
     # url = "https://ktu.edu.in/eu/core/announcements.htm"
 
     # try:
-        # # url = 'https://ktu.edu.in/home.htm'
+    # # url = 'https://ktu.edu.in/home.htm'
 
-        # wanted_list = [
-            # "ANNOUNCEMENTS",
-            # "Dec 24, 2021",
-            # "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
-        # ]
-        # scraper = AutoScraper()
-        # result = scraper.build(url, wanted_list)
-        # data1 = result[0]
-        # data2 = result[1]
-        # data3 = result[2]
+    # wanted_list = [
+    # "ANNOUNCEMENTS",
+    # "Dec 24, 2021",
+    # "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
+    # ]
+    # scraper = AutoScraper()
+    # result = scraper.build(url, wanted_list)
+    # data1 = result[0]
+    # data2 = result[1]
+    # data3 = result[2]
 
-        # notif = {"data1": data1, "data2": data2, "data3": data3}
-        # # request.session['notif'] = notif
+    # notif = {"data1": data1, "data2": data2, "data3": data3}
+    # # request.session['notif'] = notif
 
     # except:
 
     notif = {"data1": "KTU site cannot reach"}
     current_user = request.user
     user_id = current_user.username
-    stud_id=ppdb.objects.get(parent_id=user_id).register_no_id
+    stud_id = ppdb.objects.get(parent_id=user_id).register_no_id
     student_details_1 = profile_student.objects.get(id=stud_id)
     name = student_details_1.first_name + " " + student_details_1.last_name
     # id = request.session['student_id']
@@ -71,7 +71,7 @@ def parent_index(request):
         for j in subject_data:
             if j.id == i.subject_id:
                 credit += j.credit
-    #print(credit)
+    # print(credit)
     supply = 0
     for i in subject_data:
         max_chance = semester_result.objects.filter(
@@ -165,8 +165,8 @@ def parent_profile(request):
     # name = request.session['student_name']
     current_user = request.user
     user_id = current_user.username
-    stud_id=ppdb.objects.get(parent_id=user_id).register_no_id
-    
+    stud_id = ppdb.objects.get(parent_id=user_id).register_no_id
+
     student_details_1 = profile_student.objects.get(id=stud_id)
     name = student_details_1.first_name + " " + student_details_1.last_name
 
@@ -181,7 +181,6 @@ def parent_profile(request):
         name_first = i.first_name
         name_last = i.last_name
 
-    
     name = name_first + " " + name_last
     context = {"name": name}  # display the name
 
@@ -189,7 +188,8 @@ def parent_profile(request):
     scheme_id = batch_data.scheme
     scheme_data = scheme.objects.get(scheme=scheme_id)
 
-    date_dob = str(date_of_birth)  # dob can only display in html only as string type
+    # dob can only display in html only as string type
+    date_dob = str(date_of_birth)
     assign_subject_data = subject_to_staff.objects.filter(batch_id=batch_id)
     internal_mark_data = Internal_mark.objects.filter(student_id=student_id)
     subject_data = subject.objects.all()
@@ -209,7 +209,8 @@ def parent_profile(request):
         total_internal = sum_of_mark["mark__sum"]
         print(total_internal)
         st_data = profile_student.objects.get(id=student_id)
-        mark_tupple = (i.subject_id, st_data.register_no, i.semester, total_internal)
+        mark_tupple = (i.subject_id, st_data.register_no,
+                       i.semester, total_internal)
         print(mark_tupple)
         total_mark_list.append(mark_tupple)
 
@@ -235,8 +236,9 @@ def parent_profile(request):
                 if st_data.id == j.student_id:
                     if j.present == True:
                         id1 = j.attendance_record_id
-                        print('id',id1, type(id1))
-                        no_of_hours_taken = attendance_record.objects.get(id=id1)
+                        print('id', id1, type(id1))
+                        no_of_hours_taken = attendance_record.objects.get(
+                            id=id1)
 
                         hour = hour + no_of_hours_taken.no_of_hours
             percentage_attendance = round((hour / total_hour) * 100, 2)
@@ -321,9 +323,8 @@ def parent_profile(request):
 
             messages.error(request, "Successfully updated")
             return render(request, 'parent_profile.html',
-                         {'student_data': student_data, 'scheme_data': scheme_data, 'batch_data': batch_data,
-                          'date_dob': date_dob, 'context': context})
-            return redirect(student_profile)
+                          {'student_data': student_data, 'scheme_data': scheme_data, 'batch_data': batch_data,
+                           'date_dob': date_dob, 'context': context})
 
     if "change_password" in request.POST:
         current_password = request.POST.get("current_password")
