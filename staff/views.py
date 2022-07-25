@@ -29,7 +29,7 @@ from hod.models import (
 )
 from staff.models import profile
 from login.models import MyUser
-from student.models import profile_student
+from student.models import profile_student,feedback
 
 
 def staff_index(request):
@@ -1672,12 +1672,41 @@ def staff_feedback(request):
     user_id = current_user.username
 
     staff_details = profile.objects.get(Faculty_unique_id=user_id)
+    print(staff_details.id)
     fullname = staff_details.First_name + " " + staff_details.Last_name
     context = {"name": fullname}
 
 
+   # staff_data = profile.objects.all()
+   # subject_data = subject.objects.all()
+    #subject_staff_data = subject_to_staff.objects.all()
+
+    staff_data = subject_to_staff.objects.filter(staff_id = staff_details.id)
+    for i in staff_data:
+        print("id",i.staff_id)
+        staff_id = i.id
+        sub = i.subject_id
+        sub_took = subject.objects.filter(id = sub)
+        for j in sub_took:
+            print("sub",j.id)
+            feedback1 = feedback.objects.filter(subject_to_staff_id = i.id)
+            feedback_list = []
+            for k in feedback1:
+                print("fed",k.feedback_text)
+                feedback_data  = {}
+                feedback_data['feedback_text'] = k.feedback_text
+            
+                student_data = profile_student.objects.filter(id = k.student_id)
+                for l in student_data:
+                    name = l.first_name + l.last_name
+                    print("stu",name)
+                    feedback_data['student_name'] = name
+                    feedback_list.append(feedback_data)
+
     return render(request,"staff_feedback.html",
                     {
+                     
+                      'feedback_list':feedback_list,
                       'context': context,
                       'staff_details':staff_details,
                     })
