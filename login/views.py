@@ -26,7 +26,12 @@ def login_page(request):
                 is_hod=True,
                 is_faculty=False,
                 is_student=False,
+<<<<<<< HEAD
                 is_parent=False
+=======
+                is_parent=False,
+                #is_parent=False
+>>>>>>> 32bbd2ea053a36208d37d34647b6d812d4bde8fb
             )
             is not None
         ):
@@ -38,7 +43,12 @@ def login_page(request):
                 is_hod=True,
                 is_faculty=False,
                 is_student=False,
+<<<<<<< HEAD
                 is_parent=False
+=======
+                is_parent=False,
+                #is_parent=False
+>>>>>>> 32bbd2ea053a36208d37d34647b6d812d4bde8fb
             )
 
             login(request, user)
@@ -53,7 +63,11 @@ def login_page(request):
                 is_hod=False,
                 is_faculty=True,
                 is_student=False,
+<<<<<<< HEAD
                 is_parent=False
+=======
+                is_parent=False,
+>>>>>>> 32bbd2ea053a36208d37d34647b6d812d4bde8fb
             )
             is not None
         ):
@@ -65,7 +79,11 @@ def login_page(request):
                 is_hod=False,
                 is_faculty=True,
                 is_student=False,
+<<<<<<< HEAD
                 is_parent=False
+=======
+                is_parent=False,
+>>>>>>> 32bbd2ea053a36208d37d34647b6d812d4bde8fb
             )
             login(request, user)
             # Redirect to a success page.

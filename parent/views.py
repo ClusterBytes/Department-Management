@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from atexit import register
 
@@ -376,4 +377,4 @@ def log_out(request):
     logout(request)
     return redirect(login.views.login)
 
-# Create your views here.
+# Create your views here

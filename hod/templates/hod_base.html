@@ -62,7 +62,8 @@
         <input type="text" name="query" placeholder="Search" title="Enter search keyword">
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
-    </div><!-- End Search Bar -->
+    </div>
+    <-- End Search Bar -->
 
     
 
@@ -105,8 +106,8 @@
 
             <li>
             
-              <a class="dropdown-item d-flex align-items-center" href="{% url 'faculty_profile' f_id=data_for_self_profile.Faculty_unique_id %}">
-               
+             <a class="dropdown-item d-flex align-items-center" href={% url 'faculty_profile' f_id=data_for_self_profile.Faculty_unique_id %}>
+              
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -232,7 +233,6 @@
         </ul>
       </li> <!-- Manage students -->
 
-
         <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#manage-parent" data-bs-toggle="collapse" href="#">
           <i class="bi bi-people-fill"></i><span>Manage parents</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -251,7 +251,6 @@
 
         </ul>
       </li> 
-      
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#manage-subject" data-bs-toggle="collapse" href="#">
