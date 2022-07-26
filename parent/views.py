@@ -240,7 +240,6 @@ def parent_student_profile(request):
     student_data = profile_student.objects.filter(id=id)
 
     for i in student_data:
-        print("student", i.id)
         student_id = i.id
         batch_id = i.batch
         date_of_birth = i.date_of_birth
@@ -344,6 +343,7 @@ def parent_student_profile(request):
             "total_mark_list": total_mark_list,
             "attendance_list": attendance_list,
             "sem_result_list": sem_result_list,
+            "stud_name": name,
         },
     )
 
