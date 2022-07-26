@@ -29,7 +29,6 @@ def login_page(request):
                 is_parent=False,
                 #is_parent=False
             )
-            is not None
         ):
             user = AuthenticationBackend.authenticate(
                 self=None,
@@ -59,7 +58,7 @@ def login_page(request):
             )
             is not None
         ):
-            user = AuthenticationBackend.authenticate(
+            user=AuthenticationBackend.authenticate(
                 self=None,
                 request=request,
                 username=username1,
@@ -86,7 +85,7 @@ def login_page(request):
             )
             is not None
         ):
-            user = AuthenticationBackend.authenticate(
+            user=AuthenticationBackend.authenticate(
                 self=None,
                 request=request,
                 username=username1,
@@ -113,7 +112,7 @@ def login_page(request):
             )
             is not None
         ):
-            user = AuthenticationBackend.authenticate(
+            user=AuthenticationBackend.authenticate(
                 self=None,
                 request=request,
                 username=username1,
@@ -140,7 +139,7 @@ def login_page(request):
                 request.session['name'] = full_name
                 request.session['status'] = 1
                 request.session['hod_username'] = username1
-                
+
                 return redirect('hod_index')
 
             elif user.password == password1 and user.is_staff == True and user.is_active == True:
@@ -151,7 +150,7 @@ def login_page(request):
                 request.session['id'] = username1
                 request.session['staff_name'] = full_name
                 # request.session['username'] = username1
-                
+
                 return redirect('staff_index')
 
             elif user.password == password1 and user.is_student == True and user.is_active == True:
@@ -161,9 +160,9 @@ def login_page(request):
 
                 request.session['student_id'] = username1
                 request.session['student_name'] = full_name
-                
+
                 return redirect('student_index')
-            
+
             else:
                 messages.error(request, 'Invalid username or password')
                 return render(request, 'login.html')
