@@ -25,7 +25,7 @@ import login
 from django.db.models import Sum, Max
 
 # %matplotlib inline
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -60,7 +60,7 @@ def parent_index(request):
     student_details_1 = profile_student.objects.get(id=stud_id)
     name = student_details_1.first_name + " " + student_details_1.last_name
     # id = request.session['student_id']
-    context = {"name": current_user.first_name+" "+current_user.last_name}
+    context = {"name": current_user.first_name + " " + current_user.last_name}
 
     credit = 0
     subject_data = subject.objects.all()
@@ -123,8 +123,8 @@ def parent_index(request):
         sgpa += sem_sgpa / sem_credit
         data.append(sgpa)
         sem.append(i)
-    cgpa = round(sgpa / highest_sem,2)
-    
+    cgpa = round(sgpa / highest_sem, 2)
+
     x = np.array(data)
     y = np.array(sem)
     x = x.reshape(len(x), 1)
@@ -167,9 +167,8 @@ def parent_profile(request):
     user_id = current_user.username
     parent_data = ppdb.objects.get(parent_id=user_id)
 
-    context = {"name": current_user.first_name+" "+current_user.last_name}
-    
-    
+    context = {"name": current_user.first_name + " " + current_user.last_name}
+
     if "edit_profile" in request.POST:
 
         f_name = request.POST.get("first_name")
@@ -191,9 +190,12 @@ def parent_profile(request):
         parent_data.save()
 
         messages.error(request, "Successfully updated")
-        
-        return render(request, 'parent_profile.html',
-                      {'parent_data': parent_data,'context': context,'s':1})
+
+        return render(
+            request,
+            "parent_profile.html",
+            {"parent_data": parent_data, "context": context, "s": 1},
+        )
 
     if "change_password" in request.POST:
         current_password = request.POST.get("current_password")
@@ -216,21 +218,15 @@ def parent_profile(request):
         return render(
             request,
             "parent_profile.html",
-            {
-                "parent_data": parent_data,
-                "context": context,
-                "s":2
-            },
+            {"parent_data": parent_data, "context": context, "s": 2},
         )
     return render(
         request,
         "parent_profile.html",
-        {
-            "parent_data": parent_data,
-            "context": context,
-            "s":0
-        },
+        {"parent_data": parent_data, "context": context, "s": 0},
     )
+
+
 def parent_student_profile(request):
     # name = request.session['student_name']
     current_user = request.user
@@ -251,7 +247,9 @@ def parent_student_profile(request):
         name_last = i.last_name
 
     name = name_first + " " + name_last
-    context = {"name": current_user.first_name+" "+current_user.last_name} # display the name
+    context = {
+        "name": current_user.first_name + " " + current_user.last_name
+    }  # display the name
 
     batch_data = batch.objects.get(id=batch_id)
     scheme_id = batch_data.scheme
@@ -274,8 +272,7 @@ def parent_student_profile(request):
         ).aggregate(Sum("mark"))
         total_internal = sum_of_mark["mark__sum"]
         st_data = profile_student.objects.get(id=student_id)
-        mark_tupple = (i.subject_id, st_data.register_no,
-                       i.semester, total_internal)
+        mark_tupple = (i.subject_id, st_data.register_no, i.semester, total_internal)
         total_mark_list.append(mark_tupple)
 
         total_attendance = attendance_record.objects.filter(
@@ -299,8 +296,7 @@ def parent_student_profile(request):
                 if st_data.id == j.student_id:
                     if j.present == True:
                         id1 = j.attendance_record_id
-                        no_of_hours_taken = attendance_record.objects.get(
-                            id=id1)
+                        no_of_hours_taken = attendance_record.objects.get(id=id1)
 
                         hour = hour + no_of_hours_taken.no_of_hours
             percentage_attendance = round((hour / total_hour) * 100, 2)
@@ -356,5 +352,6 @@ def parent_student_profile(request):
 def log_out(request):
     logout(request)
     return redirect(login.views.login)
+
 
 # Create your views here
