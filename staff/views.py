@@ -34,12 +34,15 @@ from student.models import profile_student, feedback
 
 
 def staff_index(request):
-    current_user = request.user
-    user_id = current_user.username
+    try:
+        current_user = request.user
+        user_id = current_user.username
 
-    staff_details = profile.objects.get(Faculty_unique_id=user_id)
-    fullname = staff_details.First_name + " " + staff_details.Last_name
-    context = {"name": fullname}
+        staff_details = profile.objects.get(Faculty_unique_id=user_id)
+        fullname = staff_details.First_name + " " + staff_details.Last_name
+        context = {"name": fullname}
+    except Exception as e:
+        print(e)
 
     # return render(request, 'staff_index.html', {'context': context})
     return redirect(view_subjects)

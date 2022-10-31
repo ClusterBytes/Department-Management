@@ -52,98 +52,100 @@ def parent_index(request):
     # # request.session['notif'] = notif
 
     # except:
+    try:
 
-    notif = {"data1": "KTU site cannot reach"}
-    current_user = request.user
-    user_id = current_user.username
-    stud_id = ppdb.objects.get(parent_id=user_id).register_no_id
-    student_details_1 = profile_student.objects.get(id=stud_id)
-    name = student_details_1.first_name + " " + student_details_1.last_name
-    # id = request.session['student_id']
-    context = {"name": current_user.first_name + " " + current_user.last_name}
+        notif = {"data1": "KTU site cannot reach"}
+        current_user = request.user
+        user_id = current_user.username
+        stud_id = ppdb.objects.get(parent_id=user_id).register_no_id
+        student_details_1 = profile_student.objects.get(id=stud_id)
+        name = student_details_1.first_name + " " + student_details_1.last_name
+        # id = request.session['student_id']
+        context = {"name": current_user.first_name + " " + current_user.last_name}
 
-    credit = 0
-    subject_data = subject.objects.all()
-    result_data_for_credit = semester_result.objects.filter(
-        university_no=student_details_1.university_no, grade_point__gte=5
-    )
-    for i in result_data_for_credit:
-        for j in subject_data:
-            if j.id == i.subject_id:
-                credit += j.credit
-    # print(credit)
-    supply = 0
-    for i in subject_data:
-        max_chance = semester_result.objects.filter(
-            university_no=student_details_1.university_no, subject_id=i.id
-        ).aggregate(Max("no_of_chances"))
-        result_data_for_supply = semester_result.objects.filter(
-            university_no=student_details_1.university_no,
-            subject_id=i.id,
-            no_of_chances=max_chance["no_of_chances__max"],
+        credit = 0
+        subject_data = subject.objects.all()
+        result_data_for_credit = semester_result.objects.filter(
+            university_no=student_details_1.university_no, grade_point__gte=5
         )
-        for j in result_data_for_supply:
-            if j.grade_point < 5:
-                supply += 1
-
-    max_sem = semester_result.objects.filter(
-        university_no=student_details_1.university_no
-    ).aggregate(Max("semester"))
-    highest_sem = 8
-    #   highest_sem = max_sem['semester__max']
-
-    data = []
-    sem = []
-
-    sgpa = 0
-    for i in range(1, highest_sem + 1):
-        sem_sgpa = 0
-        # sem_credit =
-        sem_credit = 1
-        for j in subject_data:
+        for i in result_data_for_credit:
+            for j in subject_data:
+                if j.id == i.subject_id:
+                    credit += j.credit
+        # print(credit)
+        supply = 0
+        for i in subject_data:
             max_chance = semester_result.objects.filter(
-                university_no=student_details_1.university_no,
-                subject_id=j.id,
-                semester=i,
+                university_no=student_details_1.university_no, subject_id=i.id
             ).aggregate(Max("no_of_chances"))
-            result_data = semester_result.objects.filter(
+            result_data_for_supply = semester_result.objects.filter(
                 university_no=student_details_1.university_no,
-                subject_id=j.id,
-                semester=i,
+                subject_id=i.id,
                 no_of_chances=max_chance["no_of_chances__max"],
             )
-            for k in result_data:
-                if k.subject_id == j.id:
-                    if k.grade_point == -1:
-                        sem_sgpa += j.credit * 0
-                    else:
-                        sem_sgpa += j.credit * k.grade_point
-                    sem_credit += j.credit
+            for j in result_data_for_supply:
+                if j.grade_point < 5:
+                    supply += 1
 
-        sgpa += sem_sgpa / sem_credit
-        data.append(sgpa)
-        sem.append(i)
-    cgpa = round(sgpa / highest_sem, 2)
+        max_sem = semester_result.objects.filter(
+            university_no=student_details_1.university_no
+        ).aggregate(Max("semester"))
+        highest_sem = 8
+        #   highest_sem = max_sem['semester__max']
 
-    x = np.array(data)
-    y = np.array(sem)
-    x = x.reshape(len(x), 1)
+        data = []
+        sem = []
 
-    from sklearn.linear_model import LinearRegression
+        sgpa = 0
+        for i in range(1, highest_sem + 1):
+            sem_sgpa = 0
+            # sem_credit =
+            sem_credit = 1
+            for j in subject_data:
+                max_chance = semester_result.objects.filter(
+                    university_no=student_details_1.university_no,
+                    subject_id=j.id,
+                    semester=i,
+                ).aggregate(Max("no_of_chances"))
+                result_data = semester_result.objects.filter(
+                    university_no=student_details_1.university_no,
+                    subject_id=j.id,
+                    semester=i,
+                    no_of_chances=max_chance["no_of_chances__max"],
+                )
+                for k in result_data:
+                    if k.subject_id == j.id:
+                        if k.grade_point == -1:
+                            sem_sgpa += j.credit * 0
+                        else:
+                            sem_sgpa += j.credit * k.grade_point
+                        sem_credit += j.credit
 
-    model = LinearRegression()
+            sgpa += sem_sgpa / sem_credit
+            data.append(sgpa)
+            sem.append(i)
+        cgpa = round(sgpa / highest_sem, 2)
 
-    model.fit(x, y)
-    ypred = model.predict(x)
+        x = np.array(data)
+        y = np.array(sem)
+        x = x.reshape(len(x), 1)
 
-    predicted_sem = 2  # ADDED NOW
-    if highest_sem < 8:
-        sem.append(highest_sem + 1)
-        predict_sem = highest_sem + 1
-        y = (model.coef_[0] * predict_sem) + model.intercept_
-        predicted_sem = highest_sem + 1
-        data.append(y)
+        from sklearn.linear_model import LinearRegression
 
+        model = LinearRegression()
+
+        model.fit(x, y)
+        ypred = model.predict(x)
+
+        predicted_sem = 2  # ADDED NOW
+        if highest_sem < 8:
+            sem.append(highest_sem + 1)
+            predict_sem = highest_sem + 1
+            y = (model.coef_[0] * predict_sem) + model.intercept_
+            predicted_sem = highest_sem + 1
+            data.append(y)
+    except Exception as e:
+        print(e)
     return render(
         request,
         "parent_index.html",

@@ -46,56 +46,60 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def hod_index(request):
-    # url = "https://ktu.edu.in/eu/core/announcements.htm"
+    try:
 
-    # try:
-    #     # url = 'https://ktu.edu.in/home.htm'
+        # url = "https://ktu.edu.in/eu/core/announcements.htm"
 
-    #     wanted_list = [
-    #         "ANNOUNCEMENTS",
-    #         "Dec 24, 2021",
-    #         "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
-    #     ]
-    #     scraper = AutoScraper()
-    #     result = scraper.build(url, wanted_list)
-    #     data1 = result[0]
-    #     data2 = result[1]
-    #     data3 = result[2]
+        # try:
+        #     # url = 'https://ktu.edu.in/home.htm'
 
-    #     notif = {"data1": data1, "data2": data2, "data3": data3}
-    #     # request.session['notif'] = notif
+        #     wanted_list = [
+        #         "ANNOUNCEMENTS",
+        #         "Dec 24, 2021",
+        #         "Exam Registration opened - B.Tech S3 and S5 (supplementary) " "Jan 2022",
+        #     ]
+        #     scraper = AutoScraper()
+        #     result = scraper.build(url, wanted_list)
+        #     data1 = result[0]
+        #     data2 = result[1]
+        #     data3 = result[2]
 
-    # except:
+        #     notif = {"data1": data1, "data2": data2, "data3": data3}
+        #     # request.session['notif'] = notif
 
-    #     notif = {"data1": "KTU site cannot reach"}
-    #     request.session["notif"] = notif
-    notif = {"data1": "KTU site cannot reach"}
-    current_user = request.user
-    print(current_user.id)
-    # print( request.session['user'])
-    # return redirect(view_faculty)
-    current_user = request.user
-    staff_id = current_user.username
-    # staff_id = request.session['hod_username']
-    staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
-    name = staff_details_1.First_name + " " + staff_details_1.Last_name
-    context = {"name": name}
+        # except:
 
-    # notif = request.session['notif']
+        #     notif = {"data1": "KTU site cannot reach"}
+        #     request.session["notif"] = notif
+        notif = {"data1": "KTU site cannot reach"}
+        current_user = request.user
+        print(current_user.id)
+        # print( request.session['user'])
+        # return redirect(view_faculty)
+        current_user = request.user
+        staff_id = current_user.username
+        # staff_id = request.session['hod_username']
+        staff_details_1 = profile.objects.get(Faculty_unique_id=staff_id)
+        name = staff_details_1.First_name + " " + staff_details_1.Last_name
+        context = {"name": name}
 
-    years = []
-    data = []
-    student_count = profile_student.objects.all().count()
-    batch_data = batch.objects.all()
-    for i in batch_data:
-        dat = i.date_of_join
-        print(dat.year)
-        years.append(dat.year)
-        st_count = profile_student.objects.filter(batch=i.id).count()
-        data.append(st_count)
-    print(years, data)
-    staff_count = profile.objects.all().count()
-    batch_count = batch.objects.all().count()
+        # notif = request.session['notif']
+
+        years = []
+        data = []
+        student_count = profile_student.objects.all().count()
+        batch_data = batch.objects.all()
+        for i in batch_data:
+            dat = i.date_of_join
+            print(dat.year)
+            years.append(dat.year)
+            st_count = profile_student.objects.filter(batch=i.id).count()
+            data.append(st_count)
+        print(years, data)
+        staff_count = profile.objects.all().count()
+        batch_count = batch.objects.all().count()
+    except Exception as e:
+        print(e)
     return render(
         request,
         "hod_index.html",
